@@ -80,15 +80,16 @@
                             </template>
                         </el-table-column>
                         <el-table-column width="60">
-                            <template slot-scope="scope">
+                            <!-- <template slot-scope="scope">
                                 <i class="el-icon-edit"></i>
                                 <i class="el-icon-delete"></i>
-                            </template>
+                            </template> -->
                         </el-table-column>
                     </el-table>
                 </el-card>
             </el-col>
         </el-row>
+        
         <el-row :gutter="20">
             <el-col :span="12">
                 <el-card shadow="hover">

@@ -80,7 +80,7 @@
                 select_word: '',
                 del_list: [],
                 is_search: false,
-                editVisible: false,
+                editVisible: true,
                 delVisible: false,
                 form: {
                     name: '',

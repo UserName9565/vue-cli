@@ -14,6 +14,17 @@ export default new Router({
             component: resolve => require(['../components/common/Home.vue'], resolve),
             meta: { title: '自述文件' },
             children:[
+                { 
+                    path: '/systemSetupLeaf1',
+                    component: resolve => require(['../components/page/systemSetup/systemSetupLeaf1.vue'], resolve),
+                    meta: { title: '用户管理' }
+                },
+                {
+                    path: '/workFlowLeaf1',
+                    component: resolve => require(['../components/page/workFlow/workFlowLeaf1.vue'], resolve),
+                    meta: { title: '任务列表' }
+                }, 
+                
                 {
                     path: '/dashboard',
                     component: resolve => require(['../components/page/Dashboard.vue'], resolve),
@@ -84,7 +95,81 @@ export default new Router({
                     path: '/403',
                     component: resolve => require(['../components/page/403.vue'], resolve),
                     meta: { title: '403' }
+                },
+                {
+                    path: '/userManag',
+                    component: resolve => require(['../components/page/user/userManag.vue'], resolve),
+                    meta: { title: '用户管理' }
+                },
+                {
+                    path: '/userAudit',
+                    component: resolve => require(['../components/page/user/userAudit.vue'], resolve),
+                    meta: { title: '用户审核' }
+                },
+                {
+                    path: '/roleManag',
+                    component: resolve => require(['../components/page/role/roleManag.vue'], resolve),
+                    meta: { title: '角色管理' }
+                },
+                {
+                    path: '/roleAudit',
+                    component: resolve => require(['../components/page/role/roleAudit.vue'], resolve), 
+                    meta: { title: '角色审核' }
+                },
+                {
+                    path: '/organization',
+                    component: resolve => require(['../components/page/organization/organization.vue'], resolve),
+                    meta: { title: '岗位权限' }
+                },
+                {
+                    path: '/workflowdef',
+                    component: resolve => require(['../components/page/workflowdef/index.vue'], resolve),
+                    meta: { title: '流程模型' }
+                },
+                {
+                    path: '/processinst',
+                    component: resolve => require(['../components/page/processinst/index.vue'], resolve),
+                    meta: { title: '流程实例' }
+                },{
+                    path: '/formManag',
+                    component: resolve => require(['../components/page/formManag/formManag.vue'], resolve),
+                    meta: { title: '表单管理' }
+                },
+                ,{
+                    path: '/dataDictionary',
+                    component: resolve => require(['../components/page/capitalAccoutManag/dataDictionary.vue'], resolve),
+                    meta: { title: '工行资金账户' }
                 }
+                ,{
+                    path: '/principalManag',
+                    component: resolve => require(['../components/page/capitalAccoutManag/principalManag.vue'], resolve),
+                    meta: { title: '委托方管理' }
+                },{
+                    path: '/bankList',
+                    component: resolve => require(['../components/page/bankManag/bankList.vue'], resolve),
+                    meta: { title: '交易对手列表' }
+                },
+                {
+                    path: '/contactsManag',
+                    component: resolve => require(['../components/page/bankManag/contactsManag.vue'], resolve),
+                    meta: { title: '联络人管理' }
+                },
+                {
+                    path: '/logManag',
+                    component: resolve => require(['../components/page/log/logManag.vue'], resolve),
+                    meta: { title: '日志管理' }
+                }
+                // {logManag
+                //     path: '/loanEnterList',
+                //     component: resolve => require(['../components/page/loanAuditTaskList/loanEnterForm.vue'], resolve),
+                //     meta: { title: '流程申请' }
+                // },
+                // {
+                //     path: '/loanAuditTaskList',
+                //     component: resolve => require(['../components/page/loanAuditTaskList/loanTaskList.vue'], resolve),
+                //     meta: { title: '流程审核' }
+                // }
+               
             ]
         },
         {

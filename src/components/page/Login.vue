@@ -28,7 +28,8 @@
             return {
                 ruleForm: {
                     username: 'admin',
-                    password: '123123'
+                    password: '123123',
+                    captchaCode:'1212'
                 },
                 rules: {
                     username: [
@@ -36,7 +37,7 @@
                     ],
                     password: [
                         { required: true, message: '请输入密码', trigger: 'blur' }
-                    ]
+                    ] 
                 }
             }
         },
@@ -51,6 +52,19 @@
                         return false;
                     }
                 });
+                // let formdata = new FormData();
+                // formdata.append("data",this.ruleForm);
+                 
+                let obj = {
+                    url:this.$url.login,
+                    data:JSON.stringify(this.ruleForm)
+                }
+                
+                this.common.httpPost(obj,success);
+                function success(data){
+                    console.log(data)
+                }
+                
             }
         }
     }

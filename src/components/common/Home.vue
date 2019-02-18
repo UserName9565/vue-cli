@@ -20,6 +20,7 @@
     import vSidebar from './Sidebar.vue';
     import vTags from './Tags.vue';
     import bus from './bus';
+  
     export default {
         data(){
             return {
@@ -31,6 +32,7 @@
             vHead, vSidebar, vTags
         },
         created(){
+          
             bus.$on('collapse', msg => {
                 this.collapse = msg;
             })
@@ -41,6 +43,7 @@
                 for(let i = 0, len = msg.length; i < len; i ++){
                     msg[i].name && arr.push(msg[i].name);
                 }
+                
                 this.tagsList = arr;
             })
         }

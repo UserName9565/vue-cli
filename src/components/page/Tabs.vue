@@ -102,6 +102,7 @@
             },
             handleDel(index) {
                 const item = this.read.splice(index, 1);
+                
                 this.recycle = item.concat(this.recycle);
             },
             handleRestore(index) {

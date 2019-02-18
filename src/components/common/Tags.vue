@@ -3,9 +3,9 @@
         <ul>
             <li class="tags-li" v-for="(item,index) in tagsList" :class="{'active': isActive(item.path)}" :key="index">
                 <router-link :to="item.path" class="tags-li-title">
-                    {{item.title}}
+                    {{item.title}} 
                 </router-link>
-                <span class="tags-li-icon" @click="closeTags(index)"><i class="el-icon-close"></i></span>
+                <span v-if="item.path!='/dashboard'" class="tags-li-icon" @click="closeTags(index)"><i class="el-icon-close"   ></i></span>
             </li>
         </ul>
         <div class="tags-close-box">
@@ -32,7 +32,9 @@
         },
         methods: {
             isActive(path) {
+                //console.log(this.$route)
                 return path === this.$route.fullPath;
+
             },
             // 关闭单个标签
             closeTags(index) {
@@ -52,17 +54,22 @@
             // 关闭其他标签
             closeOther(){
                 const curItem = this.tagsList.filter(item => {
-                    return item.path === this.$route.fullPath;
+                  
+                    return item.path === this.$route.fullPath||item.name==="dashboard";
                 })
+                 
                 this.tagsList = curItem;
             },
             // 设置标签
             setTags(route){
+                   
                 const isExist = this.tagsList.some(item => {
+                   
                     return item.path === route.fullPath;
                 })
+                 
                 if(!isExist){
-                    if(this.tagsList.length >= 8){
+                    if(this.tagsList.length >= 11){
                         this.tagsList.shift();
                     }
                     this.tagsList.push({
@@ -70,6 +77,18 @@
                         path: route.fullPath,
                         name: route.matched[1].components.default.name
                     })
+                   
+                    var tagg = this.tagsList.some(item=>{//判断list是否有系统首页，处理刷新页面的情景
+                      return item.path ==="/dashboard"
+                    })
+                    if(!tagg){
+                    this.tagsList.unshift({
+                        title: '系统首页',
+                        path: '/dashboard',
+                        name: "dashboard"
+                    })
+                    }
+                    
                 }
                 bus.$emit('tags', this.tagsList);
             },

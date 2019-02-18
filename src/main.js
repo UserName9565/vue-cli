@@ -1,15 +1,25 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
-import axios from 'axios';
+// import axios from 'axios';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';    // 默认主题
 // import '../static/css/theme-green/index.css';       // 浅绿色主题
 import '../static/css/icon.css';
-import "babel-polyfill";
+import "babel-polyfill"; 
+import Urls from './assets/js/url.js';//路劲共用
+//axios.defaults.baseURL = 'http://192.168.1.250:8890';//配置你的接口请求地址
+import util from './assets/js/util.js'
+import common from './assets/js/common.js'//公共注册
+Vue.prototype.common = common;
+import http from './assets/js/http.js'
 
+ console.log(Vue.common)
+Vue.prototype.$util = util
 Vue.use(ElementUI, { size: 'small' });
-Vue.prototype.$axios = axios;
+Vue.prototype.$axios = http;
+Vue.prototype.$url = Urls;
+Vue.config.silent = true
 
 //使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {

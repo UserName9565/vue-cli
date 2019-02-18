@@ -33,11 +33,12 @@
 
 <script>
     import bus from '../common/bus';
+    import menu from '../common/menu'
     export default {
         data() {
             return {
                 collapse: false,
-                items: [
+                items1: [
                     {
                         icon: 'el-icon-lx-home',
                         index: 'dashboard',
@@ -112,7 +113,52 @@
                             }
                         ]
                     }
+                ],
+                items:[
+                     
                 ]
+            }
+            
+        },
+        methods:{
+            menuCard(menu,id){
+                var arr = [];
+                var menuNew = menu.filter((item)=>{
+                    return item.pid ==id;
+                })
+                menuNew.forEach((item) => {
+                    
+                    var pA = haveSon(item);
+                    if(pA.length>0){
+                       
+                        item.subs=pA;
+                        arr.push(item)
+                    }
+                })
+                
+                function haveSon(item){
+                    var newSon = menu.filter((o)=>{
+                        return o.pid ==item.id;
+                    })
+                    if(newSon.length>0){
+                          newSon.forEach((b)=>{
+                            var pA = haveGSon(b);
+                            if(pA.length>0){
+                                b.subs=pA;
+                            }
+                          })
+                    }
+                    return newSon;
+                    
+                }
+                function haveGSon(item){
+                     var newSon = menu.filter((o)=>{
+                        return o.pid ==item.id;
+                    })
+                    return newSon;
+                }
+                this.items =  arr//.concat(this.items1);
+                 
             }
         },
         computed:{
@@ -120,10 +166,15 @@
                 return this.$route.path.replace('/','');
             }
         },
+
         created(){
             // 通过 Event Bus 进行组件间通信，来折叠侧边栏
+            //this.menuCard(menu)
             bus.$on('collapse', msg => {
                 this.collapse = msg;
+            })
+            bus.$on('firstL',msg=>{
+                this.menuCard(menu,msg)
             })
         }
     }

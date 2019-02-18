@@ -58,7 +58,7 @@ a {
 
 .pagination {
     margin: 20px 0;
-    text-align: right;
+    /* text-align: right; */
 }
 
 .plugins-tips {
