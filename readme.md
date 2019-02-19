@@ -5,7 +5,7 @@ Git global setup
 ```shell
 git config --global user.name "Your Excellency"
 git config --global user.email "dev@agilestar.cn"
-```
+``` 
 
 Create a new repository
 
