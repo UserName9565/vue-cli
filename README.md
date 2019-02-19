@@ -79,50 +79,83 @@
 ## 组件使用说明与演示 ##
 
 ### vue-schart ###
-vue.js封装sChart.js的图表组件。访问地址：[vue-schart](https://github.com/linxin/vue-schart)
-<p><a href="https://www.npmjs.com/package/vue-schart"><img src="https://img.shields.io/npm/dm/vue-schart.svg" alt="Downloads"></a></p>
+vue.js封装ECharts的图表组件。访问地址：[vue-echarts](https://github.com/ecomfe/vue-echarts)
+<p><a href="https://www.npmjs.com/package/echarts"><img src="https://raw.githubusercontent.com/ecomfe/echarts/HEAD/asset/logo.png?raw=true" alt="Downloads"></a></p>
 
 ```html
 <template>
-    <div>
-        <schart  class="wrapper"
-				:canvasId="canvasId"
-				:type="type"
-				:data="data"
-				:options="options"
-		></schart>
-    </div>
+<v-chart :options="polar"/>
 </template>
-	
-<script>
-    import Schart from 'vue-schart';        // 导入Schart组件
-    export default {
-        data: function(){
-            return {
-                canvasId: 'myCanvas',       // canvas的id
-                type: 'bar',                // 图表类型
-                data: [
-                    {name: '2014', value: 1342},
-                    {name: '2015', value: 2123},
-                    {name: '2016', value: 1654},
-                    {name: '2017', value: 1795},
-                ],
-                options: {                  // 图表可选参数
-                    title: 'Total sales of stores in recent years'
-                }
-            }
-        },
-        components: {
-            Schart
-        }
-    }
-</script>
+
 <style>
-.wrapper{
-	width: 7rem;
-	height: 5rem;
+/**
+ * The default size is 600px×400px, for responsive charts
+ * you may need to set percentage values as follows (also
+ * don't forget to provide a size for the container).
+ */
+.echarts {
+  width: 100%;
+  height: 100%;
 }
 </style>
+
+<script>
+import ECharts from 'vue-echarts'
+import 'echarts/lib/chart/line'
+import 'echarts/lib/component/polar'
+
+export default {
+  components: {
+    'v-chart': ECharts
+  },
+  data () {
+    let data = []
+
+    for (let i = 0; i <= 360; i++) {
+        let t = i / 180 * Math.PI
+        let r = Math.sin(2 * t) * Math.cos(2 * t)
+        data.push([r, i])
+    }
+
+    return {
+      polar: {
+        title: {
+          text: '极坐标双数值轴'
+        },
+        legend: {
+          data: ['line']
+        },
+        polar: {
+          center: ['50%', '54%']
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross'
+          }
+        },
+        angleAxis: {
+          type: 'value',
+          startAngle: 0
+        },
+        radiusAxis: {
+          min: 0
+        },
+        series: [
+          {
+            coordinateSystem: 'polar',
+            name: 'line',
+            type: 'line',
+            showSymbol: false,
+            data: data
+          }
+        ],
+        animationDuration: 2000
+      }
+    }
+  }
+}
+</script>
 ```
 
 ### element-ui ###
@@ -193,8 +226,8 @@ import 'element-ui/lib/theme-default/index.css';    // 默认主题
 ## 项目截图 ##
 ### 默认皮肤 ###
 
-![Image text](https://github.com/lin-xin/manage-system/raw/master/screenshots/wms1.png)
+![Image text](https://git.agilestar.cn/finance-group/finance-front-end/blob/master/screenshots/wms1.png)
 
 ### 浅绿色皮肤 ###
 
-![Image text](https://github.com/lin-xin/manage-system/raw/master/screenshots/wms2.png)
+![Image text](https://git.agilestar.cn/finance-group/finance-front-end/blob/master/screenshots/wms2.png)
