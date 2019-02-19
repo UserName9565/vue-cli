@@ -231,4 +231,4 @@ import 'element-ui/lib/theme-default/index.css';    // 默认主题
 ### 浅绿色皮肤 ###
 
 ![Image text](https://git.agilestar.cn/finance-group/finance-front-end/raw/master/screenshots/wms2.png)
- No newline at end of file
+ 
