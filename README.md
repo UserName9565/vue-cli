@@ -1,5 +1,5 @@
 # vue-manage-system #
-基于Vue.js 2.x系列 + Element UI 的后台管理系统解决方案。[线上地址]
+基于Vue.js 2.x系列 + Element UI 的后台管理系统解决方案。
 
 
 
@@ -68,7 +68,7 @@
 ## 安装步骤 ##
 
 	git clone    // 把模板下载到本地
-	cd vue-manage-system    // 进入模板目录
+	cd  "目录名称"    // 进入模板目录
 	npm install         // 安装项目依赖，等待安装完成之后
 
 ## 本地开发 ##
