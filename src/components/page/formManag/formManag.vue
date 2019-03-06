@@ -11,7 +11,7 @@
           <el-input v-model="ruleForm.agName" clearable></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button icon="el-icon-search" @click="doSearch(1)">查询</el-button>
+          <el-button icon="el-icon-search"  type="primary" @click="doSearch(1)">查询</el-button>
           <el-button icon="el-icon-plus" type="primary" @click="doNew()">新增</el-button>
 
           <el-button
@@ -25,14 +25,14 @@
         </el-form-item>
       </el-form>
       <el-table :data="list" border style="width: 100%">
-        <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column type="index" :index="index" label="行数" width="50"></el-table-column>
-        <el-table-column prop="key" label="模型标志" width="180"></el-table-column>
-        <el-table-column prop="name" label="模型名称"></el-table-column>
+        <el-table-column align="center"  type="selection" width="55"></el-table-column>
+        <el-table-column align="center"  type="index" :index="index" label="行数" width="50"></el-table-column>
+        <el-table-column align="center"  prop="key" label="模型标志" width="180"></el-table-column>
+        <el-table-column align="center"  prop="name" label="模型名称"></el-table-column>
 
-        <el-table-column prop="createTime" :formatter="YYMM" label="时间"></el-table-column>
-        <el-table-column prop="lastUpdateTime" :formatter="YYMM" label="最后更新时间"></el-table-column>
-        <el-table-column label="操作" fixed="right" width="250">
+        <el-table-column align="center"  prop="createTime" :formatter="YYMM" label="时间"></el-table-column>
+        <el-table-column align="center"  prop="lastUpdateTime" :formatter="YYMM" label="最后更新时间"></el-table-column>
+        <el-table-column align="center"  label="操作" fixed="right" width="250">
           <template slot-scope="scope">
             <el-button @click="doEdit(scope)" type="text" size="small">查看</el-button>
             <el-button @click="doCopy(scope)" type="text" size="small">复制</el-button>

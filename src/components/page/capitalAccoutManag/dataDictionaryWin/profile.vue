@@ -5,7 +5,7 @@
     <el-form-item label="姓名" prop="name" verify  :maxLength="50" class="is-required">
       <el-input v-model="model.name"></el-input>
     </el-form-item>
-    <el-form-item label="登陆名" prop="loginId" verify  :maxLength="50" class="is-required">
+    <el-form-item label="登录名" prop="loginId" verify  :maxLength="50" class="is-required">
       <el-input v-model="model.loginId"></el-input>
     </el-form-item>
     <el-form-item label="邮箱" prop="email" verify  can-be-empty :maxLength="45">

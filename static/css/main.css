@@ -171,3 +171,88 @@ a {
 .v-note-wrapper .v-note-panel {
     min-height: 500px;
 }
+.table-title{
+    line-height: 40px;
+    text-align: center;
+    color:#333;
+}
+.heightLine{
+    background-color: #005e8c;
+    color:#fff;
+}
+.custom-tree-node {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    padding-right: 8px;
+  }
+
+.label-diy{
+    color: #606266;
+    line-height: 32px;
+}
+.el-date-editor.el-input, .el-date-editor.el-input__inner ,.el-select{
+    width:100%;
+}
+.icon{
+    width:30px;
+    height:30px;
+    color:#409EFF;
+    font-size:30px;
+    line-height: 30px;
+    cursor: pointer;
+}
+.el-dialog__body{
+    padding: 5px 15px
+}
+.el-form-item--mini.el-form-item, .el-form-item--small.el-form-item {
+    margin-bottom: 5px;
+}
+.itemList {
+    padding:9px 10px;
+    cursor: pointer;
+}
+.active{
+    background-color: #409EFF;
+    color:#fff;
+}
+
+.itemList:hover{
+    background-color: #409EFF;
+    color:#fff;
+}
+.mb20{
+    margin-bottom: 10px;
+}
+.el-form-item {
+    margin-bottom: 10px !important;
+}
+.btn-box{
+    text-align: center;
+    margin-top: 10px;
+}
+.m20{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.has-gutter{
+    background-color: #000;
+    color: #fff;
+}
+.logo, .collapse-btn{
+    background-color: #428fe1;
+    
+}
+.header .logo{
+    width: 187px !important;
+}
+.header{
+    /* background-color: #eaf4fd; */
+}
+.redColor{
+    color:red;
+    font-size:15px;
+}
+ 

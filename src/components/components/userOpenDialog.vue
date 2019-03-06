@@ -3,7 +3,7 @@
   <div class="mod-role">
     <el-form :inline="true" @keyup.enter.native="doSearch()">
       <el-form-item>
-        <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="登陆名或者姓名" clearable></el-input>
+        <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="登录名或者姓名" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="doSearch()">查询</el-button>
@@ -44,7 +44,7 @@ export default {
           }, // 列操作按钮
           columns: [{
               prop: 'loginId',
-              label: '登陆名',
+              label: '登录名',
               sortable: true,
               width: 120
             },

@@ -22,7 +22,7 @@
           <el-form-item label="机构名称">
             <el-col :span="16">
 
-                <el-input  v-model="form.searchKey" clearable></el-input>
+                <el-input  v-model="form.name1" clearable></el-input>
             </el-col>
           </el-form-item>
        
@@ -30,7 +30,7 @@
           <el-form-item label="机构简称">
            <el-col :span="16">
 
-                <el-input  v-model="form.searchKey" clearable></el-input>
+                <el-input  v-model="form.name2" clearable></el-input>
             </el-col>
           </el-form-item>
         
@@ -38,7 +38,7 @@
           <el-form-item label="父级机构名称">
             <el-col :span="16">
 
-                <el-input  v-model="form.searchKey" clearable></el-input>
+                <el-input  v-model="form.name3" clearable></el-input>
             </el-col>
           </el-form-item>
          
@@ -46,11 +46,11 @@
           <el-form-item label="父级机构编码">
            <el-col :span="16">
 
-                <el-input  v-model="form.searchKey" clearable></el-input>
+                <el-input  v-model="form.name4" clearable></el-input>
             </el-col>
           </el-form-item>
          <el-form-item>
-            <el-button type="primary" @click="onSubmit">添加子机构</el-button>
+            <el-button type="primary" @click="doOrgEdit()">添加子机构</el-button>
             <el-button>修改</el-button>
         </el-form-item>
          
@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import RoleList from './roleList'
+ 
 import OrgEditForm from './orgEdit'
 export default {
   data() {
@@ -79,7 +79,10 @@ export default {
       orgEditFormVisible: false,
       selectedOrgItem: null,
       form:{
-        searchKey:""
+        name1:"",
+        name2:"",
+        name3:"",
+        name4:""
       },
        treeData:[{
           label: '一级 1',
@@ -115,23 +118,10 @@ export default {
               label: '三级 3-2-1'
             }]
           }]
-        }],
-      orgTreeOptons: {
-        dataSource: {
-          serviceInstance: '',
-          serviceInstanceInputParameters: {}
-        },
-        tree: {
-          checkStrictly: true,
-          showCheckbox: true,
-          defaultCheckedKeys: [],
-          renderContent: this.renderOrgContent,
-        }
-      },
+        }]
     }
   },
   components: {
-    RoleList,
     OrgEditForm
   },
   created() {
@@ -153,28 +143,17 @@ export default {
     },
   },
   methods: {
-        renderOrgContent(h, { node, data, store }) {
-            return (
-              <span class="custom-tree-node">
-                <span>{node.label}</span>
-                <span>
-                  <el-button size="mini" type="text" on-click={ () => this.doOrgEdit(node, data) }>编辑</el-button>
-                  <el-button size="mini" type="text" on-click={ () => this.doOrgAppend(data) }>增加子项</el-button>
-                </span>
-              </span>);
-        },
-        handleTabClick(tab, event) {
-          if (!tab) {
-            return;
-          }
-          this.tabActive = tab.name;
-        },
-        doOrgEdit(node, data) {
-          this.orgEditFormVisible = true
-          this.$nextTick(() => {
-          debugger;
-            this.$refs.orgEditForm.edit(data.id, data.name)
+        
+        doOrgEdit() {
+          this.orgEditFormVisible = true;
+          this.$nextTick(()=>{
+            this.$refs.orgEditForm.new(this.form.name1);
           })
+          // this.orgEditFormVisible = true
+          // this.$nextTick(() => {
+         
+          //   this.$refs.orgEditForm.edit(data.id, data.name)
+          // })
         },
         doOrgAppend(data) {
           this.orgEditFormVisible = true
@@ -197,21 +176,19 @@ export default {
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            // tapp.services.base_Organization.batchDelete(ids).then(function(result) {
-            //   self.doOrgRefresh();
-            //   self.$notify.success({
-            //     title: '操作成功',
-            //     message: '系统删除成功！'
-            //   });
-            // })
+             
           });
         },
         doOrgRefresh() {
           this.$refs.orgTree.refresh();
         },
-        handleOrgNodeClick(dataItem, node, el) {
-          this.selectedOrgItem = dataItem;
-        },
+        handleNodeClick(data) {
+          console.log(data);
+          this.form.name1 = data.label;
+          this.form.name2 = data.label;
+          this.form.name3 = data.label;
+          this.form.name4 = data.label;
+        }
     }
   }
 </script>

@@ -1,55 +1,30 @@
 <template>
-  <div class="mod-role container">
-    <!-- <iframe height="800px" width="100%" src="http://192.168.1.79:8080/create/" frameborder="0"></iframe> -->
-    <el-form :inline="true" @keyup.enter.native="doSearch()">
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="资金账户">
-            <el-input v-model="form.searchKey" clearable></el-input>
-            
-          </el-form-item>
-        </el-col>
-         <el-col :span="8">
-          <el-form-item label="委托方名称">
-            <el-select v-model="form.region" placeholder="请选择">
-              <el-option key="0" label="全部" value="0"></el-option>
-              <el-option key="1" label="未处理" value="1"></el-option>
-              <el-option key="2" label="已处理" value="2"></el-option>
-            </el-select>
-            
-          </el-form-item>
-        </el-col>
-        <el-form-item>
-          <el-button @click="doSearch()" icon="el-icon-search">查询</el-button>
-          <!-- <el-button icon="el-icon-plus" type="primary" @click="doNew()">新增</el-button> -->
-          <!-- <el-button icon="el-icon-delete" type="danger" @click="doBatchDelete()" :disabled="selectedRows.length <= 0">批量删除</el-button> -->
-          <!-- <el-button icon="el-icon-download" @click="doExportExcel()">导出</el-button>
-          <el-button icon="el-icon-upload2" @click="doImportExcel()">导入</el-button>-->
-        </el-form-item>
-      </el-row>
-    </el-form>
+  <div class="container">
+    <el-card>
+
+     <el-button type="primary" @click="doNew()">新增方案</el-button>
+    </el-card>
     <el-table
-      :data="tableData3"
-        
+      :data="tableData3"  :header-cell-style="{background:'#e0f3ff',color:'#5f95b7'}"
+       
       border
       stripe
       highlight-current-row="true"
       style="width: 100%"
     >
-      
-  
-      <el-table-column prop="address" label="账户简称" ></el-table-column>
-      <el-table-column prop="address" label="资金账户" ></el-table-column>
-      <el-table-column prop="address" label="开户行" ></el-table-column>
-      
-      <el-table-column prop="address" label="委托方简称" ></el-table-column>
-      <el-table-column prop="address" label="更新时间" ></el-table-column>
-      <!-- <el-table-column fixed="left" label="操作" width="130">
+      <el-table-column align="center"  type="index" label="序号" ></el-table-column>  
+      <el-table-column align="center"  prop="date" label="业务编号" ></el-table-column>
+      <el-table-column align="center"  prop="name" label="创建时间" ></el-table-column>
+      <el-table-column align="center"  prop="address" label="创建人" ></el-table-column>
+      <el-table-column align="center"  prop="address" label="额度校验" ></el-table-column>
+      <el-table-column align="center"  prop="address" label="审批状态" ></el-table-column>
+      <el-table-column align="center"  prop="address" label="会议纪要" ></el-table-column>
+      <el-table-column align="center"  fixed="left" label="操作" width="80">
         <template slot-scope="scope">
           <el-button @click="doEdit(scope.row)" type="text" size="mini">查看</el-button>
-          
+         
         </template>
-      </el-table-column> -->
+      </el-table-column>
     </el-table>
     <div class="pagination">
         <el-pagination
@@ -79,10 +54,7 @@
 </template>
 
 <script>
-import EditForm from "./principalManagWin/edit";
-import AdminChangePasswordForm from "./principalManagWin/adminChangePassword";
-// import moment from 'moment';
-// //import util from '@/util'
+ 
 export default {
   data() {
     return {
@@ -140,17 +112,15 @@ export default {
       
     };
   },
-  components: {
-    EditForm,
-    AdminChangePasswordForm
-  },
+   
   created() {},
   methods: {
     doNew() {
-      this.editFormVisible = true;
-      this.$nextTick(() => {
-        this.$refs.editForm.init(null);
-      });
+       this.$router.push('PRR-addBusinessPlanManag');
+      // this.editFormVisible = true;
+      // this.$nextTick(() => {
+      //   this.$refs.editForm.init(null);
+      // });
     },
     doEdit(row) {
       this.editFormVisible = true;

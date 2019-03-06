@@ -5,7 +5,7 @@
       <el-input style="width:300px" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="申请编号、客户名称、身份证号" clearable></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button icon="el-icon-search" type="primary" @click="doSearch()">查询</el-button>
+      <el-button icon="el-icon-search"  type="primary" @click="doSearch()">查询</el-button>
       <el-button icon="el-icon-download" @click="doExportExcel()">导出</el-button>
     </el-form-item>
   </el-form>

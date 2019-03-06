@@ -31,7 +31,7 @@
       </el-col> -->
       <el-col :span="14">
         <el-form-item>
-          <el-button @click="doRefresh()" icon="el-icon-search">查询</el-button>
+          <el-button @click="doRefresh()" icon="el-icon-search"  type="primary">查询</el-button>
           <el-button icon="el-icon-delete" type="danger" @click="doBatchDelete()" :disabled="checkededRows.length <= 0">批量删除</el-button>
           <el-button icon="el-icon-download" @click="doExportExcel()">
             <i class="fa fa-lg fa-level-down"></i>导出
@@ -47,25 +47,25 @@
     border
    v-loading="loading"
     style="width: 100%">
-    <el-table-column
+    <el-table-column align="center" 
       type="selection"
       width="55">
     </el-table-column>
-    <el-table-column type="index" :index="index" label="行数" width="50" :data = 'list'></el-table-column>
-    <el-table-column prop="category" label="category" width="180"></el-table-column>
-    <el-table-column prop="deploymentId" label="deploymentId"></el-table-column>
+    <el-table-column align="center"  type="index" :index="index" label="行数" width="50" :data = 'list'></el-table-column>
+    <el-table-column align="center"  prop="category" label="category" width="180"></el-table-column>
+    <el-table-column align="center"  prop="deploymentId" label="deploymentId"></el-table-column>
 
-    <!-- <el-table-column prop="category" label="分类" ></el-table-column> -->
-    <el-table-column prop="deploymentTime" :formatter='YYMM' label="deploymentTime" ></el-table-column>
-    <el-table-column prop="diagramResourceName"  :formatter='YYMM' label="diagramResourceName" ></el-table-column>
-    <el-table-column prop="id" label="id"></el-table-column>
-    <el-table-column prop="key" label="key"></el-table-column>
-    <el-table-column prop="name" label="name"></el-table-column>
-    <el-table-column prop="resourceName" label="resourceName"></el-table-column>
-    <el-table-column prop="revision" label="revision"></el-table-column>
-    <el-table-column prop="suspended" label="suspended"></el-table-column>
-    <el-table-column prop="version" label="version"></el-table-column>
-     <el-table-column label="操作" fixed="right" width="250">
+    <!-- <el-table-column align="center"  prop="category" label="分类" ></el-table-column> -->
+    <el-table-column align="center"  prop="deploymentTime" :formatter='YYMM' label="deploymentTime" ></el-table-column>
+    <el-table-column align="center"  prop="diagramResourceName"  :formatter='YYMM' label="diagramResourceName" ></el-table-column>
+    <el-table-column align="center"  prop="id" label="id"></el-table-column>
+    <el-table-column align="center"  prop="key" label="key"></el-table-column>
+    <el-table-column align="center"  prop="name" label="name"></el-table-column>
+    <el-table-column align="center"  prop="resourceName" label="resourceName"></el-table-column>
+    <el-table-column align="center"  prop="revision" label="revision"></el-table-column>
+    <el-table-column align="center"  prop="suspended" label="suspended"></el-table-column>
+    <el-table-column align="center"  prop="version" label="version"></el-table-column>
+     <el-table-column align="center"  label="操作" fixed="right" width="250">
       <template slot-scope="scope">
         <el-button @click="doStart(scope)" type="primary" size="small">启动</el-button>
         <el-button @click="doView(scope)" type="primary" size="small">查看流程图</el-button>
@@ -92,8 +92,11 @@
   <!-- <user-open-dialog v-if="setAsigneeOpenDialogVisible" ref="setAsigneeOpenDialog" @select="onSetAsigneeOpenDialogSelect"></user-open-dialog> -->
   <wf-activity-select v-if="gotoDialogVisible" ref="gotoDialog" @select="onGotoDialogSelect"></wf-activity-select>
  
-  <el-dialog title="查看" :visible.sync="editFormVisible" width="30%">
+  <el-dialog title="查看" :visible.sync="editFormVisible" width="80%" style="text-align:center">
+      <div>
+
             <img :src="viewImg" alt="">
+      </div>
             <span slot="footer" class="dialog-footer">
                  <el-button type="primary" @click="editFormVisible = false">确 定</el-button>
             </span>

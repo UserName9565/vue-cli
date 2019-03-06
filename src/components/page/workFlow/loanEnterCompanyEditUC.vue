@@ -80,40 +80,40 @@
       <t-edit-grid ref="assetInformationGrid" :options="assetInformationListGridOptions" :disabled="disabled">
         <template slot="columnDataHeader">
 
-        <el-table-column width="50">
+        <el-table-column align="center"  width="50">
           <template slot-scope="scope">
                <el-tooltip class="item" effect="dark" :content="scope.row.errorMessage" placement="top-start" v-if="scope.row.hasError">
                  <el-button type="danger" icon="el-icon-error" circle size="mini" style="padding:4px"></el-button>
                </el-tooltip>
              </template>
         </el-table-column>
-        <el-table-column label="资产类型" width="200">
+        <el-table-column align="center"  label="资产类型" width="200">
           <template slot-scope="scope">
                             <t-dic-select dicType="pl_loanenter_assetinformation_category" v-model="scope.row.categoryId"></t-dic-select>
                             </template>
         </el-table-column>
-        <el-table-column label="所有权人" width="200">
+        <el-table-column align="center"  label="所有权人" width="200">
           <template slot-scope="scope">
           <el-input v-model="scope.row.owner"></el-input>
 
                       </template>
         </el-table-column>
-        <el-table-column label="权属号" width="200">
+        <el-table-column align="center"  label="权属号" width="200">
           <template slot-scope="scope">
                                  <el-input v-model="scope.row.code"></el-input>
                       </template>
         </el-table-column>
-        <el-table-column label="价值(万)" width="200">
+        <el-table-column align="center"  label="价值(万)" width="200">
           <template slot-scope="scope">
                                    <t-currentcy-input placeholder="万" v-model="scope.row.value"></t-currentcy-input>
                       </template>
         </el-table-column>
-        <el-table-column label="资产现状">
+        <el-table-column align="center"  label="资产现状">
           <template slot-scope="scope">
                                  <el-input v-model="scope.row.nowStatus"></el-input>
                       </template>
         </el-table-column>
-        <el-table-column label="购买时间">
+        <el-table-column align="center"  label="购买时间">
           <template slot-scope="scope">
                 <t-datetime-picker v-model="scope.row.buyDate" type="date">
                 </t-datetime-picker>

@@ -9,13 +9,13 @@
     <div class="container">
       <el-button @click="add">新增</el-button>
       <el-table :data="dataF" style="width: 100%">
-        <el-table-column prop="userName" label="用户名称"></el-table-column>
-        <el-table-column prop="departName" label="用户所属机构"></el-table-column>
-        <el-table-column prop="userEmail" label="用户EMAIL"></el-table-column>
-        <el-table-column prop="userPhone" label="用户手机号码"></el-table-column>
-        <el-table-column prop="userIdTypeName" label="用户证件类型"></el-table-column>
-        <el-table-column prop="createDate" label="创建用户时间"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="100">
+        <el-table-column align="center"  prop="userName" label="用户名称"></el-table-column>
+        <el-table-column align="center"  prop="departName" label="用户所属机构"></el-table-column>
+        <el-table-column align="center"  prop="userEmail" label="用户EMAIL"></el-table-column>
+        <el-table-column align="center"  prop="userPhone" label="用户手机号码"></el-table-column>
+        <el-table-column align="center"  prop="userIdTypeName" label="用户证件类型"></el-table-column>
+        <el-table-column align="center"  prop="createDate" label="创建用户时间"></el-table-column>
+        <el-table-column align="center"  fixed="right" label="操作" width="100">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
             <el-button type="text" size="small">编辑</el-button>

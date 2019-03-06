@@ -1,6 +1,6 @@
 <template>
-  <div class="mod-role container">
-    <!-- <iframe height="800px" width="100%" src="http://192.168.1.79:8080/create/" frameborder="0"></iframe> -->
+  <div>
+   <el-card class="mb20">
     <el-form :inline="true" @keyup.enter.native="doSearch()">
       <el-row>
         <el-col :span="8">
@@ -27,33 +27,35 @@
             </el-select>
           </el-form-item>
         </el-col>
+        <el-col :span="24" class="btn-box">
         <el-form-item>
-          <el-button @click="doSearch()" icon="el-icon-search">查询</el-button>
+          <el-button @click="doSearch()" icon="el-icon-search"  type="primary">查询</el-button>
           <el-button icon="el-icon-plus" type="primary" @click="doNew()">新增联络人</el-button>
-          <!-- <el-button icon="el-icon-delete" type="danger" @click="doBatchDelete()" :disabled="selectedRows.length <= 0">批量删除</el-button> -->
-          <!-- <el-button icon="el-icon-download" @click="doExportExcel()">导出</el-button>
-          <el-button icon="el-icon-upload2" @click="doImportExcel()">导入</el-button>-->
+        
         </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
+   </el-card>
+   <el-card>
     <el-table
-      :data="tableData3"
+      :data="tableData3"  :header-cell-style="{background:'#e0f3ff',color:'#5f95b7'}"
        
       border
       stripe
       highlight-current-row="true"
       style="width: 100%"
     >
-      <el-table-column prop="date" label="序号" ></el-table-column>
-      <el-table-column prop="name" label="联络人账号" ></el-table-column>
-      <el-table-column prop="address" label="姓名" ></el-table-column>
-     <el-table-column prop="name" label="手机号码" ></el-table-column>
-      <el-table-column prop="address" label="电子邮箱" ></el-table-column><el-table-column prop="name" label="所属交易对手" ></el-table-column>
-      <el-table-column prop="address" label="所属金融机构" ></el-table-column>
-        <el-table-column prop="address" label="创建人" ></el-table-column><el-table-column prop="name" label="状态" ></el-table-column>
-      <el-table-column prop="address" label="操作人" ></el-table-column>
+      <el-table-column align="center"  prop="date" label="序号" ></el-table-column>
+      <el-table-column align="center"  prop="name" label="联络人账号" ></el-table-column>
+      <el-table-column align="center"  prop="address" label="姓名" ></el-table-column>
+     <el-table-column align="center"  prop="name" label="手机号码" ></el-table-column>
+      <el-table-column align="center"  prop="address" label="电子邮箱" ></el-table-column><el-table-column align="center"  prop="name" label="所属交易对手" ></el-table-column>
+      <el-table-column align="center"  prop="address" label="所属金融机构" ></el-table-column>
+        <el-table-column align="center"  prop="address" label="创建人" ></el-table-column><el-table-column align="center"  prop="name" label="状态" ></el-table-column>
+      <el-table-column align="center"  prop="address" label="操作人" ></el-table-column>
 
-      <el-table-column fixed="left" label="操作" width="130">
+      <el-table-column align="center"  fixed="left" label="操作" width="130">
         <template slot-scope="scope">
           <el-button @click="doEdit(scope.row)" type="text" size="mini">查看</el-button>
           
@@ -70,20 +72,12 @@
           :page-size="form.pageSize"
         ></el-pagination>
       </div>
-    <!-- <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
-    </t-grid>-->
+      </el-card>
+  
     <!-- 弹窗, 新增 / 修改 -->
     <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form>
     <admin-change-password-form v-if="adminChangePasswordFormVisible" ref="adminChangePasswordForm"></admin-change-password-form>
-    <t-excel-import
-      @change="doSearch"
-      v-if="importExcelVisible"
-      ref="importExcel"
-      :service="importExcelService"
-      :rowRule="importExcelRowRule"
-      title="用户Excel导入"
-      template-path="用户导入模板.xlsx"
-    ></t-excel-import>
+   
   </div>
 </template>
 

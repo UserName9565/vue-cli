@@ -1,5 +1,6 @@
-const ctx = "/api"//测试环境 http://192.168.1.250:8890
-const ctxTest ="/ms"
+//import common from './common'
+const ctx =''// common.ctx;// "/api"//测试环境 http://192.168.1.250:8890
+const ctxForm =''//common.ctxForm;//"/ms"
 const urls = {
     login:ctx +'/base_Account/login',
     workflowdef:{
@@ -12,18 +13,24 @@ const urls = {
         deploy:ctx+"/deploy",
         modeler:ctx+"/modeler.html?modelId="    
     },
+    leave:{
+        start:'/startProcess',//发起
+        todoTask:"/todoTask",
+        complateTask:"/complateTask"
+    },
     processinst:{//流程列表
         getList:ctx+"/getProcessIntanceByPage",
-        view:"/process-definition"
+        view:"/process-definition",
+        webPage:"/form/getFormKey"
     },
     formManag:{// 
-        getList:ctxTest+"/form/getList",
-        getById:ctxTest+"/form/getDataById",
-        edit: ctxTest + "/form/edit", //编辑
-        add: ctxTest + "/form/add", //增加
-        del: ctxTest + "/deleteModel",
-        getByCode:ctxTest+"/form/getDataByCode",
-        idCode:ctxTest+"/form/getStartFormKey/"//要加id    
+        getList:ctxForm+"/form/getList",
+        getById:ctxForm+"/form/getDataById",
+        edit: ctxForm + "/form/edit", //编辑
+        add: ctxForm + "/form/add", //增加
+        del: ctxForm + "/deleteModel",
+        getByCode:ctxForm+"/form/getDataByCode",
+        idCode:ctxForm+"/form/getStartFormKey/"//要加id    
     }
    
     // urserManagement: {//用户管理

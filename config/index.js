@@ -3,7 +3,7 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
-
+// import common from '../src/assets/js/common.js';
 module.exports = {
   dev: {
 
@@ -12,14 +12,14 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api':{
-          target:'http://192.168.1.79:8080',
+          target:'http://192.168.1.79:8080',//common.ctx,//
           changeOrigin:true,
           pathRewrite:{
               '^/api':''
           }
       },
       '/ms':{
-        target:'http://192.168.1.79:8081',
+        target:'http://192.168.1.79:8081',//common.ctxForm,//
         changeOrigin:true,
         pathRewrite:{
             '^/ms':''

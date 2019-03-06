@@ -69,17 +69,17 @@
                         <el-button style="float: right; padding: 3px 0" type="text">添加</el-button>
                     </div>
                     <el-table :data="todoList" :show-header="false" height="304" style="width: 100%;font-size:14px;">
-                        <el-table-column width="40">
+                        <el-table-column align="center"  width="40">
                             <template slot-scope="scope">
                                 <el-checkbox v-model="scope.row.status"></el-checkbox>
                             </template>
                         </el-table-column>
-                        <el-table-column>
+                        <el-table-column align="center" >
                             <template slot-scope="scope">
                                 <div class="todo-item" :class="{'todo-item-del': scope.row.status}">{{scope.row.title}}</div>
                             </template>
                         </el-table-column>
-                        <el-table-column width="60">
+                        <el-table-column align="center"  width="60">
                             <!-- <template slot-scope="scope">
                                 <i class="el-icon-edit"></i>
                                 <i class="el-icon-delete"></i>

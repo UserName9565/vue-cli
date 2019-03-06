@@ -57,7 +57,7 @@ export default {
   },
   activated() {},
   methods: {
-    new(id, name) {
+    new(id) {
       this.visible = true;
       this.formAction = 0;
       this.parentOrgName = name;
@@ -67,10 +67,10 @@ export default {
         this.$refs.ruleForm.resetFields();
       });
     },
-    edit(id, name) {
+    edit(id) {
       this.visible = true;
       this.formAction = 1;
-      this.parentOrgName = name;
+      this.parentOrgName = id;
       let self = this;
       // tapp.services.base_Organization.get(id).then(function(result) {
       //   self.$refs.ruleForm.resetFields();
@@ -84,19 +84,7 @@ export default {
         if (valid) {
           debugger;
           let model = self.model;
-          // tapp.services.base_Organization.save(model).then(function(result) {
-          //   self.model.id = result.id;
-          //   self.formAction = 1;
-          //   self.$notify.success({
-          //     title: '操作成功',
-          //     message: '保存成功！',
-          //     duration: 1500,
-          //     onClose: () => {
-          //       self.visible = false;
-          //       self.$emit('change');
-          //     }
-          //   });
-          // });
+        
 
         } else {
           self.$notify.error({
@@ -114,19 +102,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        // tapp.services.base_Organization.delete(self.model.id).then(function(result) {
-        //   self.formAction = 0;
-
-        //   self.$notify.success({
-        //     title: '操作成功',
-        //     message: '删除成功！',
-        //     duration: 1500,
-        //     onClose: () => {
-        //       self.visible = false;
-        //       self.$emit('change');
-        //     }
-        //   });
-        // })
+         
       });
     },
   }

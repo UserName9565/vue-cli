@@ -13,7 +13,7 @@
     <h5>产品名称</h5>
     <hr/>
     <el-table :data="availDetailEntityList" rowKey="id" style="margin-bottom:18px">
-      <el-table-column fixed="right" label="操作" width="110">
+      <el-table-column align="center"  fixed="right" label="操作" width="110">
         <template slot-scope="scope">
           <el-button
             @click.native.prevent="newEntityDetail"
@@ -29,30 +29,30 @@
           </el-button>
       </template>
       </el-table-column>
-      <el-table-column width="50">
+      <el-table-column align="center"  width="50">
         <template slot-scope="scope">
             <el-tooltip class="item" effect="dark" :content="scope.row.errorMessage" placement="top-start" v-if="scope.row.hasError">
               <el-button type="danger" icon="el-icon-error" circle size="mini" style="padding:4px"></el-button>
             </el-tooltip>
           </template>
       </el-table-column>
-      <el-table-column label="名称" width="160">
+      <el-table-column align="center"  label="名称" width="160">
         <template slot-scope="scope">
           <el-input v-model="scope.row.name"></el-input>
         </template>
       </el-table-column>
-      <el-table-column label="还款算法" width="160">
+      <el-table-column align="center"  label="还款算法" width="160">
         <template slot-scope="scope">
       <t-dic-select dicType="pl_returnmoneymethod" v-model="scope.row.returnMoneyMethodId"></t-dic-select>
      </template>
       </el-table-column>
-      <el-table-column label="表单模板" width="160">
+      <el-table-column align="center"  label="表单模板" width="160">
         <template slot-scope="scope">
       <t-dic-select dicType="pl_formtemplatetype" v-model="scope.row.formTemplateTypeId"></t-dic-select>
      </template>
       </el-table-column>
 
-      <el-table-column label="备注">
+      <el-table-column align="center"  label="备注">
         <template slot-scope="scope">
 <el-input v-model="scope.row.remark"></el-input>
 </template>

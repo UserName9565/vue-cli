@@ -5,7 +5,7 @@
       <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="名称" clearable></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button icon="el-icon-search" @click="doSearch()">查询</el-button>
+      <el-button icon="el-icon-search"  type="primary" @click="doSearch()">查询</el-button>
       <el-button icon="el-icon-plus" type="primary" @click="doNew()">新增</el-button>
       <el-button icon="el-icon-delete" type="danger" @click="doBatchDelete()" :disabled="selectedRows.length <= 0">批量删除</el-button>
       <el-button icon="el-icon-download" @click="doExportExcel()">导出</el-button>

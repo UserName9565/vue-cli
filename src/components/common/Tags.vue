@@ -139,7 +139,7 @@
         cursor: pointer;
         height: 23px;
         line-height: 23px;
-        border: 1px solid #e9eaec;
+        border: 1px solid #999;
         background: #fff;
         padding: 0 5px 0 12px;
         vertical-align: middle;

@@ -5,7 +5,7 @@
       <el-form :model="model"  ref="ruleForm" label-width="100px" v-show="tabActive =='userInfo'">
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="登陆名" prop="loginId" verify  :maxLength="50" class="is-required">
+            <el-form-item label="登录名" prop="loginId" verify  :maxLength="50" class="is-required">
               <el-input v-model="model.loginId" ></el-input>
             </el-form-item>
           </el-col>
@@ -48,7 +48,7 @@
         </el-row> -->
       </el-form>
     </el-tab-pane>
-    <el-tab-pane label="所属岗位" name="orgin">
+    <el-tab-pane label="所属机构" name="orgin">
       <!-- <t-tree ref="userRoleTree" :options="userRoleTreeOptons" v-show="tabActive =='orgin'">
       </t-tree> -->
       <el-tree show-checkbox :data="treeData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>

@@ -1,45 +1,45 @@
 <template>
-  <div class="mod-role container">
-    <!-- <iframe height="800px" width="100%" src="http://192.168.1.79:8080/create/" frameborder="0"></iframe> -->
-    <el-form :inline="true" @keyup.enter.native="doSearch()">
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="角色名称">
-            <el-input v-model="form.searchKey" clearable></el-input>
-          </el-form-item>
-        </el-col>
-         
-        <el-form-item>
-          <el-button @click="doSearch()" icon="el-icon-search">查询</el-button>
-          <el-button icon="el-icon-plus" type="primary" @click="doNew()">新增</el-button>
-          <!-- <el-button icon="el-icon-delete" type="danger" @click="doBatchDelete()" :disabled="selectedRows.length <= 0">批量删除</el-button> -->
-          <!-- <el-button icon="el-icon-download" @click="doExportExcel()">导出</el-button>
-          <el-button icon="el-icon-upload2" @click="doImportExcel()">导入</el-button>-->
-        </el-form-item>
-      </el-row>
-    </el-form>
-    <el-table
-      :data="tableData3"
-       
-      border
-      stripe
-      highlight-current-row="true"
-      style="width: 100%"
-    >
-      <el-table-column type="selection" width="55"></el-table-column>
-    
-      <el-table-column prop="date" label="角色ID" ></el-table-column>
-      <el-table-column prop="name" label="角色名称" ></el-table-column>
-      <el-table-column prop="address" label="所属部门" ></el-table-column>
-      <el-table-column prop="address" label="角色状态" ></el-table-column>
-      <el-table-column fixed="left" label="操作" width="130">
-        <template slot-scope="scope">
-          <el-button @click="doEdit(scope.row)" type="text" size="mini">查看</el-button>
-         
-        </template>
-      </el-table-column>
-    </el-table>
-    <div class="pagination">
+  <!-- 角色管理 -->
+  <div>
+    <el-card class="mb20">
+      <el-form :inline="true" @keyup.enter.native="doSearch()">
+        <el-row :gutter="10">
+          <el-col :span="8">
+            <el-form-item label="角色名称">
+              <el-input v-model="form.searchKey" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24" class="btn-box">
+            <el-form-item>
+              <el-button @click="doSearch()" icon="el-icon-search" type="primary">查询</el-button>
+              <el-button icon="el-icon-plus" type="primary" @click="doNew()">新增</el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+    </el-card>
+    <el-card>
+      <el-table
+        :data="tableData3"
+        :header-cell-style="{background:'#e0f3ff',color:'#5f95b7'}"
+        border
+        stripe
+        highlight-current-row="true"
+        style="width: 100%"
+      >
+        <el-table-column align="center" type="selection" width="55"></el-table-column>
+
+        <el-table-column align="center" prop="date" label="角色ID"></el-table-column>
+        <el-table-column align="center" prop="name" label="角色名称"></el-table-column>
+        <el-table-column align="center" prop="address" label="所属部门"></el-table-column>
+        <el-table-column align="center" prop="address" label="角色状态"></el-table-column>
+        <el-table-column align="center" fixed="left" label="操作" width="130">
+          <template slot-scope="scope">
+            <el-button @click="doEdit(scope.row)" type="text" size="mini">查看</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="pagination">
         <el-pagination
           :current-page.sync="form.pageNo"
           background
@@ -49,20 +49,11 @@
           :page-size="form.pageSize"
         ></el-pagination>
       </div>
+    </el-card>
     <!-- <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
     </t-grid>-->
     <!-- 弹窗, 新增 / 修改 -->
     <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form>
-    <admin-change-password-form v-if="adminChangePasswordFormVisible" ref="adminChangePasswordForm"></admin-change-password-form>
-    <t-excel-import
-      @change="doSearch"
-      v-if="importExcelVisible"
-      ref="importExcel"
-      :service="importExcelService"
-      :rowRule="importExcelRowRule"
-      title="用户Excel导入"
-      template-path="用户导入模板.xlsx"
-    ></t-excel-import>
   </div>
 </template>
 
@@ -78,14 +69,13 @@ export default {
       adminChangePasswordFormVisible: false,
       importExcelVisible: false,
       importExcelService: "",
-       pageTotal: 0,
-      form:{
-        searchKey:"",
-        region:"",
-        status:"",
-        pageNo:"",
-        pageSize:""
-
+      pageTotal: 0,
+      form: {
+        searchKey: "",
+        region: "",
+        status: "",
+        pageNo: "",
+        pageSize: ""
       },
       tableData3: [
         {
@@ -125,7 +115,6 @@ export default {
         }
       ],
       selectedRows: []
-      
     };
   },
   components: {
@@ -143,7 +132,6 @@ export default {
     doEdit(row) {
       this.editFormVisible = true;
       this.$nextTick(() => {
-         
         this.$refs.editForm.init("11");
       });
     },
@@ -151,7 +139,6 @@ export default {
       this.adminChangePasswordFormVisible = true;
 
       this.$nextTick(() => {
-         
         this.$refs.adminChangePasswordForm.init(row.name);
       });
     },

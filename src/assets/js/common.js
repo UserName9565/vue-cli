@@ -16,7 +16,6 @@ let common = {
         //     type:"post",
             
         // }
-       
             if(obj.url.indexOf("/api/")!=-1){
                 obj.url = obj.url.replace("/api","");
                 bus.$axios.defaults.baseURL = common.ctx;
@@ -28,24 +27,22 @@ let common = {
             }else{
                 bus.$axios.defaults.baseURL = common.ctx;
             }
-
             bus.$axios
                 .post(
                     obj.url,
                     qs.stringify(obj.data))
                 .then(function (response) {
-                    
                     success(response)
-                   
                 })
                 .catch(function (msgE) {
                     bus.$notify.error("请求失败");
-
                     error(msgE)
-                     
                 });
-        
-        
+    },
+    webpage(obj,success){
+         
+       // this.httpPost(obj,success);
+         
     }
 
     

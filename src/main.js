@@ -5,7 +5,8 @@ import router from './router';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';    // 默认主题
 // import '../static/css/theme-green/index.css';       // 浅绿色主题
-import '../static/css/icon.css';
+import '../static/css/theme-first/index.css';
+import './assets/icon/iconfont.css';
 import "babel-polyfill"; 
 import Urls from './assets/js/url.js';//路劲共用
 //axios.defaults.baseURL = 'http://192.168.1.250:8890';//配置你的接口请求地址
@@ -14,7 +15,7 @@ import common from './assets/js/common.js'//公共注册
 Vue.prototype.common = common;
 import http from './assets/js/http.js'
 
- console.log(Vue.common)
+ 
 Vue.prototype.$util = util
 Vue.use(ElementUI, { size: 'small' });
 Vue.prototype.$axios = http;
