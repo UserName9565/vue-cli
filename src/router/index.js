@@ -279,7 +279,7 @@ export default new Router({
                 {
                     path: '/BF-editInquiry',
                     component: resolve => require(['../components/page/bankFinancing/BF-inquiryWin/edit.vue'], resolve),
-                    meta: { title: '发起询价' }
+                    meta: { title: '查看询价' }
                 },
                 {
                     path: '/BF-businessPlanManag',
@@ -313,6 +313,21 @@ export default new Router({
                     path: '/BF-accountApproval',
                     component: resolve => require(['../components/page/bankFinancing/BF-accountApproval'], resolve),
                     meta: { title: '台账审批' }
+                },
+                {
+                    path: '/ID-inquiry',
+                    component: resolve => require(['../components/page/interbankDeposit/ID-inquiry.vue'], resolve),
+                    meta: { title: '询价管理' }
+                },
+                {
+                    path: '/ID-addInquiry',
+                    component: resolve => require(['../components/page/interbankDeposit/ID-inquiryWin/add.vue'], resolve),
+                    meta: { title: '发起询价' }
+                },
+                {
+                    path: '/ID-editInquiry',
+                    component: resolve => require(['../components/page/interbankDeposit/ID-inquiryWin/edit.vue'], resolve),
+                    meta: { title: '查看询价' }
                 },
                 {
                     path: '/ID-businessPlanManag',
@@ -359,7 +374,7 @@ export default new Router({
                 {
                     path: '/FI-editInquiry',
                     component: resolve => require(['../components/page/fundInvestment/FI-inquiryWin/edit.vue'], resolve),
-                    meta: { title: '发起询价' }
+                    meta: { title: '查看询价' }
                 },
                 {
                     path: '/FI-businessPlanManag',
@@ -406,7 +421,7 @@ export default new Router({
                 {
                     path: '/IL-editInquiry',
                     component: resolve => require(['../components/page/interbankLending/IL-inquiryWin/edit.vue'], resolve),
-                    meta: { title: '发起询价' }
+                    meta: { title: '查看询价' }
                 },
                 {
                     path: '/IL-businessPlanManag',
@@ -449,7 +464,7 @@ export default new Router({
                 {
                     path: '/PRR-editInquiry',
                     component: resolve => require(['../components/page/pledgeReverseRepurchase/PRR-inquiryWin/edit.vue'], resolve),
-                    meta: { title: '发起询价' }
+                    meta: { title: '查看询价' }
                 },
                 {
                     path: '/PRR-businessPlanManag',
@@ -492,7 +507,7 @@ export default new Router({
                 {
                     path: '/BB-editInquiry',
                     component: resolve => require(['../components/page/bondBusiness/BB-inquiryWin/edit.vue'], resolve),
-                    meta: { title: '发起询价' }
+                    meta: { title: '查看询价' }
                 },
                 {
                     path: '/BB-businessPlanManag',
@@ -535,7 +550,7 @@ export default new Router({
                 {
                     path: '/COD-editInquiry',
                     component: resolve => require(['../components/page/certificatesOfDeposit/COD-inquiryWin/edit.vue'], resolve),
-                    meta: { title: '发起询价' }
+                    meta: { title: '查看询价' }
                 },
                 {
                     path: '/COD-businessPlanManag',
@@ -558,6 +573,10 @@ export default new Router({
                     component: resolve => require(['../components/page/certificatesOfDeposit/COD-businessOperationApproval'], resolve),
                     meta: { title: '业务操作审批' }
                 },{
+                    path: '/COD-businessOperationAccount',
+                    component: resolve => require(['../components/page/certificatesOfDeposit/COD-businessOperationAccount'], resolve),
+                    meta: { title: '台账存量业务统计' }
+                },{
                     path: '/COD-accountManag',
                     component: resolve => require(['../components/page/certificatesOfDeposit/COD-accountManag'], resolve),
                     meta: { title: '台账详单' }
@@ -565,6 +584,65 @@ export default new Router({
                     path: '/COD-accountApproval',
                     component: resolve => require(['../components/page/certificatesOfDeposit/COD-accountApproval'], resolve),
                     meta: { title: '台账审批' }
+                },{
+                    path: '/EI-inquiry',
+                    component: resolve => require(['../components/page/entrustedInvestment/EI-inquiry.vue'], resolve),
+                    meta: { title: '询价管理' }
+                },
+                {
+                    path: '/EI-addInquiry',
+                    component: resolve => require(['../components/page/entrustedInvestment/EI-inquiryWin/add.vue'], resolve),
+                    meta: { title: '发起询价' }
+                },
+                {
+                    path: '/EI-editInquiry',
+                    component: resolve => require(['../components/page/entrustedInvestment/EI-inquiryWin/edit.vue'], resolve),
+                    meta: { title: '查看询价' }
+                },
+                {
+                    path: '/EI-businessPlanManag',
+                    component: resolve => require(['../components/page/entrustedInvestment/EI-businessPlanManag.vue'], resolve),
+                    meta: { title: '业务方案管理' }
+                },{
+                    path: '/EI-addBusinessPlanManag',
+                    component: resolve => require(['../components/page/entrustedInvestment/EI-businessPlanManagWin/addList.vue'], resolve),
+                    meta: { title: '业务方案制定' }
+                },{
+                    path: '/EI-businessPlanApproval',
+                    component: resolve => require(['../components/page/entrustedInvestment/EI-businessPlanApproval.vue'], resolve),
+                    meta: { title: '业务方案审批' }
+                },{
+                    path: '/EI-businessOperation',
+                    component: resolve => require(['../components/page/entrustedInvestment/EI-businessOperation.vue'], resolve),
+                    meta: { title: '业务操作' }
+                },{
+                    path: '/EI-businessOperationApproval',
+                    component: resolve => require(['../components/page/entrustedInvestment/EI-businessOperationApproval'], resolve),
+                    meta: { title: '业务操作审批' }
+                },{
+                    path: '/EI-businessOperationAccount',
+                    component: resolve => require(['../components/page/entrustedInvestment/EI-businessOperationAccount'], resolve),
+                    meta: { title: '台账存量业务统计' }
+                },{
+                    path: '/EI-accountManag',
+                    component: resolve => require(['../components/page/entrustedInvestment/EI-accountManag'], resolve),
+                    meta: { title: '台账详单' }
+                },{
+                    path: '/EI-accountApproval',
+                    component: resolve => require(['../components/page/entrustedInvestment/EI-accountApproval'], resolve),
+                    meta: { title: '台账审批' }
+                },{
+                    path: '/EI-principalReport',
+                    component: resolve => require(['../components/page/entrustedInvestment/EI-principalReport'], resolve),
+                    meta: { title: '委托方报告' }
+                },{
+                    path: '/EI-fundSplitAccount',
+                    component: resolve => require(['../components/page/entrustedInvestment/EI-fundSplitAccount'], resolve),
+                    meta: { title: '到期资金分账' }
+                },{
+                    path: '/EI-splittingOperation',
+                    component: resolve => require(['../components/page/entrustedInvestment/EI-splittingOperation'], resolve),
+                    meta: { title: '分账操作审批' }
                 }
                 
                 // {logManag

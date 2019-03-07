@@ -19,7 +19,7 @@
     @selection-change="handleSelectionChange"
     :data="list"
     border
-  
+    ref="searchReulstList"
     style="width: 100%">
     <el-table-column align="center" 
       type="selection"
@@ -30,8 +30,8 @@
     <el-table-column align="center"  prop="name" label="模型名称"></el-table-column>
 
     <!-- <el-table-column align="center"  prop="category" label="分类" ></el-table-column> -->
-    <el-table-column align="center"  prop="createTime" :formatter='YYMM' label="时间" ></el-table-column>
-    <el-table-column align="center"  prop="lastUpdateTime"  :formatter='YYMM' label="最后更新时间" ></el-table-column>
+    <el-table-column align="center"  prop="createTime" :formatter='$util.YYMM' label="时间" ></el-table-column>
+    <el-table-column align="center"  prop="lastUpdateTime"  :formatter='$util.YYMM' label="最后更新时间" ></el-table-column>
      <el-table-column align="center"  label="操作"  fixed="right" width="250">
       <template slot-scope="scope">
         <el-button @click="doEdit(scope)" type="text" size="small">查看</el-button>

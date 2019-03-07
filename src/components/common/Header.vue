@@ -77,6 +77,9 @@ export default {
           title:'额度管理',
           id:'B0000'
         },{
+          title:'询价管理',
+          id:'F0000'
+        },{
           title:'财务公司自营',
           id:'C0000'
         },{

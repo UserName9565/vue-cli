@@ -8,6 +8,7 @@ let util = {
 
   }
 };
+
 //前端权限校验
 util.hasPermission = function(permission) {
   let vm = window.vue;
@@ -604,4 +605,7 @@ util.download = function(fileName, url, params) {
     alert(err);
   })
 };
+util.YYMM = function (row, column,cellValue){
+  return util.datetimeFormat(cellValue)
+}
 export default util;

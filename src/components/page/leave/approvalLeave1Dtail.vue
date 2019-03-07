@@ -22,18 +22,13 @@
             </div>
         </el-card>
         <el-card>
-            <el-table
-                 :data="tableData3"
-                :header-cell-style="{background:'#e0f3ff',color:'#5f95b7'}"
-                border
-                stripe
-                highlight-current-row="true"
-                style="width: 100%"
-            >
-                 <el-table-column align="center" prop="assign" label="assign"></el-table-column>
-                <el-table-column align="center" prop="businessKey" label="businessKey"></el-table-column>
-
-            </el-table>
+            <div style="height: 300px;">
+                <el-steps direction="vertical" :active="1">
+                    <el-step title="步骤 1"></el-step>
+                    <el-step title="步骤 2"></el-step>
+                    <el-step title="步骤 3" description="这是一段很长很长很长的描述性文字"></el-step>
+                </el-steps>
+            </div>
         </el-card>
       
         

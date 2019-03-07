@@ -2,7 +2,7 @@
 <!-- 用户管理 -->
   <div>
   <el-card class="mb20">
-    <el-form :inline="true" @keyup.enter.native="doSearch()">
+    <el-form :inline="true" @keyup.enter.native="doSearch(1)">
       <el-row>
         <el-col :span="8">
           <el-form-item label="姓名">
@@ -29,7 +29,7 @@
         </el-col>
         <el-col :span="24" class="btn-box">
         <el-form-item>
-          <el-button @click="doSearch()" icon="el-icon-search"  type="primary">查询</el-button>
+          <el-button @click="doSearch(1)" icon="el-icon-search"  type="primary">查询</el-button>
           <el-button icon="el-icon-plus" type="primary" @click="doNew()">新增</el-button>
          
         </el-form-item>
@@ -69,14 +69,14 @@
         <el-pagination
           :current-page.sync="form.pageNo"
           background
-          @current-change="handleCurrentChange"
+          @current-change="doSearch"
           layout="total,prev, pager, next,jumper"
           :total="pageTotal"
           :page-size="form.pageSize"
         ></el-pagination>
       </div>
    </el-card>
-    <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form>
+    <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch(1)"></edit-form>
     <admin-change-password-form v-if="adminChangePasswordFormVisible" ref="adminChangePasswordForm"></admin-change-password-form>
      
   </div>
@@ -92,9 +92,7 @@ export default {
     return {
       editFormVisible: true,
       adminChangePasswordFormVisible: false,
-      importExcelVisible: false,
-      importExcelService: "",
-       pageTotal: 0,
+       pageTotal: 1,
       form:{
         searchKey:"",
         region:"",
@@ -206,17 +204,23 @@ export default {
           });
         });
     },
-    // doExportExcel() {
-    //   this.$refs.searchReulstList.exportCSV('用户列表');
-    // },
-    // doImportExcel() {
-    //   this.importExcelVisible = true;
-    //   this.$nextTick(() => {
-    //     this.$refs.importExcel.show();
-    //   })
-    // },
-    doSearch() {
-      this.$refs.searchReulstList.refresh();
+   
+    doSearch(value) {
+       
+       this.ruleForm.skipCount = value;
+    
+        let self = this;
+        var obj ={
+          url:this.$url.workflowdef.getList,
+          data:this.ruleForm
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+            
+            self.list = data.data.rows
+            self.total = data.data.total
+           
+        }
     }
   }
 };

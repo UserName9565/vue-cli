@@ -241,7 +241,7 @@ export default {
   },
   methods: {
     objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-      debugger;
+      
       if (!this.now_col_row_num[column.property]) {
         this.now_col_row_num[column.property] = Object.assign(
           [],

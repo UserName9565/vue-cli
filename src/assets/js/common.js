@@ -40,7 +40,7 @@ let common = {
                 });
     },
     webpage(obj,success){
-         
+         console.log(1112)
        // this.httpPost(obj,success);
          
     }

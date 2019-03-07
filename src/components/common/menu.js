@@ -71,7 +71,7 @@ export default [
     {icon: '',index: 'evaluateLevelAppro',title: '对手授信评级审批',id:'B2004',pid:"B3000"},
      
     {icon: '&#xe623;',index: 'bankFinancing',title: '银行理财',id:'C1000',pid:"C0000"},
-    {icon: '',index: 'BF-inquiry',title: '询价管理',id:'C1001',pid:"C1000"},
+    //{icon: '',index: 'BF-inquiry',title: '询价管理',id:'C1001',pid:"C1000"},
     {icon: '',index: 'BF-businessPlanManag',title: '业务方案管理',id:'C1002',pid:"C1000"},
     {icon: '',index: 'BF-businessPlanApproval',title: '业务方案审批',id:'C1003',pid:"C1000"},
     {icon: '',index: 'BF-businessOperation',title: '业务操作',id:'C1004',pid:"C1000"},
@@ -90,7 +90,7 @@ export default [
     {icon: '',index: 'ID-interbankRegular',title: '同业定期收入贡献',id:'C2006',pid:"C2000"},
 
     {icon: '&#xe661;',index: 'fundInvestment',title: '基金投资',id:'C3000',pid:"C0000"},
-    {icon: '',index: 'FI-inquiry',title: '询价管理',id:'C3001',pid:"C3000"},
+   // {icon: '',index: 'FI-inquiry',title: '询价管理',id:'C3001',pid:"C3000"},
     {icon: '',index: 'FI-businessPlanManag',title: '业务方案管理',id:'C3002',pid:"C3000"},
     {icon: '',index: 'FI-businessPlanApproval',title: '业务方案审批',id:'C3003',pid:"C3000"},
     {icon: '',index: 'FI-businessOperation',title: '业务操作',id:'C3004',pid:"C3000"},
@@ -100,7 +100,7 @@ export default [
     {icon: '',index: 'FI-accountApproval',title: '台账操作审批',id:'C3007',pid:"C3000"},
 
     {icon: '&#xe6e4;',index: 'interbankLending ',title: '同业拆借(拆出)',id:'C4000',pid:"C0000"},
-    {icon: '',index: 'IL-inquiry',title: '询价管理',id:'C4001',pid:"C4000"},
+    //{icon: '',index: 'IL-inquiry',title: '询价管理',id:'C4001',pid:"C4000"},
     {icon: '',index: 'IL-businessPlanManag',title: '业务方案管理',id:'C4002',pid:"C4000"},
     {icon: '',index: 'IL-businessPlanApproval',title: '业务方案审批',id:'C4003',pid:"C4000"},
     {icon: '',index: 'IL-businessOperation',title: '业务操作',id:'C4004',pid:"C4000"},
@@ -109,7 +109,7 @@ export default [
     {icon: '',index: 'IL-accountApproval',title: '台账操作审批',id:'C4007',pid:"C4000"},
 
     {icon: '&#xe6ae;',index: 'pledgeReverseRepurchase',title: '质押式逆回购',id:'C5000',pid:"C0000"},
-    {icon: '',index: 'PRR-inquiry',title: '询价管理',id:'C5001',pid:"C5000"},
+    //{icon: '',index: 'PRR-inquiry',title: '询价管理',id:'C5001',pid:"C5000"},
     {icon: '',index: 'PRR-businessPlanManag',title: '业务方案管理',id:'C5002',pid:"C5000"},
     {icon: '',index: 'PRR-businessPlanApproval',title: '业务方案审批',id:'C5003',pid:"C5000"},
     {icon: '',index: 'PRR-businessOperation',title: '业务操作',id:'C5004',pid:"C5000"},
@@ -118,7 +118,7 @@ export default [
     {icon: '',index: 'PRR-accountApproval',title: '台账操作审批',id:'C5007',pid:"C5000"},
 
     {icon: '&#xe655;',index: 'bondBusiness',title: '债券业务',id:'C6000',pid:"C0000"},
-    {icon: '',index: 'BB-inquiry',title: '询价管理',id:'C6001',pid:"C6000"},
+    //{icon: '',index: 'BB-inquiry',title: '询价管理',id:'C6001',pid:"C6000"},
     {icon: '',index: 'BB-businessPlanManag',title: '业务方案管理',id:'C6002',pid:"C6000"},
     {icon: '',index: 'BB-businessPlanApproval',title: '业务方案审批',id:'C6003',pid:"C6000"},
     {icon: '',index: 'BB-businessOperation',title: '业务操作',id:'C6004',pid:"C6000"},
@@ -127,25 +127,41 @@ export default [
     {icon: '',index: 'BB-accountApproval',title: '台账操作审批',id:'C6007',pid:"C6000"},
 
     {icon: '&#xe616;',index: 'certificatesOfDeposit',title: '同业存单',id:'C7000',pid:"C0000"},
-    {icon: '',index: 'COD-inquiry',title: '询价管理',id:'C7001',pid:"C7000"},
+   // {icon: '',index: 'COD-inquiry',title: '询价管理',id:'C7001',pid:"C7000"},
     {icon: '',index: 'COD-businessPlanManag',title: '业务方案管理',id:'C7002',pid:"C7000"},
     {icon: '',index: 'COD-businessPlanApproval',title: '业务方案审批',id:'C7003',pid:"C7000"},
     {icon: '',index: 'COD-businessOperation',title: '业务操作',id:'C7004',pid:"C7000"},
     {icon: '',index: 'COD-businessOperationApproval',title: '业务操作审批',id:'C7005',pid:"C7000"},
-    {icon: '',index: 'COD-accountManag',title: '台账详单',id:'C7006',pid:"C7000"},
-    {icon: '',index: 'COD-accountApproval',title: '台账操作审批',id:'C7007',pid:"C7000"},
+    {icon: '',index: 'COD-businessOperationAccount',title: '台账存量业务统计',id:'C7006',pid:"C7000"},
+    {icon: '',index: 'COD-accountManag',title: '台账详单',id:'C7007',pid:"C7000"},
+    {icon: '',index: 'COD-accountApproval',title: '台账操作审批',id:'C7008',pid:"C7000"},
 
-    {icon: '&#xe612;',index: 'certificatesOfDeposit',title: '委托投资业务',id:'D1000',pid:"D0000"},
-    {icon: '',index: 'COD-inquiry',title: '询价管理',id:'D1001',pid:"D1000"},
-    {icon: '',index: 'COD-businessPlanManag',title: '业务方案管理',id:'D1002',pid:"D1000"},
-    {icon: '',index: 'COD-businessPlanApproval',title: '业务方案审批',id:'D1003',pid:"D1000"},
-    {icon: '',index: 'COD-businessOperation',title: '业务操作',id:'D1004',pid:"D1000"},
-    {icon: '',index: 'COD-businessOperationApproval',title: '业务操作审批',id:'D1005',pid:"D1000"},
-    {icon: '',index: 'COD-accountManag',title: '台账详单',id:'D1006',pid:"D1000"},
-    {icon: '',index: 'COD-accountApproval',title: '台账操作审批',id:'D1007',pid:"D1000"},
-    {icon: '',index: 'COD-accountApproval1',title: '委托方报告',id:'D1008',pid:"D1000"},
-    {icon: '',index: 'COD-accountApproval2',title: '到期资金分账',id:'D1009',pid:"D1000"},
-    {icon: '',index: 'COD-accountApproval3',title: '分账操作审批',id:'D1010',pid:"D1000"},
+    {icon: '&#xe612;',index: 'entrustedInvestment',title: '委托投资业务',id:'D1000',pid:"D0000"},
+    {icon: '',index: 'EI-inquiry',title: '询价管理',id:'D1001',pid:"D1000"},
+    {icon: '',index: 'EI-businessPlanManag',title: '业务方案管理',id:'D1002',pid:"D1000"},
+    {icon: '',index: 'EI-businessPlanApproval',title: '业务方案审批',id:'D1003',pid:"D1000"},
+    {icon: '',index: 'EI-businessOperation',title: '业务操作',id:'D1004',pid:"D1000"},
+    {icon: '',index: 'EI-businessOperationApproval',title: '业务操作审批',id:'D1005',pid:"D1000"},
+    {icon: '',index: 'EI-accountManag',title: '台账详单',id:'D1006',pid:"D1000"},
+    {icon: '',index: 'EI-accountApproval',title: '台账操作审批',id:'D1007',pid:"D1000"},
+    {icon: '',index: 'EI-principalReport',title: '委托方报告',id:'D1008',pid:"D1000"},
+    {icon: '',index: 'EI-fundSplitAccount',title: '到期资金分账',id:'D1009',pid:"D1000"},
+    {icon: '',index: 'EI-splittingOperation',title: '分账操作审批',id:'D1010',pid:"D1000"},
+
+    {icon: '&#xe612;',index: 'financeCompany',title: '财务公司',id:'F1000',pid:"F0000"},
+    // {icon: '',index: 'FC-bankFinancing',title: '银行理财',id:'F1001',pid:"F1000"},
+     
+    {icon: '',index: 'BF-inquiry',title: '银行理财',id:'F1001',pid:"F1000"},
+
+    // {icon: '',index: 'FC-interbankDeposit',title: '同业存款',id:'F1002',pid:"F1000"},
+    {icon: '',index: 'ID-inquiry',title: '询价管理',id:'F1002',pid:"F1000"},
+
+    
+
+    {icon: '&#xe612;',index: 'I-entrustedInvestment',title: '委托投资',id:'F2000',pid:"F0000"},
+    // {icon: '',index: 'EI-interbankDeposit',title: '银行理财',id:'F2001',pid:"F2000"},
+    {icon: '',index: 'EI-inquiry',title: '银行理财',id:'F2001',pid:"F2000"},
+
 
     {icon: '',index: 'loanEnterList',title: '流程申请',id:'074',pid:"A0000"},
     {icon: '',index: 'loanAuditTaskList',title: '流程审核',id:'075',pid:"A0000"},
