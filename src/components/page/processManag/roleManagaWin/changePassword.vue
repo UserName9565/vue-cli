@@ -1,7 +1,7 @@
 
 <template>
 <el-dialog title="修改密码" :visible.sync="visible" :append-to-body="true">
-  <el-form :model="model" ref="ruleForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+  <el-form :model="model" ref="form" @keyup.enter.native="dataFormSubmit()" label-width="80px">
     <el-form-item label="姓名">
       <span>{{ model.name }}</span>
     </el-form-item>
@@ -36,7 +36,10 @@ import {
 export default {
   data() {
     return {
-      visible: false,
+      visible: false, title:"添加",
+      disabled:false,
+      btn:"提交",
+      aproveVisible: false,
       model: {},
     }
   },
@@ -57,7 +60,7 @@ export default {
     init() {
       this.visible = true
       this.$nextTick(() => {
-        this.$refs['ruleForm'].resetFields()
+        this.$refs['form'].resetFields()
       })
     },
     validateLogiPassword(rule, value, callback) {
@@ -75,7 +78,7 @@ export default {
     },
     dataFormSubmit() {
       let self = this;
-      self.$refs['ruleForm'].validate((valid) => {
+      self.$refs['form'].validate((valid) => {
         if (valid) {
           tapp.services.base_User.changePassword(self.model).then(function(result) {
             self.$notify.success({

@@ -6,7 +6,7 @@
     <!-- <el-row :gutter="20">
       <el-col :span="8">
         <el-form-item label="流程类别">
-          <el-select placeholder="请选择流程类别" v-model="ruleForm.processDefinationKey" clearable>
+          <el-select placeholder="请选择流程类别" v-model="form.processDefinationKey" clearable>
             <el-option v-for="item in processDefinationlist" :key='item.key' :label="item.name" :value="item.key"></el-option>
           </el-select>
         </el-form-item>
@@ -14,7 +14,7 @@
       <el-col :span="14">
         <el-form-item label="流程发起时间">
           <el-date-picker
-            v-model="ruleForm.value13"
+            v-model="form.value13"
             type="daterange"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
@@ -26,7 +26,7 @@
     <el-row :gutter="20">
       <!-- <el-col :span="8">
         <el-form-item label="关键字">
-          <el-input  @keyup.enter.native="doRefresh()" v-model="ruleForm.searchKey" placeholder="单号或描述或发起人" clearable></el-input>
+          <el-input  @keyup.enter.native="doRefresh()" v-model="form.searchKey" placeholder="单号或描述或发起人" clearable></el-input>
         </el-form-item>
       </el-col> -->
       <el-col :span="14">
@@ -83,7 +83,7 @@
       
       @current-change="doSearch"
       :current-page="currentPage4"
-      :page-size="ruleForm.maxResultCount"
+      :page-size="form.maxResultCount"
       layout="total, prev, pager, next, jumper"
       :total="total">
     </el-pagination>
@@ -120,7 +120,7 @@ export default {
       viewImg:null,
       processDefinationlist: [{},{}],
       startDateRange: null,
-      ruleForm:{
+      form:{
         skipCount:1,
         maxResultCount:10
       },
@@ -139,7 +139,7 @@ export default {
       let self = this;
       var obj ={
           url:this.$url.processinst.getList,
-          data:this.ruleForm
+          data:this.form
         }
         this.common.httpPost(obj,success);
         function success(data){
@@ -152,8 +152,8 @@ export default {
       // })
     },
     onStartDateRangeChanged(val) {
-      this.ruleForm.startDateBegin = val[0];
-      this.ruleForm.startDateEnd = val[1];
+      this.form.startDateBegin = val[0];
+      this.form.startDateEnd = val[1];
     },
     renderTaskBtnLabel(key, row) {
       if (row.taskAssignee != null && row.taskAssignee.length > 0) {

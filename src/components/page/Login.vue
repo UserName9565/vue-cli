@@ -2,19 +2,19 @@
     <div class="login-wrap">
         <div class="ms-login">
             <div class="ms-title">后台管理系统</div>
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="ms-content">
+            <el-form :model="form" :rules="rules" ref="form" label-width="0px" class="ms-content">
                 <el-form-item prop="username">
-                    <el-input v-model="ruleForm.username" placeholder="username">
+                    <el-input v-model="form.username" placeholder="username">
                         <el-button slot="prepend" icon="el-icon-lx-people"></el-button>
                     </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
-                    <el-input type="password" placeholder="password" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')">
+                    <el-input type="password" placeholder="password" v-model="form.password" @keyup.enter.native="submitForm('form')">
                         <el-button slot="prepend" icon="el-icon-lx-lock"></el-button>
                     </el-input>
                 </el-form-item>
                 <div class="login-btn">
-                    <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+                    <el-button type="primary" @click="submitForm('form')">登录</el-button>
                 </div>
                 <p class="login-tips">Tips : 用户名和密码随便填。</p>
             </el-form>
@@ -26,7 +26,7 @@
     export default {
         data: function(){
             return {
-                ruleForm: {
+                form: {
                     username: 'admin',
                     password: '123123',
                     captchaCode:'1212'
@@ -45,7 +45,7 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        localStorage.setItem('ms_username',this.ruleForm.username);
+                        localStorage.setItem('ms_username',this.form.username);
                         this.$router.push('/');
                     } else {
                         console.log('error submit!!');
@@ -53,11 +53,11 @@
                     }
                 });
                 // let formdata = new FormData();
-                // formdata.append("data",this.ruleForm);
+                // formdata.append("data",this.form);
                  
                 let obj = {
                     url:this.$url.login,
-                    data:JSON.stringify(this.ruleForm)
+                    data:JSON.stringify(this.form)
                 }
                 
                 this.common.httpPost(obj,success);

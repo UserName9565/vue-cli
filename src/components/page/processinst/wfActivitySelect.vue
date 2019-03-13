@@ -1,7 +1,7 @@
 
 <template>
 <el-dialog title="流程节点信息" :visible.sync="visible" :append-to-body="true">
-  <el-form ref="ruleForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+  <el-form ref="form" @keyup.enter.native="dataFormSubmit()" label-width="80px">
     <el-form-item label="流程节点">
       <el-select placeholder="流程节点" v-model="selectedActivityId">
         <el-option v-for="(item, index) in activitylist" :key='item.id' :label="item.name" :value="item.id"></el-option>
@@ -19,7 +19,10 @@
 export default {
   data() {
     return {
-      visible: false,
+      visible: false, title:"添加",
+      disabled:false,
+      btn:"提交",
+      aproveVisible: false,
       processDefinationKey: null,
       activitylist: {},
       selectedActivityId: null,

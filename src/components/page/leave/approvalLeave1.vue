@@ -2,17 +2,28 @@
  
   <div>
     <el-card class="mb20">
-      <el-form :inline="true" :model="ruleForm" @keyup.enter.native="doSearch(1)">
+      <el-form :inline="true" :model="form" @keyup.enter.native="doSearch(1)">
         <el-row>
           <el-col :span="8">
             <el-form-item label="userId">
-              <el-input v-model="ruleForm.userId"></el-input>
+              <el-input v-model="form.userId"></el-input>
             </el-form-item>
           </el-col>
           
+          <el-col :span="8">
+            <el-form-item label="businessKey">
+              <el-input v-model="form.businessKey"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="businessType">
+              <el-input v-model="form.businessType"></el-input>
+            </el-form-item>
+          </el-col>
+         
           <el-col :span="24" class="btn-box">
             <el-form-item>
-              <el-button @click="doSearch()" icon="el-icon-search" type="primary">查询</el-button>
+              <el-button @click="doSearch(1)" icon="el-icon-search" type="primary">查询</el-button>
               <!-- <el-button icon="el-icon-plus" type="primary" @click="doNew()">查看流程</el-button> -->
             </el-form-item>
            </el-col>
@@ -44,12 +55,12 @@
       </el-table>
       <div class="pagination">
         <el-pagination
-          :current-page.sync="form.pageNo"
+          :current-page.sync="form.page"
           background
           @current-change="handleCurrentChange"
           layout="total,prev, pager, next,jumper"
           :total="pageTotal"
-          :page-size="form.pageSize"
+          :page-size="form.rows"
         ></el-pagination>
       </div>
     </el-card>
@@ -65,7 +76,7 @@
     <!-- <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
     </t-grid>-->
     <!-- 弹窗, 新增 / 修改 -->
-    <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form>
+    <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form><aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
   </div>
 </template>
 
@@ -76,20 +87,21 @@ export default {
     return {
       editFormVisible: false,
       adminChangePasswordFormVisible: false,
-      importExcelVisible: false,
-      importExcelService: "",
+     
+      
       pageTotal: 0,
       form: {
         searchKey: "",
         region: "",
         status: "",
-        pageNo: "",
-        pageSize: ""
+        page: "",
+        rows: ""
       },
-      ruleForm:{
+      form:{
         page:1,
         rows:10,
-        userId:'admin'
+        userId:'admin',
+        businessType:'1'
       },
       tableData3: [
         {
@@ -182,12 +194,12 @@ export default {
     
     doSearch(value) {
 
-        this.ruleForm.skipCount = value;
+        this.form.skipCount = value;
     
         let self = this;
         var obj ={
           url:this.$url.leave.todoTask,
-          data:this.ruleForm
+          data:this.form
         }
         this.common.httpPost(obj,success);
         function success(data){

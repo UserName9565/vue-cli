@@ -72,8 +72,21 @@ export default {
      init(id){
        this.visible = true;
      },
-    doSearch() {
-      this.$refs.searchReulstList.refresh();
+    doSearch(value) {
+      this.form.page = value;
+    
+        let self = this;
+        var obj ={
+          url:this.$url.workflowdef.getList,
+          data:this.form
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+            
+            self.list = data.data.rows
+            self.total = data.data.total
+           
+        }
     }
   }
 };

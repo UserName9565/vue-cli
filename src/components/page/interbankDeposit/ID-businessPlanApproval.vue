@@ -2,7 +2,7 @@
 <!-- 业务方案审批 -->
   <div>
     <el-card class="mb20">
-    <el-form :inline="true" @keyup.enter.native="doSearch()">
+    <el-form :inline="true" @keyup.enter.native="doSearch(1)">
       <el-row>
          <el-col :span="8">
           <el-form-item label="处理状态">
@@ -16,7 +16,7 @@
         </el-col>
          <el-col :span="24" class="btn-box">
         <el-form-item>
-          <el-button @click="doSearch()" icon="el-icon-search"  type="primary">查询</el-button>
+          <el-button @click="doSearch(1)" icon="el-icon-search"  type="primary">查询</el-button>
           <el-button icon="el-icon-plus" type="primary" @click="doNew()">查看流程</el-button>
          
         </el-form-item>
@@ -38,7 +38,12 @@
       <el-table-column align="center"  prop="name" label="业务编号" ></el-table-column>
       <el-table-column align="center"  prop="address" label="申请人" ></el-table-column>
       <el-table-column align="center"  prop="address" label="最终审核人" ></el-table-column>
-      <el-table-column align="center"  prop="address" label="审批状态" ></el-table-column>
+      <el-table-column align="center"  prop="address" label="审批状态" >
+        <template slot-scope="scope">
+              <span>通过</span><br>
+              <el-button @click="doDetaile(scope.row)" type="text" size="mini">审批详情</el-button>
+          </template>
+      </el-table-column>
       <el-table-column align="center"  prop="address" label="处理状态" ></el-table-column>
       <el-table-column align="center"  fixed="left" label="操作" width="80">
         <template slot-scope="scope">
@@ -49,37 +54,38 @@
     </el-table>
     <div class="pagination">
         <el-pagination
-          :current-page.sync="form.pageNo"
+          :current-page.sync="form.page"
           background
           @current-change="handleCurrentChange"
           layout="total,prev, pager, next,jumper"
           :total="pageTotal"
-          :page-size="form.pageSize"
+          :page-size="form.rows"
         ></el-pagination>
       </div>
       </el-card>
      
-    <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form>
+    <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form><aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
     
   </div>
 </template>
 
 <script>
+import AproveStep from "../comWin/aproveStep";
  import EditForm from "./ID-businessPlanApprovalWin/addList";
 export default {
   data() {
     return {
       editFormVisible: false,
       adminChangePasswordFormVisible: false,
-      importExcelVisible: false,
-      importExcelService: "",
+     AproveStepVisible: false,
+      
        pageTotal: 0,
       form:{
         searchKey:"",
         region:"",
         status:"",
-        pageNo:"",
-        pageSize:""
+        page:"",
+        rows:""
 
       },
       tableData3: [
@@ -125,7 +131,8 @@ export default {
   },
    
    components: {
-    EditForm
+    EditForm,
+    AproveStep
   },
   methods: {
     doNew() {
@@ -185,17 +192,27 @@ export default {
           });
         });
     },
-    // doExportExcel() {
-    //   this.$refs.searchReulstList.exportCSV('用户列表');
-    // },
-    // doImportExcel() {
-    //   this.importExcelVisible = true;
-    //   this.$nextTick(() => {
-    //     this.$refs.importExcel.show();
-    //   })
-    // },
-    doSearch() {
-      this.$refs.searchReulstList.refresh();
+    doDetaile(row) {
+      this.AproveStepVisible = true;
+      this.$nextTick(() => {
+        this.$refs.aproveStep.init(row.date);
+      });
+    },
+    doSearch(value) {
+      this.form.page = value;
+    
+        let self = this;
+        var obj ={
+          url:this.$url.workflowdef.getList,
+          data:this.form
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+            
+            self.list = data.data.rows
+            self.total = data.data.total
+           
+        }
     }
   }
 };

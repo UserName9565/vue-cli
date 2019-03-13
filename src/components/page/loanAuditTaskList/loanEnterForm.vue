@@ -9,7 +9,7 @@
       </el-col>
     </el-row>
     <el-tab-pane label="客户资料" name="baseInfo">
-      <el-form :model="docEntity" ref="ruleForm" @keyup.enter.native="doSubmit()" label-width="160px">
+      <el-form :model="docEntity" ref="form" @keyup.enter.native="doSubmit()" label-width="160px">
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="申请编号" prop="customerCode" verify can-be-empty :maxLength="50">
@@ -214,7 +214,7 @@ export default {
       } else if (self.docEntity.formTemplateTypeId == 'pl_formtemplatetype_company') {
         editUcValidPromise = self.$refs.comapnyEditUC.submitVaild();
       }
-      let selfValidPromise = self.$refs['ruleForm'].validate();
+      let selfValidPromise = self.$refs['form'].validate();
       Promise.all([editUcValidPromise, selfValidPromise])
         .then(resultList => {
 

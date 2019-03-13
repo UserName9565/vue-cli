@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     
-    <el-form :inline="true" @keyup.enter.native="doSearch()">
+    <el-form :inline="true" @keyup.enter.native="doSearch(1)">
       <el-row>
         <el-col :span="8">
           <el-form-item label="申请时间">
@@ -15,7 +15,7 @@
         </el-col>
           
         <el-form-item>
-          <el-button @click="doSearch()" icon="el-icon-search"  type="primary">查询</el-button>
+          <el-button @click="doSearch(1)" icon="el-icon-search"  type="primary">查询</el-button>
      
         </el-form-item>
       </el-row>
@@ -45,18 +45,18 @@
     </el-table>
     <div class="pagination">
         <el-pagination
-          :current-page.sync="form.pageNo"
+          :current-page.sync="form.page"
           background
           @current-change="handleCurrentChange"
           layout="total,prev, pager, next,jumper"
           :total="pageTotal"
-          :page-size="form.pageSize"
+          :page-size="form.rows"
         ></el-pagination>
       </div>
     <!-- <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
     </t-grid>-->
     <!-- 弹窗, 新增 / 修改 -->
-    <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form>
+    <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form><aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
     <admin-change-password-form v-if="adminChangePasswordFormVisible" ref="adminChangePasswordForm"></admin-change-password-form>
     <t-excel-import
       @change="doSearch"
@@ -73,6 +73,7 @@
 <script>
 import EditForm from "./roleManagaWin/edit";
 import AdminChangePasswordForm from "./roleManagaWin/adminChangePassword";
+import AproveStep from "../comWin/aproveStep";
 // import moment from 'moment';
 // //import util from '@/util'
 export default {
@@ -80,15 +81,15 @@ export default {
     return {
       editFormVisible: true,
       adminChangePasswordFormVisible: false,
-      importExcelVisible: false,
-      importExcelService: "",
+     
+      
        pageTotal: 0,
       form:{
         searchKey:"",
         region:"",
         status:"",
-        pageNo:"",
-        pageSize:""
+        page:"",
+        rows:""
 
       },
       tableData3: [
@@ -134,6 +135,7 @@ export default {
   },
   components: {
     EditForm,
+    AproveStep,
     AdminChangePasswordForm
   },
   created() {},
@@ -203,8 +205,21 @@ export default {
     //     this.$refs.importExcel.show();
     //   })
     // },
-    doSearch() {
-      this.$refs.searchReulstList.refresh();
+    doSearch(value) {
+      this.form.page = value;
+    
+        let self = this;
+        var obj ={
+          url:this.$url.workflowdef.getList,
+          data:this.form
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+            
+            self.list = data.data.rows
+            self.total = data.data.total
+           
+        }
     }
   }
 };

@@ -50,6 +50,7 @@
 <script>
 import EditForm from "./financialDataWin/edit";
 import AdminChangePasswordForm from "./financialDataWin/adminChangePassword";
+import AproveStep from "../comWin/aproveStep";
 // import moment from 'moment';
 // //import util from '@/util'
 export default {
@@ -57,15 +58,15 @@ export default {
     return {
       editFormVisible: true,
       adminChangePasswordFormVisible: false,
-      importExcelVisible: false,
-      importExcelService: "",
+     
+      
       pageTotal: 0,
       form: {
         searchKey: "",
         region: "",
         status: "",
-        pageNo: "",
-        pageSize: ""
+        page: "",
+        rows: ""
       },
       tableData3: [
         {
@@ -109,6 +110,7 @@ export default {
   },
   components: {
     EditForm,
+    AproveStep,
     AdminChangePasswordForm
   },
   created() {},
@@ -176,8 +178,21 @@ export default {
     //     this.$refs.importExcel.show();
     //   })
     // },
-    doSearch() {
-      this.$refs.searchReulstList.refresh();
+    doSearch(value) {
+      this.form.page = value;
+    
+        let self = this;
+        var obj ={
+          url:this.$url.workflowdef.getList,
+          data:this.form
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+            
+            self.list = data.data.rows
+            self.total = data.data.total
+           
+        }
     }
   }
 };

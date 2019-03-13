@@ -11,7 +11,10 @@
 export default {
   data() {
     return {
-      visible: false,
+      visible: false, title:"添加",
+      disabled:false,
+      btn:"提交",
+      aproveVisible: false,
       orgTreeOptons: {
         dataSource: {
           serviceInstance: '',

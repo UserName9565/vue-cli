@@ -96,7 +96,10 @@
 export default {
   data() {
     return {
-      visible: false,
+      visible: false, title:"添加",
+      disabled:false,
+      btn:"提交",
+      aproveVisible: false,
       model: {},
       tableData3: [
         {
@@ -116,7 +119,7 @@ export default {
       let self = this;
       if (id) {
         // tapp.services.base_User.getUser(id).then(function(result) {
-        //   self.$refs.ruleForm.resetFields();
+        //   self.$refs.form.resetFields();
         //   self.model = result;
         // });
       }
@@ -138,7 +141,7 @@ export default {
     },
     dataFormSubmit() {
       let self = this;
-      self.$refs["ruleForm"].validate(valid => {
+      self.$refs["form"].validate(valid => {
         if (valid) {
           tapp.services.base_User
             .adminChangePassword(self.model)

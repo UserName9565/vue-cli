@@ -3,7 +3,7 @@
 <div>
   <el-tabs v-model="tabActive" @tab-click="handleTabClick" tab-position="right" class="fixed-header">
     <el-tab-pane label="客户资料" name="baseInfo">
-      <el-form :model="docEntity" ref="ruleForm" label-width="160px" 　:disabled="true">
+      <el-form :model="docEntity" ref="form" label-width="160px" 　:disabled="true">
         <el-row :gutter="20">
           <el-col>
             <h4>基本信息</h4>
@@ -32,7 +32,7 @@
         <company-edituc ref="comapnyEditUC" v-if="docEntity.formTemplateTypeId == 'pl_formtemplatetype_company'" :disabled="true"></company-edituc>
     
       </el-form>
-      <el-form ref="ruleForm" :model="taskEntity" label-width="160px">
+      <el-form ref="form" :model="taskEntity" label-width="160px">
 
         <el-row :gutter="20">
           <el-col :span="24">
@@ -181,7 +181,7 @@ export default {
       }
     },
     doApprove() {
-      this.$refs['ruleForm'].validate((valid) => {
+      this.$refs['form'].validate((valid) => {
         if (valid) {
 
           let self = this;

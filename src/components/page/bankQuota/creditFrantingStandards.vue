@@ -2,9 +2,9 @@
   <div class="container">
 <!-- 对手授信设定  -->
     
-    <el-form :inline="true" @keyup.enter.native="doSearch()">
+    <el-form :inline="true" @keyup.enter.native="doSearch(1)">
          <el-form-item>
-          <el-button @click="doSearch()" type="primary" >流程图</el-button>
+          <el-button @click="doSearch(1)" type="primary" >流程图</el-button>
            
         </el-form-item>
     </el-form>
@@ -43,15 +43,15 @@ export default {
     return {
       editFormVisible: true,
       adminChangePasswordFormVisible: false,
-      importExcelVisible: false,
-      importExcelService: "",
+     
+      
        pageTotal: 0,
       form:{
         searchKey:"",
         region:"",
         status:"",
-        pageNo:"",
-        pageSize:""
+        page:"",
+        rows:""
 
       },
      tableData3: [
@@ -345,8 +345,21 @@ export default {
     //     this.$refs.importExcel.show();
     //   })
     // },
-    doSearch() {
-      this.$refs.searchReulstList.refresh();
+    doSearch(value) {
+      this.form.page = value;
+    
+        let self = this;
+        var obj ={
+          url:this.$url.workflowdef.getList,
+          data:this.form
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+            
+            self.list = data.data.rows
+            self.total = data.data.total
+           
+        }
     }
   }
 };

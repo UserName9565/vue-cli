@@ -1,7 +1,7 @@
 <template>
   <div>
    <el-card class="mb20">
-    <el-form :inline="true" @keyup.enter.native="doSearch()">
+    <el-form :inline="true" @keyup.enter.native="doSearch(1)">
       <el-row>
          <el-col :span="24">
           <el-form-item label="金融机构">
@@ -21,7 +21,7 @@
          
          <el-col :span="24" class="btn-box">
         <el-form-item>
-          <el-button @click="doSearch()" icon="el-icon-search"  type="primary">查询</el-button>
+          <el-button @click="doSearch(1)" icon="el-icon-search"  type="primary">查询</el-button>
           <el-button icon="el-icon-plus" type="primary" @click="doNew()">新增</el-button>
            
         </el-form-item>
@@ -29,6 +29,8 @@
       </el-row>
     </el-form>
    </el-card>
+   <el-card>
+
     <el-table
       :data="tableData3"  :header-cell-style="{background:'#e0f3ff',color:'#5f95b7'}"
         
@@ -42,6 +44,7 @@
       <el-table-column align="center"  prop="address" label="同业定期收入(元)" width="180"></el-table-column>
       
     </el-table>
+   </el-card>
    
   </div>
 </template>
@@ -55,15 +58,15 @@ export default {
     return {
       editFormVisible: true,
       adminChangePasswordFormVisible: false,
-      importExcelVisible: false,
-      importExcelService: "",
+     
+      
        pageTotal: 0,
       form:{
         searchKey:"",
         region:"",
         status:"",
-        pageNo:"",
-        pageSize:""
+        page:"",
+        rows:""
 
       },
       tableData3: [
@@ -201,8 +204,21 @@ export default {
     //     this.$refs.importExcel.show();
     //   })
     // },
-    doSearch() {
-      this.$refs.searchReulstList.refresh();
+    doSearch(value) {
+      this.form.page = value;
+    
+        let self = this;
+        var obj ={
+          url:this.$url.workflowdef.getList,
+          data:this.form
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+            
+            self.list = data.data.rows
+            self.total = data.data.total
+           
+        }
     }
   }
 };

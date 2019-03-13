@@ -1,7 +1,7 @@
 
 <template>
 <el-dialog :title="formAction == 0 ? '新增企业关联人信息' : '修改企业关联人信息'" :close-on-click-modal="false" :visible.sync="visible" width="80%">
-  <el-form :model="model" ref="ruleForm" @keyup.enter.native="dataFormSubmit()" label-width="120px">
+  <el-form :model="model" ref="form" @keyup.enter.native="dataFormSubmit()" label-width="120px">
     <el-row :gutter="20">
       <el-col :span="8">
         <el-form-item label="关联人名称" prop="name" verify  :maxLength="50" class="is-required">
@@ -75,7 +75,10 @@ export default {
   data() {
     return {
       formAction: 0, //0 add,//1,edit
-      visible: false,
+      visible: false, title:"添加",
+      disabled:false,
+      btn:"提交",
+      aproveVisible: false,
       model: {
       },
     };
@@ -89,7 +92,7 @@ export default {
     self.visible = true;
     if (id) {
       tapp.services.pL_LoanEnterCustomerRelation.get(id).then(function(result) {
-        self.$refs.ruleForm.resetFields();
+        self.$refs.form.resetFields();
         self.model = result;
         self.formAction = 1;
       });
@@ -101,14 +104,14 @@ export default {
 
       self.formAction = 0;
       self.$nextTick(() => {
-        self.$refs.ruleForm.resetFields();
+        self.$refs.form.resetFields();
         self.formAction = 0;
       })
     }
   },
     dataFormSubmit() {
       let self = this;
-      self.$refs['ruleForm'].validate((valid) => {
+      self.$refs['form'].validate((valid) => {
         if (valid) {
           let model = self.model;
           tapp.services.pL_LoanEnterCustomerRelation.save(model).then(function(result) {

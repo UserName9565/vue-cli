@@ -1,11 +1,11 @@
 <template>
 <div class="mod-role">
-  <el-form :inline="true" @keyup.enter.native="doSearch()">
+  <el-form :inline="true" @keyup.enter.native="doSearch(1)">
     <el-form-item>
       <el-input style="width:300px" v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="申请编号、客户名称、身份证号" clearable></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button icon="el-icon-search"  type="primary"  @click="doSearch()">查询</el-button>
+      <el-button icon="el-icon-search"  type="primary"  @click="doSearch(1)">查询</el-button>
       <el-button icon="el-icon-download" @click="doExportExcel()">导出</el-button>
     </el-form-item>
   </el-form>
@@ -112,7 +112,7 @@ export default {
   created() {
 
     this.$nextTick(() => {
-      this.doSearch();
+      this.doSearch(1);
     });
   },
   methods: {
@@ -142,7 +142,7 @@ export default {
           taskRemark: '',
           docId: self.docId
         }).then(function(result) {
-          self.doSearch();
+          self.doSearch(1);
           self.$notify.success({
             title: '操作成功！',
             message: '签收任务成功！',
@@ -155,8 +155,21 @@ export default {
     doExportExcel() {
       this.$refs.searchReulstList.exportCSV('待办借款单据列表');
     },
-    doSearch() {
-      this.$refs.searchReulstList.refresh();
+    doSearch(value) {
+      this.form.page = value;
+    
+        let self = this;
+        var obj ={
+          url:this.$url.workflowdef.getList,
+          data:this.form
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+            
+            self.list = data.data.rows
+            self.total = data.data.total
+           
+        }
     }
   }
 }

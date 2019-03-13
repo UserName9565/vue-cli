@@ -137,16 +137,31 @@ export default [
     {icon: '',index: 'COD-accountApproval',title: '台账操作审批',id:'C7008',pid:"C7000"},
 
     {icon: '&#xe612;',index: 'entrustedInvestment',title: '委托投资业务',id:'D1000',pid:"D0000"},
-    {icon: '',index: 'EI-inquiry',title: '询价管理',id:'D1001',pid:"D1000"},
+    
+    {icon: '',index: 'EI-frameworkAgreement',title: '委托方框架协议',id:'D1011',pid:"D1000"},
+    {icon: '',index: 'EI-frameworkAgreementApproval',title: '框架协议审批',id:'D1012',pid:"D1000"},
+
     {icon: '',index: 'EI-businessPlanManag',title: '业务方案管理',id:'D1002',pid:"D1000"},
-    {icon: '',index: 'EI-businessPlanApproval',title: '业务方案审批',id:'D1003',pid:"D1000"},
+    {icon: '',index: 'EI-businessPlanApproval',title: '业务方案审批',id:'D1003',
+    pid:"D1000"},
+    {icon: '',index: 'EI-protocolNumber',title: '委投协议编号',id:'D1001',pid:"D1000"},
+    {icon: '',index: 'EI-protocolNumberApproval',title: '协议编号审批',id:'D1013',pid:"D1000"},
+
     {icon: '',index: 'EI-businessOperation',title: '业务操作',id:'D1004',pid:"D1000"},
     {icon: '',index: 'EI-businessOperationApproval',title: '业务操作审批',id:'D1005',pid:"D1000"},
-    {icon: '',index: 'EI-accountManag',title: '台账详单',id:'D1006',pid:"D1000"},
-    {icon: '',index: 'EI-accountApproval',title: '台账操作审批',id:'D1007',pid:"D1000"},
-    {icon: '',index: 'EI-principalReport',title: '委托方报告',id:'D1008',pid:"D1000"},
     {icon: '',index: 'EI-fundSplitAccount',title: '到期资金分账',id:'D1009',pid:"D1000"},
     {icon: '',index: 'EI-splittingOperation',title: '分账操作审批',id:'D1010',pid:"D1000"},
+
+    {icon: '',index: 'EI-interestSupplement',title: '投资补息业务',id:'D1014',pid:"D1000"},
+    {icon: '',index: 'EI-interestAtMaturity',title: '到期补息业务',id:'D1015',pid:"D1000"},
+    {icon: '',index: 'EI-interestSupplementApproval',title: '补息操作审批',id:'D1016',pid:"D1000"},
+
+    {icon: '',index: 'EI-accountManag',title: '台账详单',id:'D1006',pid:"D1000"},
+    {icon: '',index: 'EI-accountApproval',title: '台账操作审批',id:'D1007',pid:"D1000"},
+   
+    
+    
+    {icon: '',index: 'EI-principalReport',title: '委托方报告',id:'D1008',pid:"D1000"},
 
     {icon: '&#xe612;',index: 'financeCompany',title: '财务公司',id:'F1000',pid:"F0000"},
     // {icon: '',index: 'FC-bankFinancing',title: '银行理财',id:'F1001',pid:"F1000"},
@@ -154,7 +169,7 @@ export default [
     {icon: '',index: 'BF-inquiry',title: '银行理财',id:'F1001',pid:"F1000"},
 
     // {icon: '',index: 'FC-interbankDeposit',title: '同业存款',id:'F1002',pid:"F1000"},
-    {icon: '',index: 'ID-inquiry',title: '询价管理',id:'F1002',pid:"F1000"},
+    {icon: '',index: 'ID-inquiry',title: '同业存款',id:'F1002',pid:"F1000"},
 
     
 

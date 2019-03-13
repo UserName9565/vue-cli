@@ -83,7 +83,20 @@ export default {
         this.url = window.SITE_CONFIG['serverUrl'] + '/wf/processTrackImage.html?ProcessInstanceId=' + newValue;
         this.$nextTick(() => {
           this.gridOptions.dataSource.serviceInstanceInputParameters.categoryId = newValue;
-          this.$refs.searchReulstList.refresh();
+          this.form.page = value;
+    
+        let self = this;
+        var obj ={
+          url:this.$url.workflowdef.getList,
+          data:this.form
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+            
+            self.list = data.data.rows
+            self.total = data.data.total
+           
+        }
         });
       },
       deep: true,

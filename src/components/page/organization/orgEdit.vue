@@ -1,7 +1,7 @@
 
 <template>
 <el-dialog :title="(formAction == 0 ? '新增子项' : '修改') + '-' + parentOrgName" :close-on-click-modal="false" :visible.sync="visible" >
-  <el-form :model="model" ref="ruleForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+  <el-form :model="model" ref="form" @keyup.enter.native="dataFormSubmit()" label-width="80px">
     <el-row :gutter="20">
       <el-col :span="8">
         <el-form-item label="名称" prop="name" verify :maxLength="32" class="is-required">
@@ -47,7 +47,10 @@ export default {
     return {
       parentOrgName: '',
       formAction: 0, //0 add,//1,edit
-      visible: false,
+      visible: false, title:"添加",
+      disabled:false,
+      btn:"提交",
+      aproveVisible: false,
       model: {},
     };
   },
@@ -64,7 +67,7 @@ export default {
       this.model = {};
       this.model.parentId = id;
       this.$nextTick(() => {
-        this.$refs.ruleForm.resetFields();
+        this.$refs.form.resetFields();
       });
     },
     edit(id) {
@@ -73,14 +76,14 @@ export default {
       this.parentOrgName = id;
       let self = this;
       // tapp.services.base_Organization.get(id).then(function(result) {
-      //   self.$refs.ruleForm.resetFields();
+      //   self.$refs.form.resetFields();
       //   self.model = result;
 
       // });
     },
     dataFormSubmit() {
       let self = this;
-      self.$refs['ruleForm'].validate((valid) => {
+      self.$refs['form'].validate((valid) => {
         if (valid) {
           debugger;
           let model = self.model;

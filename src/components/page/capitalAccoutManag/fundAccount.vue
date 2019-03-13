@@ -2,7 +2,7 @@
 <!-- 活期类账户 -->
   <div>
     <el-card class="mb20">
-    <el-form :inline="true" @keyup.enter.native="doSearch()">
+    <el-form :inline="true" @keyup.enter.native="doSearch(1)">
       <el-row>
         <el-col :span="8">
           <el-form-item label="委托方账号">
@@ -22,7 +22,7 @@
         </el-col>
         <el-col :span="24" class="btn-box">
         <el-form-item>
-          <el-button @click="doSearch()" icon="el-icon-search"  type="primary">查询</el-button>
+          <el-button @click="doSearch(1)" icon="el-icon-search"  type="primary">查询</el-button>
           
         </el-form-item>
         </el-col>
@@ -50,41 +50,40 @@
     </el-table>
     <div class="pagination">
         <el-pagination
-          :current-page.sync="form.pageNo"
+          :current-page.sync="form.page"
           background
           @current-change="handleCurrentChange"
           layout="total,prev, pager, next,jumper"
           :total="pageTotal"
-          :page-size="form.pageSize"
+          :page-size="form.rows"
         ></el-pagination>
       </div>
        </el-card>
    
-    <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form>
-    <admin-change-password-form v-if="adminChangePasswordFormVisible" ref="adminChangePasswordForm"></admin-change-password-form>
+    <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form><aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
+    
     
   </div>
 </template>
 
 <script>
 import EditForm from "./principalManagWin/edit";
-import AdminChangePasswordForm from "./principalManagWin/adminChangePassword";
+import AproveStep from "../comWin/aproveStep";
 // import moment from 'moment';
 // //import util from '@/util'
 export default {
   data() {
     return {
       editFormVisible: true,
-      adminChangePasswordFormVisible: false,
-      importExcelVisible: false,
-      importExcelService: "",
+     
+      
        pageTotal: 0,
       form:{
         searchKey:"",
         region:"",
         status:"",
-        pageNo:"",
-        pageSize:""
+        page:"",
+        rows:""
 
       },
       tableData3: [
@@ -130,9 +129,11 @@ export default {
   },
   components: {
     EditForm,
-    AdminChangePasswordForm
+    AproveStep
   },
-  created() {},
+  created() {
+    this.doSearch(1)
+  },
   methods: {
     doNew() {
       this.editFormVisible = true;
@@ -147,60 +148,25 @@ export default {
         this.$refs.editForm.init("11");
       });
     },
-    doAdminChangePassword(row) {
-      this.adminChangePasswordFormVisible = true;
-
-      this.$nextTick(() => {
-         
-        this.$refs.adminChangePasswordForm.init(row.name);
-      });
-    },
     handleSelectionChange(val) {
       this.selectedRows = val;
-    },
-    doBatchDelete() {
-      let self = this;
-      if (!self.selectedRows || self.selectedRows.length == 0) {
-        self.$notify.info({
-          title: "系统提示",
-          message: "您没选择任何行，无法操作！"
-        });
-        return;
-      }
-      let ids = self.selectedRows.map(function(row) {
-        return row.id;
-      });
-      self
-        .$confirm(
-          "此操作将永久删除" + ids.length + "个用户, 是否继续?",
-          "提示",
-          {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            type: "warning"
-          }
-        )
-        .then(() => {
-          tapp.services.base_User.batchDelete(ids).then(function(result) {
-            self.$notify.success({
-              title: "系统删除成功",
-              message: "用户信息已删除成功！"
-            });
-            self.$refs.searchReulstList.refresh();
-          });
-        });
-    },
-    // doExportExcel() {
-    //   this.$refs.searchReulstList.exportCSV('用户列表');
-    // },
-    // doImportExcel() {
-    //   this.importExcelVisible = true;
-    //   this.$nextTick(() => {
-    //     this.$refs.importExcel.show();
-    //   })
-    // },
-    doSearch() {
-      this.$refs.searchReulstList.refresh();
+    } ,
+    doSearch(value) {
+       
+       this.form.page = value;
+    
+        let self = this;
+        var obj ={
+          url:this.$url.workflowdef.getList,
+          data:this.form
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+            
+            self.list = data.data.rows
+            self.total = data.data.total
+           
+        }
     }
   }
 };

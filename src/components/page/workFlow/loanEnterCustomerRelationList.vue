@@ -2,7 +2,7 @@
 <div>
   <el-row :gutter="20">
     <el-col>
-      <el-form :inline="true" @keyup.enter.native="doSearch()">
+      <el-form :inline="true" @keyup.enter.native="doSearch(1)">
         <el-form-item>
           <el-button icon="el-icon-plus" type="primary" @click="doNewPersonal()">新增个人</el-button>
           <el-button icon="el-icon-plus" type="primary" @click="doNewCompany()">新增企业</el-button>
@@ -22,6 +22,7 @@
 <script>
 import PersonalEditForm from './loanEnterCustomerRelationPersonalForm.vue'
 import CompanyEditForm from './loanEnterCustomerRelationCompanyForm.vue'
+import AproveStep from "../comWin/aproveStep";
 export default {
   props: {
     loanDocId: null,
@@ -90,6 +91,7 @@ export default {
 
   components: {
     PersonalEditForm,
+    AproveStep,
     CompanyEditForm
   },
   created() {
@@ -156,8 +158,21 @@ export default {
     doExportExcel() {
       this.$refs.searchReulstList.exportCSV('关联人信息列表');
     },
-    doSearch() {
-      this.$refs.searchReulstList.refresh();
+    doSearch(value) {
+      this.form.page = value;
+    
+        let self = this;
+        var obj ={
+          url:this.$url.workflowdef.getList,
+          data:this.form
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+            
+            self.list = data.data.rows
+            self.total = data.data.total
+           
+        }
     }
   }
 }

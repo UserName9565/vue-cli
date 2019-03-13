@@ -7,7 +7,7 @@
 
             <el-col :span="8">
 
-              <el-form :model="model" ref="ruleForm" @keyup.enter.native="dataFormSubmit()" label-width="120px">
+              <el-form :model="model" ref="form" @keyup.enter.native="dataFormSubmit()" label-width="120px">
 
                   <el-form-item label="业务编号">
                     <el-input  type="password"></el-input>
@@ -52,6 +52,8 @@
         </template>
       </el-table-column>
     </el-table>
+
+    
     <div class="table-title"  style="margin-top:20px">
       <el-button type="primary">保存</el-button>
       <el-button type="primary">生成审批表</el-button>
@@ -90,6 +92,38 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-card>
+
+      <el-form label-width="130px"  :model="model1" align="left">
+              <el-row :gutter="10">
+              <el-col :span="18" :offset="3">
+                <el-form-item label="是否需要上会决议:" prop="loginId" >
+                  <el-radio v-model="radio" label="1">备选项</el-radio>
+                  <el-radio v-model="radio" label="2">备选项</el-radio>
+                </el-form-item>
+              </el-col>
+              
+            
+            </el-row>
+            <el-row :gutter="10">
+              <el-col :span="18" :offset="3">
+                <el-form-item label="会议纪要:" prop="loginPassword" >
+                  <el-upload
+                    class="upload-demo"
+                    action="https://jsonplaceholder.typicode.com/posts/"
+                    :on-preview="handlePreview"
+                    :on-remove="handleRemove"
+                    :file-list="fileList2"
+                    list-type="picture">
+                    <el-button size="small" type="primary">点击上传</el-button>
+                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                  </el-upload>
+                </el-form-item>
+              </el-col>
+            </el-row>
+              
+            </el-form>
+    </el-card>
     <div class="table-title"  style="margin-top:20px">
       <el-button>取消</el-button>
       <el-button type="primary">提交</el-button>
@@ -98,7 +132,7 @@
     </el-tab-pane>
     
   </el-tabs>
-   <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form>
+   <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form><aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
    <el-dialog title="导入报价数据" :visible.sync="priceVisible">
      <el-card class="box-card">
       <div slot="header" class="clearfix">
@@ -128,8 +162,12 @@ export default {
       heightNu:0,
       editFormVisible:false,
       priceVisible:false,
-      visible: false,
+      visible: false, title:"添加",
+      disabled:false,
+      btn:"提交",
+      aproveVisible: false,
       listForMine:false,
+      fileList2: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
       tabActive: 'userInfo',
       model: {
           activited : true

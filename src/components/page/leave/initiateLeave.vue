@@ -10,10 +10,26 @@
                      <el-form-item label="userId">
                         <el-input v-model="form.userId"></el-input>
                     </el-form-item>
+                   
+                        <el-form-item label="userName">
+                        <el-input v-model="form.userName"></el-input>
+                        </el-form-item>
+                    
                      <el-form-item label="nextDealMan">
                         <el-input v-model="form.nextDealMan"></el-input>
                     </el-form-item>
-                   
+                   <el-form-item label="businessKey">
+                        <el-input v-model="form.businessKey"></el-input>
+                    </el-form-item>
+                    <el-form-item label="businessType">
+                        <el-input v-model="form.businessType"></el-input>
+                    </el-form-item>
+                
+                    
+                        <el-form-item label="businessTypeName">
+                        <el-input v-model="form.businessTypeName"></el-input>
+                        </el-form-item>
+                  
                     <el-form-item>
                         <el-button type="primary" @click="onSubmit">确定</el-button>
                         <el-button>取消</el-button>
@@ -42,10 +58,12 @@
                     name: '',
                     region: '',
                     userId:'1',
-                    businessKey:"001",
                     processDefinitionKey:"leave-process3",
                     nextDealMan:"admin",
-                    businessType:'1'
+                    businessKey:"001",
+                    businessType:'1',
+                    businessTypeName:"",
+                    userName:""
                 }
             }
         },

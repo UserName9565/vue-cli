@@ -2,7 +2,7 @@
 
 <template>
 <el-dialog title="修改密码" :visible.sync="visible" :append-to-body="true">
-  <el-form :model="model" ref="ruleForm" @keyup.enter.native="dataFormSubmit()" label-width="120px">
+  <el-form :model="model" ref="form" @keyup.enter.native="dataFormSubmit()" label-width="120px">
     <el-form-item label="姓名">
       <span>{{ model.name }}</span>
     </el-form-item>
@@ -29,7 +29,10 @@ export default {
   data() {
 
     return {
-      visible: false,
+      visible: false, title:"添加",
+      disabled:false,
+      btn:"提交",
+      aproveVisible: false,
       model: {},
     }
   },
@@ -46,7 +49,7 @@ export default {
       let self = this;
       if (id) {
         // tapp.services.base_User.getUser(id).then(function(result) {
-        //   self.$refs.ruleForm.resetFields();
+        //   self.$refs.form.resetFields();
         //   self.model = result;
         // });
       }
@@ -66,7 +69,7 @@ export default {
     },
     dataFormSubmit() {
       let self = this;
-      self.$refs['ruleForm'].validate((valid) => {
+      self.$refs['form'].validate((valid) => {
         if (valid) {
           tapp.services.base_User.adminChangePassword(self.model).then(function(result) {
             self.$notify.success({

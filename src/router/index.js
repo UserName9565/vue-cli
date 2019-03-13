@@ -643,6 +643,34 @@ export default new Router({
                     path: '/EI-splittingOperation',
                     component: resolve => require(['../components/page/entrustedInvestment/EI-splittingOperation'], resolve),
                     meta: { title: '分账操作审批' }
+                },{
+                    path: '/EI-frameworkAgreement',
+                    component: resolve => require(['../components/page/entrustedInvestment/EI-frameworkAgreement'], resolve),
+                    meta: { title: '委托方框架协议' }
+                },{
+                    path: '/EI-frameworkAgreementApproval',
+                    component: resolve => require(['../components/page/entrustedInvestment/EI-frameworkAgreementApproval'], resolve),
+                    meta: { title: '框架协议审批' }
+                },{
+                    path: '/EI-protocolNumber',
+                    component: resolve => require(['../components/page/entrustedInvestment/EI-protocolNumber'], resolve),
+                    meta: { title: '委投协议编号' }
+                },{
+                    path: '/EI-protocolNumberApproval',
+                    component: resolve => require(['../components/page/entrustedInvestment/EI-protocolNumberApproval'], resolve),
+                    meta: { title: '协议编号审批' }
+                },{
+                    path: '/EI-interestSupplement',
+                    component: resolve => require(['../components/page/entrustedInvestment/EI-interestSupplement'], resolve),
+                    meta: { title: '投资补息业务' }
+                },{
+                    path: '/EI-interestAtMaturity',
+                    component: resolve => require(['../components/page/entrustedInvestment/EI-interestAtMaturity'], resolve),
+                    meta: { title: '到期补息业务' }
+                },{
+                    path: '/EI-interestSupplementApproval',
+                    component: resolve => require(['../components/page/entrustedInvestment/EI-interestSupplementApproval'], resolve),
+                    meta: { title: '补息操作审批' }
                 }
                 
                 // {logManag

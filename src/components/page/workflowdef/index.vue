@@ -2,9 +2,9 @@
 <div class="container">
 
 <div class="mod-role">
-  <el-form :inline="true" @keyup.enter.native="doSearch()">
+  <el-form :inline="true" @keyup.enter.native="doSearch(1)">
     <el-form-item>
-      <el-input v-model="ruleForm.searchKey" placeholder="模型名称" clearable></el-input>
+      <el-input v-model="form.searchKey" placeholder="模型名称" clearable></el-input>
     </el-form-item>
     <el-form-item>
       <el-button icon="el-icon-search"  type="primary" @click="doSearch(1)">查询</el-button>
@@ -50,7 +50,7 @@
       
       @current-change="doSearch"
       :current-page="currentPage4"
-      :page-size="ruleForm.maxResultCount"
+      :page-size="form.maxResultCount"
       layout="total, prev, pager, next, jumper"
       :total="total">
     </el-pagination>
@@ -69,6 +69,7 @@
 import EditForm from './edit'
 import DesignForm from './design'
 import CodeViewForm from './codeView'
+import AproveStep from "../comWin/aproveStep";
  
 export default {
   data() {
@@ -84,7 +85,7 @@ export default {
       },
       total:0,
       list:[],
-      ruleForm:{
+      form:{
         skipCount:1,
         maxResultCount:10,
         searchKey:''
@@ -93,6 +94,7 @@ export default {
   },
   components: {
     EditForm,
+    AproveStep,
     DesignForm,
     CodeViewForm
   },
@@ -107,16 +109,16 @@ export default {
     },
      
     doSearch(value){
-      this.ruleForm.skipCount = value;
+      this.form.skipCount = value;
     
         let self = this;
         var obj ={
           url:this.$url.workflowdef.getList,
-          data:this.ruleForm
+          data:this.form
         }
         this.common.httpPost(obj,success);
         function success(data){
-            
+            console.log(data)
             self.list = data.data.rows
             self.total = data.data.total
            
@@ -249,8 +251,21 @@ export default {
       this.$refs.searchReulstList.exportCSV('模型列表');
     }
     // ,
-    // doSearch() {
-    //   this.$refs.searchReulstList.refresh();
+    // doSearch(value) {
+    //   this.form.page = value;
+    
+        // let self = this;
+        // var obj ={
+        //   url:this.$url.workflowdef.getList,
+        //   data:this.form
+        // }
+        // this.common.httpPost(obj,success);
+        // function success(data){
+            
+        //     self.list = data.data.rows
+        //     self.total = data.data.total
+           
+        // }
     // }
   }
 }

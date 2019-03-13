@@ -1,12 +1,12 @@
 <template>
 <el-dialog :title="'选择用户信息'" :close-on-click-modal="false" :visible.sync="visible" :modal="false">
   <div class="mod-role">
-    <el-form :inline="true" @keyup.enter.native="doSearch()">
+    <el-form :inline="true" @keyup.enter.native="doSearch(1)">
       <el-form-item>
         <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="登录名或者姓名" clearable></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="doSearch()">查询</el-button>
+        <el-button @click="doSearch(1)">查询</el-button>
         <el-button @click="doExportExcel()">导出</el-button>
       </el-form-item>
     </el-form>
@@ -20,7 +20,10 @@
 export default {
   data() {
     return {
-      visible: false,
+      visible: false, title:"添加",
+      disabled:false,
+      btn:"提交",
+      aproveVisible: false,
       gridOptions: {
         dataSource: {
           loadDataOnFirst: false,
@@ -80,7 +83,20 @@ export default {
 
       this.$nextTick(() => {
         this.gridOptions.dataSource.serviceInstanceInputParameters.roleCategoryId = roleCategoryId;
-        this.$refs.searchReulstList.refresh();
+        this.form.page = value;
+    
+        let self = this;
+        var obj ={
+          url:this.$url.workflowdef.getList,
+          data:this.form
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+            
+            self.list = data.data.rows
+            self.total = data.data.total
+           
+        }
       })
     },
     doSelect(key, row) {
@@ -90,8 +106,21 @@ export default {
     doExportExcel() {
       this.$refs.searchReulstList.exportCSV('用户列表');
     },
-    doSearch() {
-      this.$refs.searchReulstList.refresh();
+    doSearch(value) {
+      this.form.page = value;
+    
+        let self = this;
+        var obj ={
+          url:this.$url.workflowdef.getList,
+          data:this.form
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+            
+            self.list = data.data.rows
+            self.total = data.data.total
+           
+        }
     }
   }
 }

@@ -2,7 +2,7 @@
 <el-dialog :title="formAction == 0 ? '新增用户信息' : '修改用户信息'" :close-on-click-modal="false" :visible.sync="visible">
   <el-tabs v-model="tabActive" @tab-click="handleTabClick">
     <el-tab-pane label="基本信息" name="userInfo">
-      <el-form :model="model"  ref="ruleForm" label-width="100px" v-show="tabActive =='userInfo'">
+      <el-form :model="model"  ref="form" label-width="100px" v-show="tabActive =='userInfo'">
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="登录名" prop="loginId" verify  :maxLength="50" class="is-required">
@@ -39,22 +39,12 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <!-- <el-row :gutter="20">
-          <el-col>
-            <el-form-item label="备注" prop="remark"  verify can-be-empty :maxLength="200">
-              <el-input :autosize="{ minRows: 2, maxRows: 4}" v-model="model.remark"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row> -->
       </el-form>
     </el-tab-pane>
     <el-tab-pane label="所属机构" name="orgin">
-      <!-- <t-tree ref="userRoleTree" :options="userRoleTreeOptons" v-show="tabActive =='orgin'">
-      </t-tree> -->
       <el-tree :data="treeData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
     </el-tab-pane>
     <el-tab-pane label="角色权限" name="roleInfo">
-            
              <el-select v-model="value5"  multiple placeholder="请选择">
             <el-option
               v-for="item in options"
@@ -63,8 +53,6 @@
               :value="item.value">
             </el-option>
           </el-select>
-          
-      
       
     </el-tab-pane>
   </el-tabs>
@@ -74,8 +62,6 @@
   </span>
 </el-dialog>
 </template>
-
-
 <script>
 export default {
   data() {
@@ -83,7 +69,10 @@ export default {
 
     return {
       formAction: 0, //0 add,//1,edit
-      visible: false,
+      visible: false, title:"添加",
+      disabled:false,
+      btn:"提交",
+      aproveVisible: false,
       tabActive: 'userInfo',
       model: {
           activited : true
@@ -162,19 +151,21 @@ export default {
       this.tabActive = 'userInfo';
       let self = this;
       if (id) {
+        self.formAction = 1;
         // tapp.services.base_User.getUser(id).then(function(result) {
         //   self.model = result;
-        //   self.$refs.ruleForm.resetFields();
+        //   self.$refs.form.resetFields();
         //   self.$refs.userRoleTree.setCheckedKeys(result.roleIds);
         //   self.formAction = 1;
         // });
       } else {
+        self.formAction = 0;
         self.model = {
             activited : true
         };
 
         self.$nextTick(() => {
-          // self.$refs.ruleForm.resetFields();
+          // self.$refs.form.resetFields();
           // self.$refs.userRoleTree.setCheckedKeys([]);
           // self.formAction = 0;
         })
@@ -195,7 +186,7 @@ export default {
 
     dataFormSubmit() {
       let self = this;
-      self.$refs['ruleForm'].validate((valid) => {
+      self.$refs['form'].validate((valid) => {
         if (valid) {
           let model = self.model;
           model.roleIds = self.$refs.userRoleTree.getCheckedKeys();

@@ -7,7 +7,7 @@
 
             <el-col :span="8">
 
-              <el-form :model="model" ref="ruleForm" @keyup.enter.native="dataFormSubmit()" label-width="120px">
+              <el-form :model="model" ref="form" @keyup.enter.native="dataFormSubmit()" label-width="120px">
 
                   <el-form-item label="业务编号">
                     <el-input  type="password"></el-input>
@@ -128,7 +128,7 @@
     </el-tab-pane>
     
   </el-tabs>
-   <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form>
+   <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form><aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
    <el-dialog title="导入报价数据" :visible.sync="priceVisible">
      <el-card class="box-card">
       <div slot="header" class="clearfix">
@@ -158,7 +158,10 @@ export default {
       heightNu:0,
       editFormVisible:false,
       priceVisible:false,
-      visible: false,
+      visible: false, title:"添加",
+      disabled:false,
+      btn:"提交",
+      aproveVisible: false,
       listForMine:false,
       tabActive: 'userInfo',
       model: {

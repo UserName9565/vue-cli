@@ -1,11 +1,11 @@
 <template>
 <div class="mod-role">
-  <el-form :inline="true" @keyup.enter.native="doSearch()">
+  <el-form :inline="true" @keyup.enter.native="doSearch(1)">
     <el-form-item>
       <el-input v-model="gridOptions.dataSource.serviceInstanceInputParameters.searchKey" placeholder="名称" clearable></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button icon="el-icon-search"  type="primary" @click="doSearch()">查询</el-button>
+      <el-button icon="el-icon-search"  type="primary" @click="doSearch(1)">查询</el-button>
       <el-button icon="el-icon-plus" type="primary" @click="doNew()">新增</el-button>
       <el-button icon="el-icon-delete" type="danger" @click="doBatchDelete()" :disabled="selectedRows.length <= 0">批量删除</el-button>
       <el-button icon="el-icon-download" @click="doExportExcel()">导出</el-button>
@@ -14,12 +14,13 @@
   <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
   </t-grid>
   <!-- 弹窗, 新增 / 修改 -->
-  <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form>
+  <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form><aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
 </div>
 </template>
 
 <script>
 import EditForm from './loanProductTypeForm'
+import AproveStep from "../comWin/aproveStep";
 export default {
   data() {
     return {
@@ -66,6 +67,7 @@ export default {
   },
   components: {
     EditForm,
+    AproveStep,
   },
   created() {
 
@@ -115,8 +117,21 @@ export default {
     doExportExcel() {
       this.$refs.searchReulstList.exportCSV('产品类型列表');
     },
-    doSearch() {
-      this.$refs.searchReulstList.refresh();
+    doSearch(value) {
+      this.form.page = value;
+    
+        let self = this;
+        var obj ={
+          url:this.$url.workflowdef.getList,
+          data:this.form
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+            
+            self.list = data.data.rows
+            self.total = data.data.total
+           
+        }
     }
   }
 }

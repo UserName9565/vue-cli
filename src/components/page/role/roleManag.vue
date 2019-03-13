@@ -2,7 +2,7 @@
   <!-- 角色管理 -->
   <div>
     <el-card class="mb20">
-      <el-form :inline="true" @keyup.enter.native="doSearch()">
+      <el-form :inline="true" @keyup.enter.native="doSearch(1)">
         <el-row :gutter="10">
           <el-col :span="8">
             <el-form-item label="角色名称">
@@ -11,7 +11,7 @@
           </el-col>
           <el-col :span="24" class="btn-box">
             <el-form-item>
-              <el-button @click="doSearch()" icon="el-icon-search" type="primary">查询</el-button>
+              <el-button @click="doSearch(1)" icon="el-icon-search" type="primary">查询</el-button>
               <el-button icon="el-icon-plus" type="primary" @click="doNew()">新增</el-button>
             </el-form-item>
           </el-col>
@@ -35,31 +35,32 @@
         <el-table-column align="center" prop="address" label="角色状态"></el-table-column>
         <el-table-column align="center" fixed="left" label="操作" width="130">
           <template slot-scope="scope">
-            <el-button @click="doEdit(scope.row)" type="text" size="mini">查看</el-button>
+            <el-button @click="doEdit(scope.row,1)" type="text" size="mini">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
       <div class="pagination">
         <el-pagination
-          :current-page.sync="form.pageNo"
+          :current-page.sync="form.page"
           background
           @current-change="handleCurrentChange"
           layout="total,prev, pager, next,jumper"
           :total="pageTotal"
-          :page-size="form.pageSize"
+          :page-size="form.rows"
         ></el-pagination>
       </div>
     </el-card>
     <!-- <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
     </t-grid>-->
     <!-- 弹窗, 新增 / 修改 -->
-    <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form>
+    <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form><aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
   </div>
 </template>
 
 <script>
 import EditForm from "./roleManagaWin/edit";
-import AdminChangePasswordForm from "./roleManagaWin/adminChangePassword";
+// import AdminChangePasswordForm from "./roleManagaWin/adminChangePassword";
+import AproveStep from "../comWin/aproveStep";
 // import moment from 'moment';
 // //import util from '@/util'
 export default {
@@ -67,15 +68,15 @@ export default {
     return {
       editFormVisible: true,
       adminChangePasswordFormVisible: false,
-      importExcelVisible: false,
-      importExcelService: "",
+     
+      
       pageTotal: 0,
       form: {
         searchKey: "",
         region: "",
         status: "",
-        pageNo: "",
-        pageSize: ""
+        page: "",
+        rows: ""
       },
       tableData3: [
         {
@@ -119,75 +120,44 @@ export default {
   },
   components: {
     EditForm,
-    AdminChangePasswordForm
+    AproveStep 
   },
-  created() {},
+  created() {
+    this.doSearch(1);
+  },
   methods: {
     doNew() {
       this.editFormVisible = true;
+    
       this.$nextTick(() => {
-        this.$refs.editForm.init(null);
+        this.$refs.editForm.init(null,0);
       });
     },
-    doEdit(row) {
+    doEdit(row,type) {
       this.editFormVisible = true;
       this.$nextTick(() => {
-        this.$refs.editForm.init("11");
+        this.$refs.editForm.init("11",type);
       });
     },
-    doAdminChangePassword(row) {
-      this.adminChangePasswordFormVisible = true;
-
-      this.$nextTick(() => {
-        this.$refs.adminChangePasswordForm.init(row.name);
-      });
-    },
+    
     handleSelectionChange(val) {
       this.selectedRows = val;
     },
-    doBatchDelete() {
-      let self = this;
-      if (!self.selectedRows || self.selectedRows.length == 0) {
-        self.$notify.info({
-          title: "系统提示",
-          message: "您没选择任何行，无法操作！"
-        });
-        return;
-      }
-      let ids = self.selectedRows.map(function(row) {
-        return row.id;
-      });
-      self
-        .$confirm(
-          "此操作将永久删除" + ids.length + "个用户, 是否继续?",
-          "提示",
-          {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            type: "warning"
-          }
-        )
-        .then(() => {
-          tapp.services.base_User.batchDelete(ids).then(function(result) {
-            self.$notify.success({
-              title: "系统删除成功",
-              message: "用户信息已删除成功！"
-            });
-            self.$refs.searchReulstList.refresh();
-          });
-        });
-    },
-    // doExportExcel() {
-    //   this.$refs.searchReulstList.exportCSV('用户列表');
-    // },
-    // doImportExcel() {
-    //   this.importExcelVisible = true;
-    //   this.$nextTick(() => {
-    //     this.$refs.importExcel.show();
-    //   })
-    // },
-    doSearch() {
-      this.$refs.searchReulstList.refresh();
+    doSearch(value) {
+       this.form.page = value;
+    
+        let self = this;
+        var obj ={
+          url:this.$url.workflowdef.getList,
+          data:this.form
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+            
+            self.list = data.data.rows
+            self.total = data.data.total
+           
+        }
     }
   }
 };

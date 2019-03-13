@@ -12,7 +12,10 @@ export default {
   data() {
     return {
       designSrc: null,
-      visible: false,
+      visible: false, title:"添加",
+      disabled:false,
+      btn:"提交",
+      aproveVisible: false,
       iframeHeight:'800px', 
     };
   },

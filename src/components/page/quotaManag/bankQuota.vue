@@ -2,7 +2,7 @@
   <div>
     <!-- 交易对手额度占用情况 -->
     <el-card class="mb20">
-      <el-form :inline="true" @keyup.enter.native="doSearch()">
+      <el-form :inline="true" @keyup.enter.native="doSearch(1)">
         <el-row>
           <el-col :span="8">
             <el-form-item label="开始时间">
@@ -11,7 +11,7 @@
           </el-col>
           <el-col :span="24" class="btn-box">
           <el-form-item>
-            <el-button @click="doSearch()" icon="el-icon-search" type="primary">查询</el-button>
+            <el-button @click="doSearch(1)" icon="el-icon-search" type="primary">查询</el-button>
           </el-form-item>
            </el-col>
         </el-row>
@@ -34,7 +34,7 @@
       </el-table>
     </el-card>
 
-    <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form>
+    <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form><aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
   </div>
 </template>
 <style>
@@ -52,15 +52,15 @@ export default {
     return {
       editFormVisible: true,
       adminChangePasswordFormVisible: false,
-      importExcelVisible: false,
-      importExcelService: "",
+     
+      
       pageTotal: 0,
       form: {
         searchKey: "",
         region: "",
         status: "",
-        pageNo: "",
-        pageSize: ""
+        page: "",
+        rows: ""
       },
       tableData3: [
         {
@@ -242,8 +242,21 @@ export default {
     //     this.$refs.importExcel.show();
     //   })
     // },
-    doSearch() {
-      this.$refs.searchReulstList.refresh();
+    doSearch(value) {
+      this.form.page = value;
+    
+        let self = this;
+        var obj ={
+          url:this.$url.workflowdef.getList,
+          data:this.form
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+            
+            self.list = data.data.rows
+            self.total = data.data.total
+           
+        }
     }
   }
 };

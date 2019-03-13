@@ -1,7 +1,7 @@
 
 <template>
 <el-dialog :title="formAction == 0 ? '新增产品类型' : '修改产品类型'" :visible.sync="visible" :append-to-body="true">
-  <el-form :model="headerEntity" ref="ruleForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+  <el-form :model="headerEntity" ref="form" @keyup.enter.native="dataFormSubmit()" label-width="80px">
     <el-form-item label="名称" prop="name" verify :maxLength="50" class="is-required">
       <el-input v-model="headerEntity.name"></el-input>
     </el-form-item>
@@ -71,7 +71,10 @@
 export default {
   data() {
     return {
-      visible: false,
+      visible: false, title:"添加",
+      disabled:false,
+      btn:"提交",
+      aproveVisible: false,
       formAction: 0,
       headerEntity: {},
       detailEntityList: [],
@@ -100,7 +103,7 @@ export default {
 
       this.visible = true;
       this.$nextTick(() => {
-        this.$refs.ruleForm.resetFields();
+        this.$refs.form.resetFields();
       });
 
       let self = this;
@@ -184,7 +187,7 @@ export default {
     },
     dataFormSubmit(formName) {
       let self = this;
-      self.$refs['ruleForm'].validate((valid) => {
+      self.$refs['form'].validate((valid) => {
         let headerEntity = self.headerEntity;
         let detailEntityList = self.detailEntityList.filter(p => p.entity != null).map(p => {
           let innerEntity = p.entity;

@@ -60,19 +60,19 @@
       <el-table-column align="center"  prop="address" label="审批状态" width="180"></el-table-column>
       <el-table-column align="center"  fixed="left" label="操作" width="130">
         <template slot-scope="scope">
-          <el-button @click="doEdit(scope.row)" type="text" size="mini">查看</el-button>
+          <el-button @click="doEdit(scope.row,1)" type="text" size="mini">编辑</el-button>
           <el-button @click="doAdminChangePassword(scope.row)" type="text" size="mini">重置密码</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="pagination">
         <el-pagination
-          :current-page.sync="form.pageNo"
+          :current-page.sync="form.page"
           background
           @current-change="doSearch"
           layout="total,prev, pager, next,jumper"
           :total="pageTotal"
-          :page-size="form.pageSize"
+          :page-size="form.rows"
         ></el-pagination>
       </div>
    </el-card>
@@ -85,20 +85,21 @@
 <script>
 import EditForm from "./userManagaWin/edit";
 import AdminChangePasswordForm from "./userManagaWin/adminChangePassword";
-// import moment from 'moment';
-// //import util from '@/util'
+import AproveStep from "../comWin/aproveStep";
+// import {mapState,mapMutations} from "vuex";
 export default {
   data() {
+    
     return {
       editFormVisible: true,
       adminChangePasswordFormVisible: false,
-       pageTotal: 1,
+      pageTotal: 0,
       form:{
         searchKey:"",
         region:"",
         status:"",
-        pageNo:"",
-        pageSize:""
+        page:"1",
+        rows:"10"
 
       },
       tableData3: [
@@ -144,21 +145,24 @@ export default {
   },
   components: {
     EditForm,
+    AproveStep,
     AdminChangePasswordForm
   },
-  created() {},
+  created() {
+    this.doSearch(1);
+  },
   methods: {
     doNew() {
       this.editFormVisible = true;
       this.$nextTick(() => {
-        this.$refs.editForm.init(null);
+        this.$refs.editForm.init(null,0);
       });
     },
-    doEdit(row) {
+    doEdit(row,type) {
       this.editFormVisible = true;
       this.$nextTick(() => {
          
-        this.$refs.editForm.init("11");
+        this.$refs.editForm.init("11",type);
       });
     },
     doAdminChangePassword(row) {
@@ -207,12 +211,12 @@ export default {
    
     doSearch(value) {
        
-       this.ruleForm.skipCount = value;
+       this.form.page = value;
     
         let self = this;
         var obj ={
           url:this.$url.workflowdef.getList,
-          data:this.ruleForm
+          data:this.form
         }
         this.common.httpPost(obj,success);
         function success(data){

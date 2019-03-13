@@ -2,7 +2,7 @@
 <!-- 角色审批 -->
   <div>
     <el-card class="mb20">
-      <el-form :inline="true" @keyup.enter.native="doSearch()">
+      <el-form :inline="true" @keyup.enter.native="doSearch(1)">
         <el-row :gutter="10">
           <el-col :span="8">
             <el-form-item label="申请时间">
@@ -21,7 +21,7 @@
          
           <el-col :span="24" class="btn-box">
             <el-form-item >
-              <el-button @click="doSearch()" icon="el-icon-search"  type="primary" >查询</el-button>
+              <el-button @click="doSearch(1)" icon="el-icon-search"  type="primary" >查询</el-button>
               <el-button icon="el-icon-plus" type="primary" @click="doNew()">新增</el-button>
             </el-form-item>
           </el-col>
@@ -49,16 +49,16 @@
       </el-table>
       <div class="pagination">
         <el-pagination
-          :current-page.sync="form.pageNo"
+          :current-page.sync="form.page"
           background
           @current-change="handleCurrentChange"
           layout="total,prev, pager, next,jumper"
           :total="pageTotal"
-          :page-size="form.pageSize"
+          :page-size="form.rows"
         ></el-pagination>
       </div>
 
-      <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form>
+      <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form><aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
     </el-card>
   </div>
 </template>
@@ -77,8 +77,8 @@ export default {
         searchKey: "",
         region: "",
         status: "",
-        pageNo: "",
-        pageSize: ""
+        page: "",
+        rows: ""
       },
       tableData3: [
         {
@@ -188,8 +188,21 @@ export default {
     //     this.$refs.importExcel.show();
     //   })
     // },
-    doSearch() {
-      this.$refs.searchReulstList.refresh();
+    doSearch(value) {
+      this.form.page = value;
+    
+        let self = this;
+        var obj ={
+          url:this.$url.workflowdef.getList,
+          data:this.form
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+            
+            self.list = data.data.rows
+            self.total = data.data.total
+           
+        }
     }
   }
 };

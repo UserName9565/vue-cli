@@ -1,7 +1,7 @@
 
 <template>
 <el-dialog title="个人信息" :visible.sync="visible" :append-to-body="true">
-  <el-form :model="model"  ref="ruleForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+  <el-form :model="model"  ref="form" @keyup.enter.native="dataFormSubmit()" label-width="80px">
     <el-form-item label="姓名" prop="name" verify  :maxLength="50" class="is-required">
       <el-input v-model="model.name"></el-input>
     </el-form-item>
@@ -26,7 +26,10 @@
 export default {
   data() {
     return {
-      visible: false,
+      visible: false, title:"添加",
+      disabled:false,
+      btn:"提交",
+      aproveVisible: false,
       model: {},
     }
   },
@@ -43,12 +46,12 @@ export default {
       let self = this;
       tapp.services.base_User.getCurrentUserInfo().then(function(result) {
         self.model = result;
-        self.$refs.ruleForm.resetFields();
+        self.$refs.form.resetFields();
       });
     },
     dataFormSubmit(formName) {
       let self = this;
-      self.$refs['ruleForm'].validate((valid) => {
+      self.$refs['form'].validate((valid) => {
         if (valid) {
           tapp.services.base_User.modifyMyProfile(self.model).then(function(result) {
             self.$store.commit('profile', {

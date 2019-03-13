@@ -24,12 +24,12 @@
       </el-table>
       <div class="pagination">
         <el-pagination
-          :current-page.sync="form.pageNo"
+          :current-page.sync="form.page"
           background
           @current-change="handleCurrentChange"
           layout="total,prev, pager, next,jumper"
           :total="pageTotal"
-          :page-size="form.pageSize"
+          :page-size="form.rows"
         ></el-pagination>
       </div>
     </div>
@@ -83,14 +83,14 @@ export default {
   data() {
     return {
       form: {
-        pageNo: "1",
+        page: "1",
         workName: "",
         userState: "0",
         userName: "admin",
         userId: "df655ad8d3229f3269fad2a8bab59b6c",
         workAccount: "admin",
         workDepartNumber: "1",
-        pageSize: 2,
+        rows: 2,
         desc: "",
         date1: "",
         date2: "",

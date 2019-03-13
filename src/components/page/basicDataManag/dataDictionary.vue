@@ -6,7 +6,7 @@
           <el-card class="mb20">
 
           
-      <el-form :inline="true" @keyup.enter.native="doSearch()">
+      <el-form :inline="true" @keyup.enter.native="doSearch(1)">
 
           <el-col :span="8">
             <el-form-item label="类别">
@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="24" class="btn-box">
             <el-form-item>
-              <el-button @click="doSearch()" icon="el-icon-search" type="primary">查询</el-button>
+              <el-button @click="doSearch(1)" icon="el-icon-search" type="primary">查询</el-button>
              
             </el-form-item>
           </el-col>
@@ -86,7 +86,7 @@
         </el-tabs>-->
       </el-col>
     </el-row>
-  <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form>
+  <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form><aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
   <add-form v-if="addFormVisible" ref="addForm" @change="doSearch"></add-form>
   </div>
 </template>
@@ -100,6 +100,7 @@
 <script>
 import EditForm from './dataDictionaryWin/edit'
 import AddForm from './dataDictionaryWin/add'
+import AproveStep from "../comWin/aproveStep";
 export default {
   data() {
     return {
@@ -289,6 +290,7 @@ export default {
   },
   components: {
     EditForm,
+    AproveStep,
     AddForm
   },
   computed: {

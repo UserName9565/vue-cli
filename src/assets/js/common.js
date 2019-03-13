@@ -32,11 +32,18 @@ let common = {
                     obj.url,
                     qs.stringify(obj.data))
                 .then(function (response) {
-                    success(response)
+                    response = response.data;
+                     
+                    if(response.code ==1){
+
+                        success(response.data)
+                    }else{
+                        bus.$notify.error("请求失败");
+                    }
                 })
                 .catch(function (msgE) {
                     bus.$notify.error("请求失败");
-                    error(msgE)
+                   // error(msgE)
                 });
     },
     webpage(obj,success){

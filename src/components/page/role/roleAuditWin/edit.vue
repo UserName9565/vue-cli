@@ -2,7 +2,7 @@
 <el-dialog :title="formAction == 0 ? '新增用户信息' : '修改用户信息'" :close-on-click-modal="false" :visible.sync="visible">
   <el-tabs v-model="tabActive" @tab-click="handleTabClick">
     <el-tab-pane label="基本信息" name="userInfo">
-      <el-form :model="model"  ref="ruleForm" label-width="100px" v-show="tabActive =='userInfo'">
+      <el-form :model="model"  ref="form" label-width="100px" v-show="tabActive =='userInfo'">
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="登录名" prop="loginId" verify  :maxLength="50" class="is-required">
@@ -83,7 +83,10 @@ export default {
 
     return {
       formAction: 0, //0 add,//1,edit
-      visible: false,
+      visible: false, title:"添加",
+      disabled:false,
+      btn:"提交",
+      aproveVisible: false,
       tabActive: 'userInfo',
       model: {
           activited : true
@@ -153,7 +156,7 @@ export default {
     };
   },
   created() {
-
+    
   },
   activated() {},
   methods: {
@@ -164,7 +167,7 @@ export default {
       if (id) {
         // tapp.services.base_User.getUser(id).then(function(result) {
         //   self.model = result;
-        //   self.$refs.ruleForm.resetFields();
+        //   self.$refs.form.resetFields();
         //   self.$refs.userRoleTree.setCheckedKeys(result.roleIds);
         //   self.formAction = 1;
         // });
@@ -174,7 +177,7 @@ export default {
         };
 
         self.$nextTick(() => {
-          // self.$refs.ruleForm.resetFields();
+          // self.$refs.form.resetFields();
           // self.$refs.userRoleTree.setCheckedKeys([]);
           // self.formAction = 0;
         })
@@ -194,33 +197,7 @@ export default {
     },
 
     dataFormSubmit() {
-      let self = this;
-      self.$refs['ruleForm'].validate((valid) => {
-        if (valid) {
-          let model = self.model;
-          model.roleIds = self.$refs.userRoleTree.getCheckedKeys();
-          // tapp.services.base_User.saveUser(model).then(function(result) {
-          //   self.model.id = result.id;
-          //   self.formAction = 1;
-          //   self.$notify.success({
-          //     title: '操作成功',
-          //     message: '用户信息已保存成功！',
-          //     duration: 1500,
-          //     onClose: () => {
-          //       self.visible = false;
-          //       self.$emit('change');
-          //     }
-          //   });
-          // });
-
-        } else {
-          self.$notify.error({
-            title: '错误',
-            message: '系统输入验证失败！'
-          });
-          return false;
-        }
-      });
+       
     },
     doDelete() {
       let self = this;

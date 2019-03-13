@@ -1,6 +1,6 @@
 
 <template>
-<el-form :model="headerEntity" ref="ruleForm" label-width="160px" :disabled="disabled"> 
+<el-form :model="headerEntity" ref="form" label-width="160px" :disabled="disabled"> 
   <el-row :gutter="20">
     <el-col :span="8">
       <el-form-item label="借款企业名称" prop="companyName" verify :maxLength="100" class="is-required">
@@ -359,7 +359,7 @@ export default {
       let self = this;
       let valid = this.$refs.assetInformationGrid.validate();
       if (valid) {
-        return self.$refs['ruleForm'].validate;
+        return self.$refs['form'].validate;
       } else {
         return new Promise(function(resolve, reject) {
           reject(false);

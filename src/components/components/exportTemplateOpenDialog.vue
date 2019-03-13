@@ -13,7 +13,10 @@ export default {
   data() {
     return {
       selectedRows: [],
-      visible: false,
+      visible: false, title:"添加",
+      disabled:false,
+      btn:"提交",
+      aproveVisible: false,
       templateUrl: null,
       templateCategoryId: null,
       title: null,
@@ -70,11 +73,37 @@ export default {
       }
       this.$nextTick(() => {
         this.gridOptions.dataSource.serviceInstanceInputParameters = templateCategoryId;
-        this.$refs.searchReulstList.refresh();
+        this.form.page = value;
+    
+        let self = this;
+        var obj ={
+          url:this.$url.workflowdef.getList,
+          data:this.form
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+            
+            self.list = data.data.rows
+            self.total = data.data.total
+           
+        }
       })
     },
-    doSearch() {
-      this.$refs.searchReulstList.refresh();
+    doSearch(value) {
+      this.form.page = value;
+    
+        let self = this;
+        var obj ={
+          url:this.$url.workflowdef.getList,
+          data:this.form
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+            
+            self.list = data.data.rows
+            self.total = data.data.total
+           
+        }
     },
     handleSelectionChange(val) {
       this.selectedRows = val;

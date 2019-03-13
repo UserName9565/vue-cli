@@ -1,7 +1,7 @@
 
 <template>
 <el-dialog :title="formAction == 0 ? '新增' : '修改'" :close-on-click-modal="false" :visible.sync="visible">
-  <el-form :model="model" ref="ruleForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+  <el-form :model="model" ref="form" @keyup.enter.native="dataFormSubmit()" label-width="80px">
     <el-form-item label="表单编码" prop="agCode" verify :maxLength="255" class="is-required">
       <el-input v-model="model.agCode"></el-input>
     </el-form-item>
@@ -29,7 +29,10 @@ export default {
   data() {
     return {
       formAction: 0, //0 add,//1,edit
-      visible: false,
+      visible: false, title:"添加",
+      disabled:false,
+      btn:"提交",
+      aproveVisible: false,
       model: {
 
       },
@@ -62,14 +65,14 @@ export default {
         self.formAction = 0;
 
         // self.$nextTick(() => {
-        //   self.$refs.ruleForm.resetFields(); 
+        //   self.$refs.form.resetFields(); 
         //   self.formAction = 0;
         // })
       }
     },
     dataFormSubmit() {
       let self = this;
-      self.$refs['ruleForm'].validate((valid) => {
+      self.$refs['form'].validate((valid) => {
         if (valid) {
           let model = self.model;
           var obj ={

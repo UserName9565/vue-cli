@@ -7,7 +7,7 @@
 
             <el-col :span="12">
 
-              <el-form :model="model" ref="ruleForm" @keyup.enter.native="dataFormSubmit()" label-width="120px">
+              <el-form :model="model" ref="form" @keyup.enter.native="dataFormSubmit()" label-width="120px">
 
                   <el-form-item label="业务编号">
                     <el-input  type="password"></el-input>
@@ -65,7 +65,7 @@
     </el-tab-pane>
     
   </el-tabs>
-   <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form>
+   <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form><aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
 </el-dialog>
 </template>
 
@@ -79,7 +79,10 @@ export default {
     return {
       formAction: 0, //0 add,//1,edit
       editFormVisible:false,
-      visible: false,
+      visible: false, title:"添加",
+      disabled:false,
+      btn:"提交",
+      aproveVisible: false,
       tabActive: 'userInfo',
       model: {
           activited : true
@@ -163,7 +166,7 @@ export default {
 
     dataFormSubmit() {
       let self = this;
-      self.$refs['ruleForm'].validate((valid) => {
+      self.$refs['form'].validate((valid) => {
         if (valid) {
           let model = self.model;
           model.roleIds = self.$refs.userRoleTree.getCheckedKeys();

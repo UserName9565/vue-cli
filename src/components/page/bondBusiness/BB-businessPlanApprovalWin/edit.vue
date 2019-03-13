@@ -6,7 +6,7 @@
         <span>产品信息</span>
          
       </div>
-        <el-form :model="model"  ref="ruleForm" label-width="130px" v-show="tabActive =='userInfo'">
+        <el-form :model="model"  ref="form" label-width="130px" v-show="tabActive =='userInfo'">
           <el-row :gutter="10">
             <el-col :span="8">
               <el-form-item label="交易对手" prop="loginId" verify  :maxLength="50" class="is-required">
@@ -152,7 +152,10 @@ export default {
 
     return {
       formAction: 0, //0 add,//1,edit
-      visible: false,
+      visible: false, title:"添加",
+      disabled:false,
+      btn:"提交",
+      aproveVisible: false,
       tabActive: 'userInfo',
       model: {
           activited : true
@@ -199,7 +202,7 @@ export default {
       if (id) {
         // tapp.services.base_User.getUser(id).then(function(result) {
         //   self.model = result;
-        //   self.$refs.ruleForm.resetFields();
+        //   self.$refs.form.resetFields();
         //   self.$refs.userRoleTree.setCheckedKeys(result.roleIds);
         //   self.formAction = 1;
         // });
@@ -209,7 +212,7 @@ export default {
         };
 
         self.$nextTick(() => {
-          // self.$refs.ruleForm.resetFields();
+          // self.$refs.form.resetFields();
           // self.$refs.userRoleTree.setCheckedKeys([]);
           // self.formAction = 0;
         })
@@ -230,7 +233,7 @@ export default {
 
     dataFormSubmit() {
       let self = this;
-      self.$refs['ruleForm'].validate((valid) => {
+      self.$refs['form'].validate((valid) => {
         if (valid) {
           let model = self.model;
           model.roleIds = self.$refs.userRoleTree.getCheckedKeys();

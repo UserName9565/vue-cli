@@ -8,7 +8,22 @@ let util = {
 
   }
 };
-
+util.rules={ // 就是我们在el-form中绑定的rules，进行表单的验证
+  
+ 
+  email:[
+    { required: true, message: '必填项' },
+    { pattern:/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/, message: '填写正确邮箱格式' }
+  ],
+  mobile:[
+    { pattern:/^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/, message: '填写正确手机号' }
+  ],
+  name1:[
+    { required: true, message: '必填项' },
+    { min: 1, max: 32, message: '长度在1 到 32之间', trigger: 'blur' }
+  ],
+ 
+}
 //前端权限校验
 util.hasPermission = function(permission) {
   let vm = window.vue;
@@ -327,29 +342,29 @@ util.verifyGTDateNow = function(input) {
   return r;
 };
 //验证输入字符串字符是否有效的身份证号码
-// util.verifyIdCard = function(input) {
-//   if (input == null) {
-//     return true;
-//   }
-//   return idcard.verify(input);
-// };
-//解析身份证号码字符串的信息
-// util.parseIdCard = function(input) {
-//   if (input == null) {
-//     return '';
-//   }
+util.verifyIdCard = function(input) {
+  if (input == null) {
+    return true;
+  }
+  return idcard.verify(input);
+};
+// 解析身份证号码字符串的信息
+util.parseIdCard = function(input) {
+  if (input == null) {
+    return '';
+  }
 
-//   let cardNoInfo = idcard.info(input);
-//   if (cardNoInfo && cardNoInfo.valid) {
-//     let birthdayStr = cardNoInfo.birthday.toString();
-//     cardNoInfo.birthdayString = birthdayStr.substr(0, 4) + "-" +
-//       birthdayStr.substr(4, 2) +
-//       "-" +
-//       birthdayStr.substr(6, 2) +
-//       " 00:00:00";
-//   }
-//   return cardNoInfo;
-// };
+  let cardNoInfo = idcard.info(input);
+  if (cardNoInfo && cardNoInfo.valid) {
+    let birthdayStr = cardNoInfo.birthday.toString();
+    cardNoInfo.birthdayString = birthdayStr.substr(0, 4) + "-" +
+      birthdayStr.substr(4, 2) +
+      "-" +
+      birthdayStr.substr(6, 2) +
+      " 00:00:00";
+  }
+  return cardNoInfo;
+};
 //修改当前网页标题
 util.ui.title = function(title) {
   title = title || window.SITE_CONFIG.appName;
