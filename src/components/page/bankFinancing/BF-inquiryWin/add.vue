@@ -1,7 +1,6 @@
 <template>
  
- 
-   <div class="container">
+  <el-dialog title="发起询价" width="80%" :close-on-click-modal="false" :visible.sync="visible">
      <el-card>
 
       <el-form :model="model"  ref="form" label-width="150px" >
@@ -128,16 +127,21 @@
     
    
   
-  <span slot="footer" class="dialog-footer">
+  <!-- <span slot="footer" class="dialog-footer">
     <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
     <el-button @click="visible = false">取消</el-button>
-  </span>
+  </span> -->
      </el-card>
- </div>
+ <span slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
+      <el-button @click="visible = false">取消</el-button>
+    </span>
+ </el-dialog>
 </template>
 
 
 <script>
+
 export default {
   data() {
 
@@ -223,33 +227,18 @@ export default {
   methods: {
     init(id) {
       this.visible = true;
-      this.tabActive = 'userInfo';
       let self = this;
       if (id) {
-        // tapp.services.base_User.getUser(id).then(function(result) {
-        //   self.model = result;
-        //   self.$refs.form.resetFields();
-        //   self.$refs.userRoleTree.setCheckedKeys(result.roleIds);
-        //   self.formAction = 1;
-        // });
+         
       } else {
         self.model = {
             activited : true
         };
 
-        self.$nextTick(() => {
-          // self.$refs.form.resetFields();
-          // self.$refs.userRoleTree.setCheckedKeys([]);
-          // self.formAction = 0;
-        })
+         
       }
     },
-    validateLoginPassword(rule, value, callback){
-      if (!(/^(?![0-9]+$)(?![a-zA-Z]+$)(?!(.)\1{5}).{8,16}$/.test(value))) {
-        callback(new Error('密码强度弱，长度必须在8位和16位数之间，包含字母数字'));
-      }
-      callback();
-    },
+     
     handleTabClick(tab, event) {
       if (!tab) {
         return;

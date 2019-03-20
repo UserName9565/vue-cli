@@ -1,7 +1,7 @@
 
 
 <template>
-  <div class="container">
+<el-dialog title="查看报价" width="90%" :close-on-click-modal="false" :visible.sync="visible">
     <h3 class="table-title">自营2019年200号(银行理财)报价</h3>
     <div class="table-title">报价时间：2019-12-22 12:22:22</div>
     <el-card class="box-card">
@@ -89,7 +89,7 @@
         </el-tab-pane>
       </el-tabs>
     </el-card>
-  </div>
+</el-dialog>
 </template>
 
 <script>

@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import App from './App';
+import elementUIVerify from 'element-ui-verify'
 import router from './router';
 import store from './store'
-// import axios from 'axios';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';    // 默认主题
 // import '../static/css/theme-green/index.css';       // 浅绿色主题
@@ -11,23 +11,28 @@ import '../static/css/theme-first/index.css';
 import './assets/icon/iconfont.css';
 import "babel-polyfill"; 
 import Urls from './assets/js/url.js';//路劲共用
-//axios.defaults.baseURL = 'http://192.168.1.250:8890';//配置你的接口请求地址
 import util from './assets/js/util.js'
 import common from './assets/js/common.js'//公共注册
 Vue.prototype.common = common;
 import http from './assets/js/http.js'
 
- 
+// import  verifyrules from '@/verifyRule'
 Vue.prototype.$util = util
 Vue.use(ElementUI, { size: 'small' });
-Vue.use(Vuex)
-Vue.prototype.$axios = http;
+Vue.use(elementUIVerify)
+Vue.prototype.$axios = http;//axios 设置
+Vue.prototype.$store = store;//vuex
 Vue.prototype.$url = Urls;
 Vue.config.silent = true
+Vue.use(Vuex)
+import  verifyrules from './assets/js/verifyRule/index'
 
+verifyrules.forEach(item => {
+  ElementUIVerify.addRule(item.rule, item.ruleMethod);
+})
 //使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {
-    const role = localStorage.getItem('ms_username');
+    const role =store.getters.getLogin("userId")  //localStorage.getItem('ms_username');
     if(!role && to.path !== '/login'){
         next('/login');
     }else if(to.meta.permission){

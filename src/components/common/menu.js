@@ -3,6 +3,12 @@ export default [
     {icon: '&#xe645;',index: 'leave',title: '请假',id:'AB000',pid:"A0000"},
     {icon: '',index: 'initiateLeave',title: '请假发起',id:'AB001',pid:"AB000"},
     {icon: '',index: 'approvalLeave1',title: '请假审批111',id:'AB002',pid:"AB000"},
+
+    {icon: '&#xe645;',index: 'menus',title: '菜单管理',id:'AC000',pid:"A0000"},
+    {icon: '',index: 'menusmanag',title: '菜单管理',id:'AC001',pid:"AC000"},
+
+    {icon: '&#xe645;',index: 'resource',title: '资源管理',id:'AD000',pid:"A0000"},
+    {icon: '',index: 'resourceManag',title: '资源管理',id:'AD001',pid:"AD000"},
     // {icon: '',index: 'approvalLeave2',title: '请假审批222',id:'AB003',pid:"AB000"},
     // {icon: 'el-icon-lx-settings',index: 'systemManage',title: '系统管理',id:'A0000',pid:"0"},
     {icon: '&#xe619;',index: 'user',title: '用户管理',id:'A1000',pid:"A0000"},
@@ -30,9 +36,9 @@ export default [
 
     {icon: '&#xe625;',index: 'capitalAccoutManag',title: '资金账户管理',id:'A6000',pid:"A0000"},
     {icon: '',index: 'capitalAccount',title: '活期类账户',id:'A6001',pid:"A6000"},
-    {icon: '',index: 'principalManag',title: '委托方框架协议',id:'A6002',pid:"A6000"},
+    // {icon: '',index: 'principalManag',title: '委托方框架协议',id:'A6002',pid:"A6000"},
     {icon: '',index: 'fundAccount',title: '委托方资金账户',id:'A6003',pid:"A6000"},
-    {icon: '',index: 'frameworkAgreement',title: '框架协议编号审批',id:'A6004',pid:"A6000"},
+    // {icon: '',index: 'frameworkAgreement',title: '框架协议编号审批',id:'A6004',pid:"A6000"},
     
     {icon: '&#xe618;',index: 'bankManag',title: '交易对手管理',id:'A7000',pid:"A0000"},
     {icon: '',index: 'bankList',title: '交易对手列表',id:'A7001',pid:"A7000"},
@@ -99,7 +105,7 @@ export default [
     {icon: '',index: 'FI-accountManag',title: '台账详单',id:'C3006',pid:"C3000"},
     {icon: '',index: 'FI-accountApproval',title: '台账操作审批',id:'C3007',pid:"C3000"},
 
-    {icon: '&#xe6e4;',index: 'interbankLending ',title: '同业拆借(拆出)',id:'C4000',pid:"C0000"},
+    {icon: '&#xe6e4;',index: 'interbankLending ',title: '同业拆借',id:'C4000',pid:"C0000"},
     //{icon: '',index: 'IL-inquiry',title: '询价管理',id:'C4001',pid:"C4000"},
     {icon: '',index: 'IL-businessPlanManag',title: '业务方案管理',id:'C4002',pid:"C4000"},
     {icon: '',index: 'IL-businessPlanApproval',title: '业务方案审批',id:'C4003',pid:"C4000"},
@@ -108,7 +114,7 @@ export default [
     {icon: '',index: 'IL-accountManag',title: '台账详单',id:'C4006',pid:"C4000"},
     {icon: '',index: 'IL-accountApproval',title: '台账操作审批',id:'C4007',pid:"C4000"},
 
-    {icon: '&#xe6ae;',index: 'pledgeReverseRepurchase',title: '质押式逆回购',id:'C5000',pid:"C0000"},
+    {icon: '&#xe6ae;',index: 'pledgeReverseRepurchase',title: '质押式回购',id:'C5000',pid:"C0000"},
     //{icon: '',index: 'PRR-inquiry',title: '询价管理',id:'C5001',pid:"C5000"},
     {icon: '',index: 'PRR-businessPlanManag',title: '业务方案管理',id:'C5002',pid:"C5000"},
     {icon: '',index: 'PRR-businessPlanApproval',title: '业务方案审批',id:'C5003',pid:"C5000"},

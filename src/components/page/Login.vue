@@ -3,20 +3,20 @@
         <div class="ms-login">
             <div class="ms-title">后台管理系统</div>
             <el-form :model="form" :rules="rules" ref="form" label-width="0px" class="ms-content">
-                <el-form-item prop="username">
-                    <el-input v-model="form.username" placeholder="username">
+                <el-form-item prop="loginName">
+                    <el-input v-model="form.loginName" placeholder="账号">
                         <el-button slot="prepend" icon="el-icon-lx-people"></el-button>
                     </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
-                    <el-input type="password" placeholder="password" v-model="form.password" @keyup.enter.native="submitForm('form')">
+                    <el-input type="password" placeholder="密码" v-model="form.password" @keyup.enter.native="submitForm('form')">
                         <el-button slot="prepend" icon="el-icon-lx-lock"></el-button>
                     </el-input>
                 </el-form-item>
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm('form')">登录</el-button>
                 </div>
-                <p class="login-tips">Tips : 用户名和密码随便填。</p>
+                <!-- <p class="login-tips">Tips : 用户名和密码随便填。</p> -->
             </el-form>
         </div>
     </div>
@@ -27,12 +27,11 @@
         data: function(){
             return {
                 form: {
-                    username: 'admin',
-                    password: '123123',
-                    captchaCode:'1212'
+                    loginName: 'system',
+                    password: '123456'
                 },
                 rules: {
-                    username: [
+                    loginName: [
                         { required: true, message: '请输入用户名', trigger: 'blur' }
                     ],
                     password: [
@@ -43,27 +42,32 @@
         },
         methods: {
             submitForm(formName) {
+                 
+                // this.$store.commit('setLogin', {
+                //     userId:"001",
+                //     username:"管理员",token:"ddddd"
+                //     })
+                // this.$router.push('/');
+                let self = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        localStorage.setItem('ms_username',this.form.username);
-                        this.$router.push('/');
+                        
+                        var obj ={
+                            url:this.$url.login,
+                            data:this.form
+                        }
+                        this.common.httpPost(obj,success);
+                        function success(data){
+                            console.log(data)
+                            self.$store.commit('setLogin', data)
+                            self.$router.push('/');
+                            // localStorage.setItem('ms_username',this.form.username);
+                        }
                     } else {
                         console.log('error submit!!');
                         return false;
                     }
                 });
-                // let formdata = new FormData();
-                // formdata.append("data",this.form);
-                 
-                let obj = {
-                    url:this.$url.login,
-                    data:JSON.stringify(this.form)
-                }
-                
-                this.common.httpPost(obj,success);
-                function success(data){
-                    console.log(data)
-                }
                 
             }
         }

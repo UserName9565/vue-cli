@@ -2,12 +2,12 @@
 
 <template>
 <el-dialog title="修改密码" :visible.sync="visible" :append-to-body="true">
-  <el-form :model="model" ref="form" @keyup.enter.native="dataFormSubmit()" label-width="120px">
+  <el-form :model="model"  ref="form" @keyup.enter.native="dataFormSubmit()" label-width="120px">
     <el-form-item label="姓名">
       <span>{{ model.name }}</span>
     </el-form-item>
-    <el-form-item label="账号">
-      <span>{{ model.loginId }}</span>
+    <el-form-item label="登录名">
+      <span>{{ model.loginName }}</span>
     </el-form-item>
     <el-form-item label="新密码" prop="newPassword"  :maxLength="128" class="is-required" :verify="validateLoginNewPassword">
       <el-input v-model="model.newPassword" type="password"></el-input>
@@ -44,15 +44,13 @@ export default {
   },
   methods: {
     // 初始化
-    init(id) {
+    init(id,name,loginName) {
       this.visible = true
       let self = this;
-      if (id) {
-        // tapp.services.base_User.getUser(id).then(function(result) {
-        //   self.$refs.form.resetFields();
-        //   self.model = result;
-        // });
-      }
+      this.model.name = name;
+      this.model.loginName = loginName;
+        this.model.userId = id;
+         
     },
     validateLoginNewPassword(rule, value, callback) {
       if (!(/^(?![0-9]+$)(?![a-zA-Z]+$)(?!(.)\1{5}).{8,16}$/.test(value))) {
@@ -71,21 +69,26 @@ export default {
       let self = this;
       self.$refs['form'].validate((valid) => {
         if (valid) {
-          tapp.services.base_User.adminChangePassword(self.model).then(function(result) {
-            self.$notify.success({
-              title: '操作成功！',
+          let self = this;
+          this.form.password = this.form.newPassword
+          var obj ={
+            url:this.$url.userManag.updatePassword,
+            data:this.form
+          }
+          this.common.httpPost(obj,success);
+          function success(data){
+              
+            self.$message.success({
               message: '修改密码成功！',
-              onClose: function() {
-                self.visible = false;
-                self.$emit('change');
-              }
+              type:"sucess"
             });
-          });
+            self.visible = false;
+            self.$emit('change');
+            
+          }
+          
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '系统输入验证失败！'
-          });
+          
           return false;
         }
       });

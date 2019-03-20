@@ -10,19 +10,18 @@
           </div> -->
         </div>
         <div class="text item">
-           <el-tree :expand-on-click-node="false" show-checkbox :data="treeData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+           <el-tree :expand-on-click-node="false"  :data="treeData" :props="defaultProps" @node-click="handleNodeClick"> 
+        </el-tree>
         </div>
       </el-card>
     </el-col>
     <el-col :span="14">
       <el-card>
         <el-form label-width="130px">
-         
-        
           <el-form-item label="机构名称">
             <el-col :span="16">
 
-                <el-input  v-model="form.name1" clearable></el-input>
+                <el-input  v-model="form.name" clearable></el-input>
             </el-col>
           </el-form-item>
        
@@ -30,7 +29,7 @@
           <el-form-item label="机构简称">
            <el-col :span="16">
 
-                <el-input  v-model="form.name2" clearable></el-input>
+                <el-input  v-model="form.shortname" clearable></el-input>
             </el-col>
           </el-form-item>
         
@@ -38,7 +37,7 @@
           <el-form-item label="父级机构名称">
             <el-col :span="16">
 
-                <el-input  v-model="form.name3" clearable></el-input>
+                <el-input  v-model="form.parentname" clearable disabled="true"> </el-input>
             </el-col>
           </el-form-item>
          
@@ -46,12 +45,12 @@
           <el-form-item label="父级机构编码">
            <el-col :span="16">
 
-                <el-input  v-model="form.name4" clearable></el-input>
+                <el-input  v-model="form.parentId" clearable disabled="true"></el-input>
             </el-col>
           </el-form-item>
          <el-form-item>
-            <el-button type="primary" @click="doOrgEdit()">添加子机构</el-button>
-            <el-button>修改</el-button>
+            <el-button type="primary" @click="doOrgEdit(0)">添加子机构</el-button>
+            <el-button @click="doOrgEdit(1)">修改</el-button>
         </el-form-item>
          
        
@@ -64,7 +63,7 @@
       </el-tabs> -->
     </el-col>
   </el-row>
-  <org-edit-form v-if="orgEditFormVisible" ref="orgEditForm" @change="doOrgRefresh"></org-edit-form>
+  <org-edit-form v-if="orgEditFormVisible" ref="orgEditForm" @change="doOrgAppend" @changeEdit="searchNode()"></org-edit-form>
 
 </div>
 </template>
@@ -78,54 +77,20 @@ export default {
       tabActive:'role',
       orgEditFormVisible: false,
       selectedOrgItem: null,
-      form:{
-        name1:"",
-        name2:"",
-        name3:"",
-        name4:""
+      defaultProps:{
+        label:'name',
+        children:"children"
       },
-       treeData:[{
-          label: '一级 1',
-          children: [{
-            label: '二级 1-1',
-            children: [{
-              label: '三级 1-1-1'
-            }]
-          }]
-        }, {
-          label: '一级 2',
-          children: [{
-            label: '二级 2-1',
-            children: [{
-              label: '三级 2-1-1'
-            }]
-          }, {
-            label: '二级 2-2',
-            children: [{
-              label: '三级 2-2-1'
-            }]
-          }]
-        }, {
-          label: '一级 3',
-          children: [{
-            label: '二级 3-1',
-            children: [{
-              label: '三级 3-1-1'
-            }]
-          }, {
-            label: '二级 3-2',
-            children: [{
-              label: '三级 3-2-1'
-            }]
-          }]
-        }]
+      form:{
+      },
+       treeData:[]
     }
   },
   components: {
     OrgEditForm
   },
   created() {
-
+    this.doSearch();
   },
   computed: {
     selectedOrgId(){
@@ -144,22 +109,35 @@ export default {
   },
   methods: {
         
-        doOrgEdit() {
+        doOrgEdit(type) {
           this.orgEditFormVisible = true;
-          this.$nextTick(()=>{
-            this.$refs.orgEditForm.new(this.form.name1);
-          })
+          if(!this.form.id){
+            this.$message("请选择组织机构")
+            return false;
+          }
+          if(type==0){
+            this.$nextTick(()=>{
+              this.$refs.orgEditForm.new(this.form.id,this.form.name);
+            })
+          }else{
+            this.$nextTick(()=>{
+              this.$refs.orgEditForm.edit(this.form.id,this.form.name,this.form.shortname,this.form.parentId,this.form.parentname);
+            })
+          }
+          
           // this.orgEditFormVisible = true
           // this.$nextTick(() => {
          
           //   this.$refs.orgEditForm.edit(data.id, data.name)
           // })
         },
+      
         doOrgAppend(data) {
-          this.orgEditFormVisible = true
-          this.$nextTick(() => {
-            this.$refs.orgEditForm.new(data.id, data.name)
-          })
+           
+          if (!this.nowData.children) {
+            this.$set(this.nowData, 'children', []);
+          }
+          this.nowData.children.push(data);
         },
         doOrgBatchDelete() {
           let self = this;
@@ -179,15 +157,37 @@ export default {
              
           });
         },
-        doOrgRefresh() {
-          this.$refs.orgTree.refresh();
+        doSearch() {
+          let self = this;
+          var obj ={
+              url:this.$url.organizationManag.findTree,
+              data:{}
+          }
+          this.common.httpPost(obj,success);
+          function success(data){
+             
+            self.treeData =data.rows// self.common.treeList(data.rows,obj)
+             
+          }
         },
         handleNodeClick(data) {
-          console.log(data);
-          this.form.name1 = data.label;
-          this.form.name2 = data.label;
-          this.form.name3 = data.label;
-          this.form.name4 = data.label;
+          this.nowData = data;
+          
+          this.form.id = data.id;
+          this.searchNode();
+        },
+        searchNode(){
+          let self = this;
+          var obj ={
+              url:this.$url.organizationManag.getById,
+              data:{
+                id:this.form.id
+              }
+          }
+          this.common.httpPost(obj,success);
+          function success(data){
+              self.form = data;
+          }
         }
     }
   }

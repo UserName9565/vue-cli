@@ -15,7 +15,7 @@
       <el-table-column align="center"  prop="frozen" label="审核状态" ></el-table-column>
        <el-table-column align="center"  fixed="left" label="操作" width="130">
         <template slot-scope="scope">
-          <el-button @click="doEdit(scope.row)" type="text" size="mini">查看</el-button>
+          <el-button @click="doEdit(scope.row)" type="text" size="mini">编辑</el-button>
          
         </template>
       </el-table-column>
@@ -189,11 +189,7 @@ export default {
       });
     },
     doEdit(row) {
-      this.editFormVisible = true;
-      this.$nextTick(() => {
-         
-        this.$refs.editForm.init("11");
-      });
+      this.$router.push({path:"/regulatoryStandards", query: { userId: row.id }});
     },
     doAdminChangePassword(row) {
       this.adminChangePasswordFormVisible = true;
@@ -206,47 +202,7 @@ export default {
     handleSelectionChange(val) {
       this.selectedRows = val;
     },
-    doBatchDelete() {
-      let self = this;
-      if (!self.selectedRows || self.selectedRows.length == 0) {
-        self.$notify.info({
-          title: "系统提示",
-          message: "您没选择任何行，无法操作！"
-        });
-        return;
-      }
-      let ids = self.selectedRows.map(function(row) {
-        return row.id;
-      });
-      self
-        .$confirm(
-          "此操作将永久删除" + ids.length + "个用户, 是否继续?",
-          "提示",
-          {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            type: "warning"
-          }
-        )
-        .then(() => {
-          tapp.services.base_User.batchDelete(ids).then(function(result) {
-            self.$notify.success({
-              title: "系统删除成功",
-              message: "用户信息已删除成功！"
-            });
-            self.$refs.searchReulstList.refresh();
-          });
-        });
-    },
-    // doExportExcel() {
-    //   this.$refs.searchReulstList.exportCSV('用户列表');
-    // },
-    // doImportExcel() {
-    //   this.importExcelVisible = true;
-    //   this.$nextTick(() => {
-    //     this.$refs.importExcel.show();
-    //   })
-    // },
+    
     doSearch(value) {
       this.form.page = value;
     

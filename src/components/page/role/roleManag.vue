@@ -6,7 +6,7 @@
         <el-row :gutter="10">
           <el-col :span="8">
             <el-form-item label="角色名称">
-              <el-input v-model="form.searchKey" clearable></el-input>
+              <el-input v-model="form.name" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24" class="btn-box">
@@ -29,10 +29,16 @@
       >
         <el-table-column align="center" type="selection" width="55"></el-table-column>
 
-        <el-table-column align="center" prop="date" label="角色ID"></el-table-column>
+        <el-table-column align="center" prop="code" label="角色ID"></el-table-column>
         <el-table-column align="center" prop="name" label="角色名称"></el-table-column>
-        <el-table-column align="center" prop="address" label="所属部门"></el-table-column>
-        <el-table-column align="center" prop="address" label="角色状态"></el-table-column>
+        <el-table-column align="center" prop="org" label="所属部门"></el-table-column>
+        <el-table-column align="center" prop="description" label="角色描述"></el-table-column>
+        <el-table-column align="center" prop="locked" label="角色状态">
+          <template slot-scope="scope">
+              <el-tag type="success" v-show="!scope.locked">启用</el-tag>
+              <el-tag type="danger" v-show="scope.locked">停用</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column align="center" fixed="left" label="操作" width="130">
           <template slot-scope="scope">
             <el-button @click="doEdit(scope.row,1)" type="text" size="mini">编辑</el-button>
@@ -41,9 +47,9 @@
       </el-table>
       <div class="pagination">
         <el-pagination
-          :current-page.sync="form.page"
+          :current-page.sync="form.pageNum"
           background
-          @current-change="handleCurrentChange"
+          @current-change="doSearch"
           layout="total,prev, pager, next,jumper"
           :total="pageTotal"
           :page-size="form.rows"
@@ -53,7 +59,7 @@
     <!-- <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
     </t-grid>-->
     <!-- 弹窗, 新增 / 修改 -->
-    <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form><aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
+    <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch(1)"></edit-form><aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
   </div>
 </template>
 
@@ -72,11 +78,9 @@ export default {
       
       pageTotal: 0,
       form: {
-        searchKey: "",
-        region: "",
-        status: "",
-        page: "",
-        rows: ""
+        name: "",
+        pageNum: "1",
+        pageSize: "10"
       },
       tableData3: [
         {
@@ -84,36 +88,7 @@ export default {
           name: "王小虎",
           address: "上海市普陀区金沙"
         },
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-08",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-06",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        }
+        
       ],
       selectedRows: []
     };
@@ -136,7 +111,7 @@ export default {
     doEdit(row,type) {
       this.editFormVisible = true;
       this.$nextTick(() => {
-        this.$refs.editForm.init("11",type);
+        this.$refs.editForm.init(row.id,type);
       });
     },
     
@@ -144,18 +119,17 @@ export default {
       this.selectedRows = val;
     },
     doSearch(value) {
-       this.form.page = value;
-    
+       this.form.pageNum = value;
+      console.log(this.$url.roleManag.getList)
         let self = this;
         var obj ={
-          url:this.$url.workflowdef.getList,
+          url:this.$url.roleManag.getList,
           data:this.form
         }
         this.common.httpPost(obj,success);
         function success(data){
-            
-            self.list = data.data.rows
-            self.total = data.data.total
+            self.tableData3 = data.rows
+            self.pageTotal = data.total
            
         }
     }

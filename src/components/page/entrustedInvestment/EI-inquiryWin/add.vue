@@ -1,7 +1,7 @@
 <template>
  
  
-   <div class="container">
+  <el-dialog title="发起询价" width="80%" :close-on-click-modal="false" :visible.sync="visible">
      <el-card>
 
       <el-form :model="model"  ref="form" label-width="150px" >
@@ -133,7 +133,7 @@
     <el-button @click="visible = false">取消</el-button>
   </span>
      </el-card>
- </div>
+  </el-dialog>
 </template>
 
 

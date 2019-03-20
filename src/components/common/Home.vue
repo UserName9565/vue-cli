@@ -31,6 +31,15 @@
         components:{
             vHead, vSidebar, vTags
         },
+        mounted () {
+            window.addEventListener('unload', this.saveState)
+        },
+        methods: {
+            saveState () {
+                console.log(JSON.stringify(this.$store.state))
+                sessionStorage.setItem('state', JSON.stringify(this.$store.state))
+            }
+        },    
         created(){
           
             bus.$on('collapse', msg => {

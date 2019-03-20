@@ -78,20 +78,19 @@
       </div>
     </el-card>
 
-    <admin-change-password-form v-if="adminChangePasswordFormVisible" ref="adminChangePasswordForm"></admin-change-password-form>
+    <bf-inquiry v-if="inquiryVisible" ref="bfInquiry" @change="doSearch"></bf-inquiry>
+     <edit-form v-if="editVisible" ref="editForm" @change="doSearch"></edit-form>
   </div>
 </template>
 
 <script>
-// import moment from 'moment';
-// //import util from '@/util'
+import BfInquiry from './ID-inquiryWin/add';
+ import EditForm from './ID-inquiryWin/edit';
 export default {
   data() {
     return {
-      editFormVisible: true,
-      adminChangePasswordFormVisible: false,
-     
-      
+      inquiryVisible: false,
+      editVisible:false,
       pageTotal: 0,
       form: {
         searchKey: "",
@@ -149,16 +148,26 @@ export default {
   },
 
   created() {},
+  components:{
+    BfInquiry,
+    EditForm
+  },
   methods: {
     doNew() {
-      this.$router.push("ID-addInquiry");
-      // this.editFormVisible = true;
-      // this.$nextTick(() => {
-      //   this.$refs.editForm.init(null);
-      // });
+      //this.$router.push("BF-addInquiry");
+      this.inquiryVisible = true;
+      this.$nextTick(() => {
+        
+         this.$refs.bfInquiry.init(null);
+      });
     },
     doEdit(row) {
-      this.$router.push({ path: "/ID-editInquiry", query: { userId: row.id } });
+      //this.$router.push({ path: "/BF-editInquiry", query: { userId: row.id } });
+      this.editVisible = true;
+      this.$nextTick(() => {
+         
+         this.$refs.editForm.init('11');
+      });
     },
     doAdminChangePassword(row) {
       this.adminChangePasswordFormVisible = true;

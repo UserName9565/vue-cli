@@ -10,7 +10,9 @@ let util = {
 };
 util.rules={ // 就是我们在el-form中绑定的rules，进行表单的验证
   
- 
+  name: { required: true, message: '必填项' },
+  id: { required: true, message: '必填项' },
+  code: { required: true, message: '必填项' },
   email:[
     { required: true, message: '必填项' },
     { pattern:/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/, message: '填写正确邮箱格式' }

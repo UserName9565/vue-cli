@@ -112,7 +112,7 @@
         name: 'dashboard',
         data() {
             return {
-                name: localStorage.getItem('ms_username'),
+                name:null ,//localStorage.getItem('ms_username'),
                 todoList: [{
                         title: '今天要修复100个bug',
                         status: false,
@@ -195,6 +195,7 @@
         created(){
             this.handleListener();
             this.changeDate();
+            this.name = this.$store.getters.getLogin("username")
         },
         activated(){
             this.handleListener();

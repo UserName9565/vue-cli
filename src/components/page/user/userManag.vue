@@ -47,16 +47,21 @@
       style="width: 100%"
     >
       <el-table-column align="center"  type="selection" width="55"></el-table-column>
-      <el-table-column align="center"  prop="date" label="行号" width="180"></el-table-column>
-      <el-table-column align="center"  prop="date" label="登录名" width="180"></el-table-column>
+      <el-table-column align="center" type="index" label="行号" ></el-table-column>
+      <el-table-column align="center"  prop="loginName" label="登录名" width="180"></el-table-column>
       <el-table-column align="center"  prop="name" label="姓名" width="180"></el-table-column>
-      <el-table-column align="center"  prop="address" label="邮箱" width="180"></el-table-column>
+      <el-table-column align="center"  prop="email" label="邮箱" width="180"></el-table-column>
       <el-table-column align="center"  prop="address" label="所属机构" width="180"></el-table-column>
       <el-table-column align="center"  prop="address" label="角色权限" width="180"></el-table-column>
        
 
-      <el-table-column align="center"  prop="date" label="创建时间" width="180"></el-table-column>
-      <el-table-column align="center"  prop="address" label="用户状态" width="180"></el-table-column>
+      <el-table-column align="center"  prop="createdAt" label="创建时间" width="180"></el-table-column>
+      <el-table-column align="center"  prop="locked" label="用户状态" width="180">
+        <template slot-scope="scope">
+              <el-tag type="success" v-show="!scope.locked">启用</el-tag>
+              <el-tag type="danger" v-show="scope.locked">停用</el-tag>
+          </template>
+      </el-table-column>
       <el-table-column align="center"  prop="address" label="审批状态" width="180"></el-table-column>
       <el-table-column align="center"  fixed="left" label="操作" width="130">
         <template slot-scope="scope">
@@ -67,7 +72,7 @@
     </el-table>
     <div class="pagination">
         <el-pagination
-          :current-page.sync="form.page"
+          :current-page.sync="form.pageNum"
           background
           @current-change="doSearch"
           layout="total,prev, pager, next,jumper"
@@ -95,11 +100,11 @@ export default {
       adminChangePasswordFormVisible: false,
       pageTotal: 0,
       form:{
-        searchKey:"",
-        region:"",
-        status:"",
-        page:"1",
-        rows:"10"
+        // searchKey:"",
+        // region:"",
+        // status:"",
+        pageNum:"1",
+        pageSize:"10"
 
       },
       tableData3: [
@@ -162,7 +167,7 @@ export default {
       this.editFormVisible = true;
       this.$nextTick(() => {
          
-        this.$refs.editForm.init("11",type);
+        this.$refs.editForm.init(row.id,type);
       });
     },
     doAdminChangePassword(row) {
@@ -170,7 +175,7 @@ export default {
 
       this.$nextTick(() => {
          
-        this.$refs.adminChangePasswordForm.init(row.name);
+        this.$refs.adminChangePasswordForm.init(row.id,row.name,row.loginName);
       });
     },
     handleSelectionChange(val) {
@@ -211,18 +216,18 @@ export default {
    
     doSearch(value) {
        
-       this.form.page = value;
+       this.form.pageNum = value;
     
         let self = this;
         var obj ={
-          url:this.$url.workflowdef.getList,
+          url:this.$url.userManag.getList,
           data:this.form
         }
         this.common.httpPost(obj,success);
         function success(data){
             
-            self.list = data.data.rows
-            self.total = data.data.total
+            self.tableData3 = data.rows
+            self.pageTotal = data.total
            
         }
     }

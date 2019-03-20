@@ -1,7 +1,8 @@
 
 
 <template>
-  <div class="container">
+<el-dialog title="查看报价" width="90%" :close-on-click-modal="false" :visible.sync="visible">
+ 
     <h3 class="table-title">自营2019年200号(银行理财)报价</h3>
     <div class="table-title">报价时间：2019-12-22 12:22:22</div>
     <el-card class="box-card">
@@ -89,7 +90,8 @@
         </el-tab-pane>
       </el-tabs>
     </el-card>
-  </div>
+   
+</el-dialog>
 </template>
 
 <script>
@@ -118,51 +120,45 @@ export default {
       this.visible = true;
       let self = this;
       if (id) {
-        // tapp.services.base_User.getUser(id).then(function(result) {
-        //   self.$refs.form.resetFields();
-        //   self.model = result;
-        // });
+        let model = self.model;
+        var obj = {
+          url: this.$url.workflowdef.getList,
+          data: model
+        };
+        this.common.httpPost(obj, success);
+        function success(data) {
+          self.model = result;
+          self.$refs.form.resetFields();
+        }
       }
     },
-    validateLoginNewPassword(rule, value, callback) {
-      if (!/^(?![0-9]+$)(?![a-zA-Z]+$)(?!(.)\1{5}).{8,16}$/.test(value)) {
-        callback(
-          new Error("新密码强度弱，长度必须在8位和16位数之间，包含字母数字")
-        );
-      }
-      callback();
-    },
-    validateConfirmPassword(rule, value, callback) {
-      if (this.model.newPassword !== value) {
-        callback(new Error("确认新密码与新密码不一致"));
-      } else {
-        callback();
-      }
-    },
-    dataFormSubmit() {
+     
+    doAprove() {
       let self = this;
       self.$refs["form"].validate(valid => {
         if (valid) {
-          tapp.services.base_User
-            .adminChangePassword(self.model)
-            .then(function(result) {
-              self.$notify.success({
-                title: "操作成功！",
-                message: "修改密码成功！",
-                onClose: function() {
-                  self.visible = false;
-                  self.$emit("change");
-                }
-              });
-            });
-        } else {
-          this.$notify.error({
-            title: "错误",
-            message: "系统输入验证失败！"
+          this.aproveVisible = true;
+          this.$nextTick(() => {
+            this.$refs.aproveForm.init(null);
           });
+        } else {
+          
           return false;
         }
       });
+    },
+    dataFormSubmit() {
+      let self = this;
+      let model = self.model;
+      var obj = {
+        url: this.$url.workflowdef.getList,
+        data: model
+      };
+      this.common.httpPost(obj, success);
+      function success(data) {
+        self.list = data.data.rows;
+        self.total = data.data.total;
+      }
     }
   }
 };

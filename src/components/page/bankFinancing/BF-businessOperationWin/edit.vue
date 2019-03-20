@@ -1,5 +1,6 @@
 <template>
-  <el-dialog width="80%" height="100%" top="4vh" title="查看" :close-on-click-modal="false" :visible.sync="visible">
+  <div>
+    <el-dialog width="80%" height="100%" top="4vh" title="查看" :close-on-click-modal="false" :visible.sync="visible">
     <el-card>
       <el-form :model="model" label-width="130px">
         <el-row :gutter="10">
@@ -265,14 +266,18 @@
     </el-card>
     
     <span slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
+      <el-button type="primary" @click="doAprove()">确定</el-button>
       <el-button @click="visible = false">取消</el-button>
     </span>
   </el-dialog>
+  <aprove-win ref="aproveForm" v-if="aproveVisible"></aprove-win>
+   
+  </div>
 </template>
 
 
 <script>
+import AproveWin from "../../comWin/aproveWin";
 export default {
   data() {
     return {
@@ -322,38 +327,46 @@ export default {
     };
   },
   created() {},
+  components:{
+    AproveWin
+  },
   activated() {},
   methods: {
-    init(id) {
+    init(id,type) {
       this.visible = true;
       this.tabActive = "userInfo";
       let self = this;
-      if (id) {
-        // tapp.services.base_User.getUser(id).then(function(result) {
-        //   self.model = result;
-        //   self.$refs.form.resetFields();
-        //   self.$refs.userRoleTree.setCheckedKeys(result.roleIds);
-        //   self.formAction = 1;
-        // });
+       
+      
+      if (type==1||type==2) {
+        
+        if(type==2){//如果是审核进来   type就==3
+          this.disabled = true;
+          this.formAction = 2;
+          this.btn = "审核"
+        }else{
+          self.formAction = 1;
+        }
+        let model = self.model;
+        var obj = {
+          url: this.$url.workflowdef.getList,
+          data: model
+        };
+        this.common.httpPost(obj, success);
+        function success(data) {
+          self.model = result;
+          self.$refs.form.resetFields();
+        }
+        
       } else {
         self.model = {
           activited: true
         };
-
+        self.formAction = 0;
         self.$nextTick(() => {
-          // self.$refs.form.resetFields();
-          // self.$refs.userRoleTree.setCheckedKeys([]);
-          // self.formAction = 0;
+          
         });
       }
-    },
-    validateLoginPassword(rule, value, callback) {
-      if (!/^(?![0-9]+$)(?![a-zA-Z]+$)(?!(.)\1{5}).{8,16}$/.test(value)) {
-        callback(
-          new Error("密码强度弱，长度必须在8位和16位数之间，包含字母数字")
-        );
-      }
-      callback();
     },
     handleTabClick(tab, event) {
       if (!tab) {
@@ -361,58 +374,33 @@ export default {
       }
       this.tabActive = tab.name;
     },
-
-    dataFormSubmit() {
+    doAprove() {
       let self = this;
       self.$refs["form"].validate(valid => {
         if (valid) {
-          let model = self.model;
-          model.roleIds = self.$refs.userRoleTree.getCheckedKeys();
-          // tapp.services.base_User.saveUser(model).then(function(result) {
-          //   self.model.id = result.id;
-          //   self.formAction = 1;
-          //   self.$notify.success({
-          //     title: '操作成功',
-          //     message: '用户信息已保存成功！',
-          //     duration: 1500,
-          //     onClose: () => {
-          //       self.visible = false;
-          //       self.$emit('change');
-          //     }
-          //   });
-          // });
-        } else {
-          self.$notify.error({
-            title: "错误",
-            message: "系统输入验证失败！"
+          this.aproveVisible = true;
+          this.$nextTick(() => {
+            this.$refs.aproveForm.init(null);
           });
+        } else {
+          
           return false;
         }
       });
     },
-    doDelete() {
+    dataFormSubmit() {
       let self = this;
-      self
-        .$confirm("此操作将永久删除用户, 是否继续?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        })
-        .then(() => {
-          // tapp.services.base_User.delete(self.model.id).then(function(result) {
-          //   self.formAction = 0;
-          //   self.$notify.success({
-          //     title: '系统删除成功',
-          //     duration: 1500,
-          //     message: '用户信息已删除成功！',
-          //     onClose: () => {
-          //       self.visible = false;
-          //       self.$emit('change');
-          //     }
-          //   });
-          // })
-        });
-    },
+      let model = self.model;
+      var obj = {
+        url: this.$url.workflowdef.getList,
+        data: model
+      };
+      this.common.httpPost(obj, success);
+      function success(data) {
+        self.list = data.data.rows;
+        self.total = data.data.total;
+      }
+    }, 
     handleNodeClick(data) {
       console.log(data);
     }

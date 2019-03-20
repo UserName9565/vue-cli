@@ -77,21 +77,19 @@
         ></el-pagination>
       </div>
     </el-card>
-
-    <admin-change-password-form v-if="adminChangePasswordFormVisible" ref="adminChangePasswordForm"></admin-change-password-form>
+     <bf-inquiry v-if="inquiryVisible" ref="bfInquiry" @change="doSearch"></bf-inquiry>
+     <edit-form v-if="editVisible" ref="editForm" @change="doSearch"></edit-form>
   </div>
 </template>
 
 <script>
-// import moment from 'moment';
-// //import util from '@/util'
+import BfInquiry from './BF-inquiryWin/add';
+ import EditForm from './BF-inquiryWin/edit';
 export default {
   data() {
     return {
-      editFormVisible: true,
-      adminChangePasswordFormVisible: false,
-     
-      
+      inquiryVisible: false,
+      editVisible:false,
       pageTotal: 0,
       form: {
         searchKey: "",
@@ -149,68 +147,29 @@ export default {
   },
 
   created() {},
+  components:{
+    BfInquiry,
+    EditForm
+  },
   methods: {
     doNew() {
-      this.$router.push("BF-addInquiry");
-      // this.editFormVisible = true;
-      // this.$nextTick(() => {
-      //   this.$refs.editForm.init(null);
-      // });
+      //this.$router.push("BF-addInquiry");
+      this.inquiryVisible = true;
+      this.$nextTick(() => {
+         this.$refs.bfInquiry.init(null);
+      });
     },
     doEdit(row) {
-      this.$router.push({ path: "/BF-editInquiry", query: { userId: row.id } });
-    },
-    doAdminChangePassword(row) {
-      this.adminChangePasswordFormVisible = true;
-
+      //this.$router.push({ path: "/BF-editInquiry", query: { userId: row.id } });
+      this.editVisible = true;
       this.$nextTick(() => {
-        this.$refs.adminChangePasswordForm.init(row.name);
+         this.$refs.editForm.init('11');
       });
     },
+    
     handleSelectionChange(val) {
       this.selectedRows = val;
-    },
-    doBatchDelete() {
-      let self = this;
-      if (!self.selectedRows || self.selectedRows.length == 0) {
-        self.$notify.info({
-          title: "系统提示",
-          message: "您没选择任何行，无法操作！"
-        });
-        return;
-      }
-      let ids = self.selectedRows.map(function(row) {
-        return row.id;
-      });
-      self
-        .$confirm(
-          "此操作将永久删除" + ids.length + "个用户, 是否继续?",
-          "提示",
-          {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            type: "warning"
-          }
-        )
-        .then(() => {
-          tapp.services.base_User.batchDelete(ids).then(function(result) {
-            self.$notify.success({
-              title: "系统删除成功",
-              message: "用户信息已删除成功！"
-            });
-            self.$refs.searchReulstList.refresh();
-          });
-        });
-    },
-    // doExportExcel() {
-    //   this.$refs.searchReulstList.exportCSV('用户列表');
-    // },
-    // doImportExcel() {
-    //   this.importExcelVisible = true;
-    //   this.$nextTick(() => {
-    //     this.$refs.importExcel.show();
-    //   })
-    // },
+    }, 
     doSearch(value) {
       this.form.page = value;
     

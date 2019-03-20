@@ -66,7 +66,7 @@ export default {
     return {
       collapse: false,
       fullscreen: false,
-      name: "linxin",
+      name: null,
       message: 2,
       activeIndex:'A0000',
       firstL:[
@@ -80,13 +80,13 @@ export default {
           title:'询价管理',
           id:'F0000'
         },{
-          title:'财务公司自营',
+          title:'财务公司',
           id:'C0000'
         },{
-          title:'委托投资业务',
+          title:'委托投资',
           id:'D0000'
         },{
-          title:'总部主体业务',
+          title:'集团总部',
           id:'E0000'
         }
       ]
@@ -94,16 +94,42 @@ export default {
   },
   computed: {
     username() {
-      let username = localStorage.getItem("ms_username");
+      let username = this.$store.getters.getLogin("username") //localStorage.getItem("ms_username");
       return username ? username : this.name;
     }
   },
+  created(){
+     
+      this.menu();
+  },
   methods: {
+    menu(){//获取菜单
+      var obj ={
+          url:this.$url.getMenu,
+          data:{},
+          type:"get"
+      }
+      this.common.httpPost(obj,success);
+      function success(data){
+        console.log(data)
+      }
+    },
     // 用户名下拉菜单选择事件
     handleCommand(command) {
+      let self = this;
       if (command == "loginout") {
-        localStorage.removeItem("ms_username");
-        this.$router.push("/login");
+        var obj ={
+            url:this.$url.cleantoken,
+            data:{},
+            type:"get"
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+          self.$store.commit("signOut");
+          self.$router.push("/login");
+         
+        }
+        //localStorage.removeItem("ms_username");
       }
     },
     // 侧边栏折叠

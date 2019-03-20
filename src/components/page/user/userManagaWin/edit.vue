@@ -10,7 +10,6 @@
         <el-tab-pane label="基本信息" name="userInfo">
           <el-form
             :model="model"
-            :rules="$util.rules"
             ref="form"
             label-width="100px"
             v-show="tabActive =='userInfo'"
@@ -18,47 +17,49 @@
           >
             <el-row :gutter="20">
               <el-col :span="12">
-                <el-form-item label="登录名" required="true"  prop="loginId" class="is-required">
-                  <el-input v-model="model.loginId"></el-input>
+                <el-form-item label="登录名"  verify :length="50"  prop="loginName" class="is-required">
+                  <el-input v-model="model.loginName"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="12" v-if="formAction==0">
                 <el-form-item
                   label="密码"
-                  prop="loginPassword"
-                  required="true"
+                  verify 
+                  :maxLength="50"
+                  prop="password"
+                   
                   class="is-required"
                 >
-                  <el-input v-model="model.loginPassword" type="password"></el-input>
+                  <el-input v-model="model.password" type="password"></el-input>
                 </el-form-item>
               </el-col>
 
               <el-col :span="12">
-                <el-form-item label="姓名" inline-message="true" prop="name" required="true" class="is-required">
+                <el-form-item label="姓名" verify  inline-message="true" prop="name"  class="is-required">
                   <el-input v-model="model.name"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="邮箱" prop="email" verify :minLength="6">
+                <el-form-item label="邮箱" prop="email" verify :email='true'>
                   <el-input v-model="model.email"></el-input>
                 </el-form-item>
               </el-col>
 
               <el-col :span="12">
-                <el-form-item prop="mobile" label="手机" verify can-be-empty :minLength="6">
+                <el-form-item prop="mobile" label="手机" verify  :phone='true'>
                   <el-input v-model="model.mobile"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="是否启用">
-                  <el-switch v-model="model.activited"></el-switch>
+                  <el-switch v-model="model.locked"></el-switch>
                 </el-form-item>
               </el-col>
             </el-row>
           </el-form>
         </el-tab-pane>
         <el-tab-pane label="所属机构" name="orgin">
-          <el-tree :data="treeData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+         <el-tree :expand-on-click-node="false" ref="tree" show-checkbox :data="treeData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
         </el-tab-pane>
         <el-tab-pane label="角色权限" name="roleInfo">
           <el-select v-model="value5" multiple placeholder="请选择">
@@ -95,74 +96,13 @@ export default {
       aproveVisible: false,
       tabActive: "userInfo",
       model: {
-        activited: true
+         
       },
-      userRoleTreeOptons: {
-        dataSource: {
-          serviceInstance: "",
-          serviceInstanceInputParameters: {}
-        },
-        tree: {
-          nodeKey: "id",
-          defaultCheckedKeys: []
-        }
+      defaultProps:{
+        label:'name',
+        children:"children"
       },
       treeData: [
-        {
-          label: "一级 1",
-          children: [
-            {
-              label: "二级 1-1",
-              children: [
-                {
-                  label: "三级 1-1-1"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          label: "一级 2",
-          children: [
-            {
-              label: "二级 2-1",
-              children: [
-                {
-                  label: "三级 2-1-1"
-                }
-              ]
-            },
-            {
-              label: "二级 2-2",
-              children: [
-                {
-                  label: "三级 2-2-1"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          label: "一级 3",
-          children: [
-            {
-              label: "二级 3-1",
-              children: [
-                {
-                  label: "三级 3-1-1"
-                }
-              ]
-            },
-            {
-              label: "二级 3-2",
-              children: [
-                {
-                  label: "三级 3-2-1"
-                }
-              ]
-            }
-          ]
-        }
       ],
       options: [
         {
@@ -200,35 +140,35 @@ export default {
       this.tabActive = "userInfo";
       let self = this;
        
-      
+      this.$nextTick(() => {
+         this.$refs['form'].resetFields();
+      });
+      this.doTree();//加载组织机构树
       if (type==1||type==2) {
         
         if(type==2){//如果是审核进来   type就==3
           this.disabled = true;
           this.formAction = 2;
-          this.btn = "审核"
+          this.btn = "审核";
+          this.title = "审核"
         }else{
           self.formAction = 1;
+          this.title = "编辑"
         }
         let model = self.model;
         var obj = {
-          url: this.$url.workflowdef.getList,
-          data: model
+          url: this.$url.userManag.getById,
+          data: {
+            id:id
+          }
         };
         this.common.httpPost(obj, success);
         function success(data) {
-          self.model = result;
-          self.$refs.form.resetFields();
+          self.model = data;
+           
         }
-        
       } else {
-        self.model = {
-          activited: true
-        };
         self.formAction = 0;
-        self.$nextTick(() => {
-          
-        });
       }
     },
     handleTabClick(tab, event) {
@@ -246,10 +186,7 @@ export default {
             this.$refs.aproveForm.init(null);
           });
         } else {
-          // self.$notify.error({
-          //   title: '错误',
-          //   message: '请输入'
-          // });
+          
           return false;
         }
       });
@@ -257,16 +194,67 @@ export default {
     dataFormSubmit() {
       let self = this;
       let model = self.model;
+      if(this.formAction==0){
+        var url = this.$url.userManag.add
+      }else{
+        var url = this.$url.userManag.edit
+      }
+       this.treeList();
       var obj = {
-        url: this.$url.workflowdef.getList,
+        url: url,
         data: model
       };
+      
       this.common.httpPost(obj, success);
       function success(data) {
-        self.list = data.data.rows;
-        self.total = data.data.total;
+         if(self.formAction==0){
+           var mestitle = '已添加'
+        }else{
+           var mestitle = '已修改'
+        }
+        self.visible = false;
+        self.$message({
+          message: mestitle,
+          type: 'success'
+        });
+        self.$emit('change')
       }
-    }
+    },
+    doTree(){
+      let self = this;
+      var obj ={
+          url:this.$url.organizationManag.findTree,
+          data:{}
+      }
+      this.common.httpPost(obj,success);
+      function success(data){
+          
+        self.treeData =data.rows// self.common.treeList(data.rows,obj)
+          
+      }
+    },
+    treeList(){
+       let routerIds = []
+      let resourceIds = []
+      this.$refs.tree.getCheckedNodes().forEach(element => {
+        if(!element.type) {
+          routerIds.push(element.id)
+        }
+        if(element.type === 'resource') {
+          resourceIds.push(element.id)
+        }
+      })
+      this.$refs.tree.getHalfCheckedNodes().forEach(element => {
+        if(!element.type) {
+          routerIds.push(element.id)
+        }
+        if(element.type === 'resource') {
+          resourceIds.push(element.id)
+        }
+      })
+      this.model.routerIds = routerIds;
+      this.model.resourceIds = resourceIds;
+    },
   }
 };
 </script>

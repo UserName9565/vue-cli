@@ -5,38 +5,26 @@
     <el-tab-pane label="基本信息" name="userInfo">
       <el-form :model="model" :disabled="disabled"  ref="form" label-width="100px" :rules="$util.rules" v-show="tabActive =='userInfo'">
         <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="登录名" prop="loginId" verify  :maxLength="50" class="is-required">
-              <el-input v-model="model.loginId" ></el-input>
+          <el-col :span="16">
+            <el-form-item label="角色ID" prop="code"  class="is-required">
+              <el-input v-model="model.code" ></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="密码" prop="loginPassword" v-if="formAction == 0 " :maxLength="128" :verify="validateLoginPassword" class="is-required">
-              <el-input v-model="model.loginPassword" type="password" ></el-input>
+          <el-col :span="16">
+            <el-form-item label="角色名称" prop="name"   class="is-required">
+              <el-input v-model="model.name"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="姓名" prop="name" verify  :maxLength="50" class="is-required">
-              <el-input v-model="model.name" ></el-input>
+        
+          <el-col :span="16">
+            <el-form-item label="角色描述" prop="name"  class="is-required">
+              <el-input v-model="model.description" ></el-input>
             </el-form-item>
           </el-col>
+           
           <el-col :span="12">
-            <el-form-item label="邮箱" prop="email" verify  can-be-empty :maxLength="45">
-              <el-input v-model="model.email" ></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item prop="mobile" label="手机" verify  can-be-empty :maxLength="45">
-              <el-input v-model="model.mobile" ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="是否启用" prop="activited" verify  >
-              <el-switch v-model="model.activited"></el-switch>
+            <el-form-item label="是否启用" prop="locked">
+              <el-switch v-model="model.locked"></el-switch>
             </el-form-item>
           </el-col>
         </el-row>
@@ -49,13 +37,12 @@
         </el-row> -->
       </el-form>
     </el-tab-pane>
-    <el-tab-pane label="所属机构" name="orgin">
-      <!-- <t-tree ref="userRoleTree" :options="userRoleTreeOptons" v-show="tabActive =='orgin'">
-      </t-tree> -->
+    <!-- <el-tab-pane label="所属机构" name="orgin">
       <el-tree show-checkbox :data="treeData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
-    </el-tab-pane>
+    </el-tab-pane> -->
     <el-tab-pane label="访问权限" name="roleInfo">
-            <el-tree show-checkbox  :data="treeData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+            <el-tree show-checkbox  :data="treeData2"  ref="tree" :default-checked-keys="permissionKeys"  node-key="key" 
+            @node-click="handleNodeClick"></el-tree>
       
     </el-tab-pane>
   </el-tabs>
@@ -83,10 +70,11 @@ export default {
       btn:"提交",
       aproveVisible: false,
       tabActive: 'userInfo',
-      
       model: {
-          activited : true
+           locked:false,
+            
       },
+      permissionKeys:[],
       userRoleTreeOptons: {
         dataSource: {
           serviceInstance: '',
@@ -97,41 +85,7 @@ export default {
           defaultCheckedKeys: []
         }
       },
-      treeData:[{
-          label: '一级 1',
-          children: [{
-            label: '二级 1-1',
-            children: [{
-              label: '三级 1-1-1'
-            }]
-          }]
-        }, {
-          label: '一级 2',
-          children: [{
-            label: '二级 2-1',
-            children: [{
-              label: '三级 2-1-1'
-            }]
-          }, {
-            label: '二级 2-2',
-            children: [{
-              label: '三级 2-2-1'
-            }]
-          }]
-        }, {
-          label: '一级 3',
-          children: [{
-            label: '二级 3-1',
-            children: [{
-              label: '三级 3-1-1'
-            }]
-          }, {
-            label: '二级 3-2',
-            children: [{
-              label: '三级 3-2-1'
-            }]
-          }]
-        }],
+      treeData:[],
         options: [{
           value: '选项1',
           label: '黄金糕'
@@ -148,6 +102,7 @@ export default {
           value: '选项5',
           label: '北京烤鸭'
         }],
+        treeData2:[],
         value5: [],
     };
   },
@@ -158,41 +113,47 @@ export default {
     
   },
   activated() {},
+  computed:{
+     
+  },
   methods: {
      init(id,type) {
       this.visible = true;
       this.tabActive = "userInfo";
       let self = this;
-       
-      
+      if(this.$refs['form']){
+
+        this.$refs['form'].resetFields();
+      }
+      this.rolePower()//直接调用角色树
       if (type==1||type==2) {
-        
+        this.model.id = id;
         if(type==2){//如果是审核进来   type就==3
           this.disabled = true;
           this.formAction = 2;
-          this.btn = "审核"
+          this.btn = "审核";
+          this.title = "审核"
         }else{
           self.formAction = 1;
+          this.title = "编辑"
         }
         let model = self.model;
         var obj = {
-          url: this.$url.workflowdef.getList,
-          data: model
+          url: this.$url.roleManag.getById,
+          data: {
+            id:id
+          }
         };
         this.common.httpPost(obj, success);
         function success(data) {
-          self.model = result;
-          self.$refs.form.resetFields();
+          self.model = data;
+           
         }
         
       } else {
-        self.model = {
-          activited: true
-        };
+         
         self.formAction = 0;
-        self.$nextTick(() => {
-          
-        });
+        
       }
     },
     handleTabClick(tab, event) {
@@ -200,6 +161,9 @@ export default {
         return;
       }
       this.tabActive = tab.name;
+      // if(tab.name =="roleInfo"){
+        
+      // }
     },
 
     doAprove() {
@@ -211,10 +175,10 @@ export default {
             this.$refs.aproveForm.init(null);
           });
         } else {
-          // self.$notify.error({
-          //   title: '错误',
-          //   message: '请输入'
-          // });
+           self.$message({
+             message:"请完善信息",
+             type:"error"
+           })
           return false;
         }
       });
@@ -222,14 +186,103 @@ export default {
     dataFormSubmit() {
       let self = this;
       let model = self.model;
+      if(this.formAction==0){
+        var url = this.$url.roleManag.add
+      }else{
+        var url = this.$url.roleManag.edit
+      }
+      this.treeList();
       var obj = {
-        url: this.$url.workflowdef.getList,
+        url: url,
         data: model
       };
+      
       this.common.httpPost(obj, success);
       function success(data) {
-        self.list = data.data.rows;
-        self.total = data.data.total;
+         if(self.formAction==0){
+           var mestitle = '已添加'
+        }else{
+           var mestitle = '已修改'
+        }
+        self.visible = false;
+        self.$message({
+          message: mestitle,
+          type: 'success'
+        });
+        self.$emit('change')
+      }
+    },
+    treeList(){
+       let routerIds = []
+      let resourceIds = []
+      this.$refs.tree.getCheckedNodes().forEach(element => {
+        if(!element.type) {
+          routerIds.push(element.id)
+        }
+        if(element.type === 'resource') {
+          resourceIds.push(element.id)
+        }
+      })
+      this.$refs.tree.getHalfCheckedNodes().forEach(element => {
+        if(!element.type) {
+          routerIds.push(element.id)
+        }
+        if(element.type === 'resource') {
+          resourceIds.push(element.id)
+        }
+      })
+      this.model.routerIds = routerIds;
+      this.model.resourceIds = resourceIds;
+    },
+    rolePower(){
+      var self = this;
+      var obj ={
+          url:this.$url.menuManag.findAll,
+          data:{}
+      }
+      this.common.httpPost(obj,success);
+       
+      function success(data){
+      
+        //self.treeData2 = self.common.treeList(data.rows)
+        self.rolePagePower(data);
+      }
+   
+    },
+    rolePagePower(data){
+      var self = this;
+      var obj ={
+          url:this.$url.resourceManag.findAll,
+          data:{}
+      }
+      this.common.httpPost(obj,success);
+      function success(roleData){
+         self.treeData2 = self.common.menuResource(data.rows,roleData.rows);
+       
+         if(self.formAction!=0){
+           self.hook();
+         }
+      }
+    },
+    hook(){
+      var self = this;
+      var obj ={
+          url:this.$url.roleManag.findResourcePermission,
+          data:{
+            roleId:self.model.id
+          }
+      }
+      this.common.httpPost(obj,success);
+      function success(data){
+        self.$refs.tree.setCheckedKeys([])
+       self.permissionKeys=[];
+        data.resourcePermission.forEach(element => {
+          self.permissionKeys.push('resource-' + element)
+        })
+         data.routerPermission.forEach(element => {
+          self.permissionKeys.push('router-' + element)
+        })
+          
       }
     }
  

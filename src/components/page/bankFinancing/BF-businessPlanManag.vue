@@ -63,21 +63,20 @@
     <!-- <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
     </t-grid>-->
     <!-- 弹窗, 新增 / 修改 -->
-    <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form><aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
+    <add-list v-if="AddListVisible" ref="addList" @change="doSearch"></add-list><aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
  
   </div>
 </template>
 
 <script>
  import AproveStep from "../comWin/aproveStep";
+ import AddList from './BF-businessPlanManagWin/addList';
 export default {
   data() {
     return {
-      editFormVisible: true,
+      AddListVisible: false,
       AproveStepVisible: false,
-     
-      
-       pageTotal: 0,
+      pageTotal: 0,
       form:{
         searchKey:"",
         region:"",
@@ -128,83 +127,39 @@ export default {
     };
   },
    
-  created() {},
+  created() {
+    this.doSearch(1)
+  },
   components:{
-    AproveStep
+    AproveStep,
+    AddList
   },
   methods: {
     doNew() {
-       this.$router.push('BF-addBusinessPlanManag');
-      // this.editFormVisible = true;
-      // this.$nextTick(() => {
-      //   this.$refs.editForm.init(null);
-      // });
+       //this.$router.push('BF-addBusinessPlanManag');
+      this.AddListVisible = true;
+      this.$nextTick(() => {
+         this.$refs.addList.init(null,0);
+      });
     },
     doEdit(row) {
-      this.editFormVisible = true;
+      this.AddListVisible = true;
       this.$nextTick(() => {
          
-        this.$refs.editForm.init("11");
+        this.$refs.addList.init("11",1);
       });
     },
-    doAdminChangePassword(row) {
-      this.adminChangePasswordFormVisible = true;
-
-      this.$nextTick(() => {
-         
-        this.$refs.adminChangePasswordForm.init(row.name);
-      });
-    },
+     
     handleSelectionChange(val) {
       this.selectedRows = val;
-    },
-    doBatchDelete() {
-      let self = this;
-      if (!self.selectedRows || self.selectedRows.length == 0) {
-        self.$notify.info({
-          title: "系统提示",
-          message: "您没选择任何行，无法操作！"
-        });
-        return;
-      }
-      let ids = self.selectedRows.map(function(row) {
-        return row.id;
-      });
-      self
-        .$confirm(
-          "此操作将永久删除" + ids.length + "个用户, 是否继续?",
-          "提示",
-          {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            type: "warning"
-          }
-        )
-        .then(() => {
-          tapp.services.base_User.batchDelete(ids).then(function(result) {
-            self.$notify.success({
-              title: "系统删除成功",
-              message: "用户信息已删除成功！"
-            });
-            self.$refs.searchReulstList.refresh();
-          });
-        });
-    },
+    }, 
     doDetaile(row) {
       this.AproveStepVisible = true;
       this.$nextTick(() => {
         this.$refs.aproveStep.init(row.date);
       });
     },
-    // doExportExcel() {
-    //   this.$refs.searchReulstList.exportCSV('用户列表');
-    // },
-    // doImportExcel() {
-    //   this.importExcelVisible = true;
-    //   this.$nextTick(() => {
-    //     this.$refs.importExcel.show();
-    //   })
-    // },
+     
     doSearch(value) {
       this.form.page = value;
     

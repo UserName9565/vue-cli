@@ -20,6 +20,16 @@ export default new Router({
                     meta: { title: '审批详情' }
                 },
                 { 
+                    path: '/resourceManag',
+                    component: resolve => require(['../components/page/resource/resourceManag.vue'], resolve),
+                    meta: { title: '资源管理' }
+                },
+                { 
+                    path: '/menusmanag',
+                    component: resolve => require(['../components/page/menu/menusmanag.vue'], resolve),
+                    meta: { title: '菜单管理' }
+                },
+                { 
                     path: '/initiateLeave',
                     component: resolve => require(['../components/page/leave/initiateLeave.vue'], resolve),
                     meta: { title: '请假' }

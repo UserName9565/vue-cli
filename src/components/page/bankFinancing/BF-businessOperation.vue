@@ -21,7 +21,7 @@
         <el-col :span="24" class="btn-box">
         <el-form-item>
           <el-button @click="doSearch(1)" icon="el-icon-search"  type="primary">查询</el-button>
-          <el-button icon="el-icon-plus" type="primary" @click="doNew()">新增</el-button>
+          <!-- <el-button icon="el-icon-plus" type="primary" @click="doNew()">新增</el-button> -->
          
         </el-form-item>
         </el-col>
@@ -133,7 +133,7 @@ export default {
   },
   methods: {
     doNew() {
-      this.$router.push("BF-addBusinessPlanManag");
+     // this.$router.push("BF-addBusinessPlanManag");
       // this.editFormVisible = true;
       // this.$nextTick(() => {
       //   this.$refs.editForm.init(null);
@@ -142,7 +142,7 @@ export default {
     doEdit(row) {
       this.editFormVisible = true;
       this.$nextTick(() => {
-        this.$refs.editForm.init("11");
+        this.$refs.editForm.init("11",1);
       });
     },
     doAdminChangePassword(row) {

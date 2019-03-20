@@ -22,8 +22,10 @@
       
         <el-table-column align="center"    label="投资主体" >
           <template slot-scope="scope">
-            <input type="hidden" :value=" scope.row.pro">
-             <el-select>
+            
+            <input type="hidden" @click="page(formkey[scope.$index])" :value="formkey[$index]">
+             <el-select v-model="formkey[scope.$index].pro">
+                <!-- v-model="formkey[$index].pro"  -->
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -34,10 +36,10 @@
         </template>
 
         </el-table-column>
-      <el-table-column align="center"  prop="pro" label="投资项目" >
+      <el-table-column align="center"   label="投资项目" >
         <template slot-scope="scope">
           <input type="hidden" :value=" scope.row.pro">
-         <el-select>
+         <el-select v-model="formkey[scope.$index].dd">
               <el-option
                 v-for="item in options2"
                 :key="item.value"
@@ -50,7 +52,7 @@
       <el-table-column align="center"   label="是否受监管" >
         <template slot-scope="scope">
 <input type="hidden" :value=" scope.row.pro">
-        <el-select>
+        <el-select v-model="formkey[scope.$index].cc">
           <el-option value="1">是</el-option>
           <el-option value="2">否</el-option>
         </el-select>
@@ -59,7 +61,7 @@
       <el-table-column align="center"   label="与上一项共用额度" >
         <template slot-scope="scope">
          <input type="hidden" :value=" scope.row.pro">
-        <el-select>
+        <el-select v-model="formkey[scope.$index].ee">
           <el-option value="1">是</el-option>
           <el-option value="2">否</el-option>
         </el-select>
@@ -68,7 +70,14 @@
       <el-table-column align="center"  prop="total" label="监管额度(单位:亿元)" ></el-table-column>
        
     </el-table>
-    
+    <div class="tip">
+        <p>*非存款类金融机构包括基金公司、证券公司、信托公司、金融租赁公司</p>
+        <p>*广义信贷为银行理财+债券+货基+同业拆借(非存款类)+质押式逆回购(非存款类)</p>
+    </div>
+    <div>
+      <el-button type="primary" @click="onSubmit">提交</el-button>
+      <!-- <el-button>取消</el-button> -->
+    </div>
     <!-- <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
     </t-grid>-->
     <!-- 弹窗, 新增 / 修改 -->
@@ -92,7 +101,7 @@ export default {
     return {
       editFormVisible: true,
       adminChangePasswordFormVisible: false,
-     
+      
       
        pageTotal: 0,
        value:"",
@@ -104,6 +113,28 @@ export default {
         rows:""
 
       },
+      formkey:[
+        {
+          dd:"",
+          cc:""
+        },{
+          
+        },{
+          
+        },{
+         
+        },{
+        
+        },{
+         
+        },{
+          
+        },{
+          
+        },{
+         
+        },
+      ],
       options: [{
           value: '1',
           label: '集团公司'
@@ -196,39 +227,7 @@ export default {
           frozen:"111.02",
           total:"119",
           surplus:"11"
-        },
-        {
-          compan: "",
-          pro: "银行理财",
-          used: "110",
-          frozen:"111.02",
-          total:"119",
-          surplus:"11"
-        },
-        {
-          compan: "",
-          pro: "银行理财",
-          used: "110",
-          frozen:"111.02",
-          total:"119",
-          surplus:"11"
-        },
-        {
-          compan: "",
-          pro: "银行理财",
-          used: "110",
-          frozen:"111.02",
-          total:"119",
-          surplus:"11"
-        },
-        {
-          compan: "",
-          pro: "银行理财",
-          used: "110",
-          frozen:"111.02",
-          total:"119",
-          surplus:"11"
-        }
+        } 
       ],
       selectedRows: []
       
@@ -322,6 +321,9 @@ export default {
             self.total = data.data.total
            
         }
+    },
+    onSubmit(){
+      console.log(this.formkey)
     }
   }
 };

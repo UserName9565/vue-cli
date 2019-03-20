@@ -1,26 +1,47 @@
 import Vue from 'vue';//引用vue
 import Vuex from 'vuex';//引用vuex
 Vue.use(Vuex);//使用vuex
-const state={
-    nodeVoteCount:1,//node的初始票数
-    vueVoteCount:2,//vue的初始票数
+
+const state=sessionStorage.getItem('state') ? JSON.parse(sessionStorage.getItem('state')) :{
+    userId:null,//用户id
+    username:null,//用户名称
+    token:null//识别编码
 };
 //生明一个常量mutations，将所有的mutation放入其中
 const mutations={
-    //为nodeVoteCount加1
-    addNodeVote(state){//这里的state即是上面定义的state常量
-        state.nodeVoteCount++;
-       //根据具体情况，你还可以在这里写一些其它的逻辑来改变状态
+    setLogin(state,obj){
+        //sessionStorage.setItem("login", JSON.stringify(obj));  //添加到sessionStorage
+        state.userId = obj.userId;
+        state.username = obj.username;
+        state.token = obj.token;
+        
     },
-    //为vueVoteCount加1
-    addVueVote(state){//这里的state即是上面定义的state常量
-        state.vueVoteCount++;
-        //根据具体情况，你还可以在这里写一些其它的逻辑来改变状态
+    signOut (state) {   //退出，删除状态
+        sessionStorage.removeItem("state");  //移除sessionStorage
+        state.userId = '';
+        state.username = '';
+        state.token = '';              //同步的改变story中的状态
+        
     }
+ 
+     
+}
+const getters = {
+    getLogin:(state) => (str) => {
+        // if(!state.userId){
+        //     state.commit('setLogin', JSON.parse(sessionStorage.getItem('login')))
+        //     let obj = JSON.parse(sessionStorage.getItem('login'))
+        //     // state.userId = obj.userId;
+        //     // state.username = obj.username;
+        //     // state.token = obj.token;
+        // }
+        return state[str]
+      }
 }
 const store = new Vuex.Store({//暴露Store对象
     state,
-    mutations//将mutations进行暴露
+    mutations,//将mutations进行暴露
+    getters
 })
 export default store
  
