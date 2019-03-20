@@ -61,7 +61,7 @@
               <el-tag type="success" v-show="!scope.locked">启用</el-tag>
               <el-tag type="danger" v-show="scope.locked">停用</el-tag>
           </template>
-      </el-table-column>
+      </el-table-column> 
       <el-table-column align="center"  prop="address" label="审批状态" width="180"></el-table-column>
       <el-table-column align="center"  fixed="left" label="操作" width="130">
         <template slot-scope="scope">
