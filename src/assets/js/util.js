@@ -23,7 +23,7 @@ util.rules={ // 就是我们在el-form中绑定的rules，进行表单的验证
   name1:[
     { required: true, message: '必填项' },
     { min: 1, max: 32, message: '长度在1 到 32之间', trigger: 'blur' }
-  ],
+  ]
  
 }
 //前端权限校验

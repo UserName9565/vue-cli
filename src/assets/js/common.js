@@ -219,7 +219,7 @@ let common = {
         }
 
         return arr;
-    },
+    }
 
 
 }

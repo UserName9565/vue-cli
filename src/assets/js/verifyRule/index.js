@@ -69,5 +69,5 @@ export default [{
         } else callback('不能小于当前日期')
       }
     })
-  },
+  }
 ];

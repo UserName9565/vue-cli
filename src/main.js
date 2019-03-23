@@ -2,24 +2,24 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import App from './App';
 import elementUIVerify from 'element-ui-verify'
-import router from './router';
-import store from './store'
+ import router from './router';
+ import store from './store'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';    // 默认主题
 // import '../static/css/theme-green/index.css';       // 浅绿色主题
 import '../static/css/theme-first/index.css';
 import './assets/icon/iconfont.css';
 import "babel-polyfill"; 
+Vue.use(ElementUI, { size: 'small' });
+Vue.use(elementUIVerify)
+
 import Urls from './assets/js/url.js';//路劲共用
 import util from './assets/js/util.js'
 import common from './assets/js/common.js'//公共注册
 Vue.prototype.common = common;
 import http from './assets/js/http.js'
-
-// import  verifyrules from '@/verifyRule'
 Vue.prototype.$util = util
-Vue.use(ElementUI, { size: 'small' });
-Vue.use(elementUIVerify)
+
 import  verifyrules from './assets/js/verifyRule'
 
 verifyrules.forEach(item => {//

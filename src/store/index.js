@@ -28,13 +28,7 @@ const mutations={
 }
 const getters = {
     getLogin:(state) => (str) => {
-        // if(!state.userId){
-        //     state.commit('setLogin', JSON.parse(sessionStorage.getItem('login')))
-        //     let obj = JSON.parse(sessionStorage.getItem('login'))
-        //     // state.userId = obj.userId;
-        //     // state.username = obj.username;
-        //     // state.token = obj.token;
-        // }
+       
         return state[str]
       }
 }
