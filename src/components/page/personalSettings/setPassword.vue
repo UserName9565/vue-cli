@@ -4,14 +4,14 @@
         <div class="container">
             <div class="form-box">
                 <el-form ref="form" :model="form" label-width="80px">
-                    <el-form-item label="原密码">
-                        <el-input v-model="form.name"></el-input>
+                    <el-form-item label="原密码" verify prop="oldPassword" class="is-required">
+                        <el-input v-model="form.oldPassword" type="password"></el-input>
                     </el-form-item>
-                     <el-form-item label="新密码">
-                        <el-input v-model="form.name"></el-input>
+                     <el-form-item label="新密码" :verify="validateLoginNewPassword" prop="password" class="is-required">
+                        <el-input v-model="form.password" type="password"></el-input>
                     </el-form-item>
-                     <el-form-item label="确认密码">
-                        <el-input v-model="form.name"></el-input>
+                     <el-form-item label="确认密码" :verify="validateConfirmPassword" :watch="form.password" prop="confirmNewPassword" class="is-required">
+                        <el-input v-model="form.confirmNewPassword" type="password"></el-input>
                     </el-form-item>
                      <el-form-item >
                         <div class="font">
@@ -34,77 +34,54 @@
 
 <script>
     export default {
-        name: 'baseform',
+     
         data: function(){
             return {
-                options:[
-                    {
-                        value: 'guangdong',
-                        label: '广东省',
-                        children: [
-                            {
-                                value: 'guangzhou',
-                                label: '广州市',
-                                children: [
-                                    {
-                                        value: 'tianhe',
-                                        label: '天河区'
-                                    },
-                                    {
-                                        value: 'haizhu',
-                                        label: '海珠区'
-                                    }
-                                ]
-                            },
-                            {
-                                value: 'dongguan',
-                                label: '东莞市',
-                                children: [
-                                    {
-                                        value: 'changan',
-                                        label: '长安镇'
-                                    },
-                                    {
-                                        value: 'humen',
-                                        label: '虎门镇'
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        value: 'hunan',
-                        label: '湖南省',
-                        children: [
-                            {
-                                value: 'changsha',
-                                label: '长沙市',
-                                children: [
-                                    {
-                                        value: 'yuelu',
-                                        label: '岳麓区'
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ],
+                
                 form: {
-                    name: '',
-                    region: '',
-                    date1: '',
-                    date2: '',
-                    delivery: true,
-                    type: ['步步高'],
-                    resource: '小天才',
-                    desc: '',
-                    options: []
+                    oldPassword: '',
+                    password:'',
+                    confirmNewPassword:''
+                   
                 }
             }
         },
         methods: {
+            validateLoginNewPassword(rule, value, callback) {
+                if (!(/^(?![0-9]+$)(?![a-zA-Z]+$)(?!(.)\1{5}).{8,32}$/.test(value))) {
+                    callback(new Error('新密码强度弱，长度必须在8位和32位数之间，包含字母数字'));
+                }
+                callback();
+                },
+                validateConfirmPassword(rule, value, callback) {
+                if (this.form.password !== value) {
+                    callback(new Error('确认新密码与新密码不一致'))
+                } else {
+                    callback()
+                }
+                },
             onSubmit() {
-                this.$message.success('提交成功！');
+                this.$refs["form"].validate(valid => {
+                    if (valid) {
+                       
+                        let self = this;
+                        var obj ={
+                            url: self.$url.userManag.updateCurrentPassword,
+                            data: self.form,
+                            message:true
+                        }
+                        this.common.httpPost(obj,success);
+                        function success(data){
+                            self.$message.success('提交成功！');
+                        }
+                    } else {
+                        this.$message({
+                            message:"请完善信息",
+                            type:"error"
+                        })
+                    return false;
+                    }
+                });
             }
         }
     }

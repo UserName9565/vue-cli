@@ -24,14 +24,10 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="上级路由">
-              <el-select class="parent-router-select" v-model="model.parentId" placeholder="请选择">
-                  <el-option
-                    v-for="item in this.parentRouterList"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id">
-                  </el-option>
-                </el-select>
+         
+              <el-cascader v-model="parentId" :options="parentRouterList"  :props="propsList" change-on-select :show-all-levels="false">
+                </el-cascader>
+                {{parentId}}
           </el-form-item>
         </el-col>
       </el-row>
@@ -82,22 +78,22 @@ export default {
       visible: false, title:"添加",
       disabled:false,
       btn:"提交",
-      parentRouterList:null,
+      parentRouterList:[],
       aproveVisible: false,
+      parentId:[1, 12, 36],
       model: {
         id: null,
         code: '',
         name: '',
         url: '',
-        parentId: 0,
+        parentId: 1,
         locked: false,
         displayOrder: 0,
         properties: ''
       },
-      dialogProps: {
-        visible: false,
-        action: '',
-        title: ''
+      propsList:{
+        value:"id",
+        label:"name"
       },
       formRules: {
         name: [
@@ -225,22 +221,14 @@ export default {
       })      
     }    
   },
-  mounted: function() {
-    this.common.selectInit(this.$url.selectList.menu,this.parentRouterList)
-    // this.$nextTick(() => {  
-    //   this.$on('openEditRouterDialog', function(router) {
-    //     this.model = router
-    //     this.dialogProps.action = 'edit'
-    //     this.dialogProps.title = '修改路由'
-    //     this.dialogProps.visible = true
-    //   })
-    //   this.$on('openAddRouterDialog', function() {
-    //     this.dialogProps.action = 'add'
-    //     this.dialogProps.title = '添加路由'
-    //     this.model = {}
-    //     this.dialogProps.visible = true
-    //   })
-    // })
+  created: function() {
+    var self = this;
+    this.common.selectInit(this.$url.selectList.menu,success,{})
+    function success(data){
+       console.log(data.rows)
+      self.parentRouterList =data.rows;
+    }
+     
   }    
 }
 </script>

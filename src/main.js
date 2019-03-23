@@ -20,16 +20,16 @@ import http from './assets/js/http.js'
 Vue.prototype.$util = util
 Vue.use(ElementUI, { size: 'small' });
 Vue.use(elementUIVerify)
+import  verifyrules from './assets/js/verifyRule'
+
+verifyrules.forEach(item => {//
+  elementUIVerify.addRule(item.rule, item.ruleMethod);
+})
 Vue.prototype.$axios = http;//axios 设置
 Vue.prototype.$store = store;//vuex
 Vue.prototype.$url = Urls;
 Vue.config.silent = true
 Vue.use(Vuex)
-import  verifyrules from './assets/js/verifyRule/index'
-
-verifyrules.forEach(item => {
-  ElementUIVerify.addRule(item.rule, item.ruleMethod);
-})
 //使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {
     const role =store.getters.getLogin("userId")  //localStorage.getItem('ms_username');

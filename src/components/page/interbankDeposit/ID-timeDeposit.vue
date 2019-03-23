@@ -99,7 +99,7 @@
 </template>
 
 <script>
-//import EditForm from "./ID-accountManagWin/edit";
+import EditForm from "./ID-businessPlanManagWin/edit";
 import AproveStep from "../comWin/aproveStep";
 export default {
   data() {
@@ -158,7 +158,8 @@ export default {
   },
 
   components: {
-    AproveStep
+    AproveStep,
+    EditForm
   },
   methods: {
     doNew() {

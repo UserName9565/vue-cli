@@ -21,7 +21,7 @@
           <el-col :span="24" class="btn-box">
             <el-form-item>
               <el-button @click="doSearch(1)" icon="el-icon-search" type="primary">查询</el-button>
-              <el-button icon="el-icon-plus" type="primary" @click="doNew()">新增</el-button>
+              <!-- <el-button icon="el-icon-plus" type="primary" @click="doNew()">新增</el-button> -->
             </el-form-item>
           </el-col>
         </el-row>
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import EditForm from "./ID-businessOperationWin/edit";
+import EditForm from "./ID-businessPlanManagWin/edit";
 import AproveStep from "../comWin/aproveStep";
 export default {
   data() {

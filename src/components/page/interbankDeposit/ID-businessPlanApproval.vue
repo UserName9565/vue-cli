@@ -71,7 +71,7 @@
 
 <script>
 import AproveStep from "../comWin/aproveStep";
- import EditForm from "./ID-businessPlanApprovalWin/addList";
+ import EditForm from "./ID-businessPlanManagWin/addList";
 export default {
   data() {
     return {

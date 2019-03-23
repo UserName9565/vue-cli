@@ -34,10 +34,9 @@ axios.interceptors.response.use(
       switch (error.response.status) {
         case 401:
           // 401 清除token信息并跳转到登录页面
-        
-        // console.log(vue.$store.getters.getLogin('username'))
           vue.$store.commit('signOut');
           vue.$router.push('/login');
+          
         //   vue.$router.replace({
         //     path: '/login',
         //     query: {

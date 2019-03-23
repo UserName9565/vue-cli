@@ -58,7 +58,15 @@ let common = {
 
                         success(response.data)
                     } else {
-                        bus.$notify.error("接口请求失败");
+                        if(obj.message){
+                            bus.$message({
+                                message:response.message,
+                                type:"error"
+                            })
+                        }else{
+
+                            bus.$notify.error("接口请求失败");
+                        }
                     }
                 })
                 .catch(function (msgE) {
@@ -79,7 +87,15 @@ let common = {
 
                         success(response.data)
                     } else {
-                        bus.$notify.error("接口请求失败");
+                        if(obj.message){
+                            bus.$message({
+                                message:response.message,
+                                type:"error"
+                            })
+                        }else{
+
+                            bus.$notify.error("接口请求失败");
+                        }
                     }
                 })
                 .catch(function (msgE) {
@@ -90,15 +106,15 @@ let common = {
                 });
         }
     },
-    selectInit(url, list, data) {
+    selectInit(url, back, params) {
         let obj = {
             url: url,
-            data: data
+            data: params
         }
+      
         this.httpPost(obj, success);
-
         function success(data) {
-            console.log(data)
+            back(data);
         }
     },
     treeList(data,obj) { //路由树结构
@@ -121,6 +137,7 @@ let common = {
         menuNew.forEach((item) => {//循环第一层
             var pA = son(item);
             item.label = item[obj.label]
+            item.key = 'key-' + item[obj.id];
             if (pA.length > 0) {
 
                 item.children = pA;
@@ -132,7 +149,8 @@ let common = {
 
 
             var newSon = data.filter((o) => {
-                o.label = o[obj.label];
+                o.label = o[obj.label]+'key-' + o[obj.id];
+                o.key = 'key-' + o[obj.id];
                 return o[obj.pid]== item[obj.id];
             })
             if (newSon.length > 0) {
@@ -151,10 +169,12 @@ let common = {
     },
     menuResource(data, roleData) { //路由树+资源组合树；
         var arr = [];
+       
         var menuNew = data.filter((item) => {
             return item.parentId == 0;
         })
-
+     
+        
         menuNew.forEach((item) => {
             var pA = son(item);
             item.label = item.name+'router-' + item.id;
@@ -180,10 +200,11 @@ let common = {
                     }
                 })
             } else {//叶子节点  将有资源附着
+                
                 item.children = [];
                 roleData.forEach((element) => {
 
-                    if (element.router.id == item.id) {
+                    if (element.routerId == item.id) {
                         let resourceNode = {
                             type: 'resource',
                             id: element.id,

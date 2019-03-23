@@ -33,7 +33,10 @@ export default {
       disabled:false,
       btn:"提交",
       aproveVisible: false,
-      model: {},
+      model: {
+        newPassword:"",
+        confirmNewPassword:""
+      },
     }
   },
   created() {
@@ -50,11 +53,14 @@ export default {
       this.model.name = name;
       this.model.loginName = loginName;
         this.model.userId = id;
-         
+         if(this.$refs['form']){
+
+          this.$refs['form'].resetFields();
+        }
     },
     validateLoginNewPassword(rule, value, callback) {
-      if (!(/^(?![0-9]+$)(?![a-zA-Z]+$)(?!(.)\1{5}).{8,16}$/.test(value))) {
-        callback(new Error('新密码强度弱，长度必须在8位和16位数之间，包含字母数字'));
+      if (!(/^(?![0-9]+$)(?![a-zA-Z]+$)(?!(.)\1{5}).{8,32}$/.test(value))) {
+        callback(new Error('新密码强度弱，长度必须在8位和32位数之间，包含字母数字'));
       }
       callback();
     },
@@ -70,10 +76,10 @@ export default {
       self.$refs['form'].validate((valid) => {
         if (valid) {
           let self = this;
-          this.form.password = this.form.newPassword
+          this.model.password = this.model.newPassword
           var obj ={
             url:this.$url.userManag.updatePassword,
-            data:this.form
+            data:this.model
           }
           this.common.httpPost(obj,success);
           function success(data){
@@ -83,7 +89,7 @@ export default {
               type:"sucess"
             });
             self.visible = false;
-            self.$emit('change');
+            //self.$emit('change');
             
           }
           

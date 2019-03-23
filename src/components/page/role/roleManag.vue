@@ -120,7 +120,7 @@ export default {
     },
     doSearch(value) {
        this.form.pageNum = value;
-      console.log(this.$url.roleManag.getList)
+     
         let self = this;
         var obj ={
           url:this.$url.roleManag.getList,

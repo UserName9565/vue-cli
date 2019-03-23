@@ -254,7 +254,9 @@ export default {
           this.disabled = true;
           this.formAction = 2;
           this.btn = "审核";
+          this.title = "审核"
         } else {
+           this.title = "编辑"
           self.formAction = 1;
         }
         let model = self.model;
@@ -268,11 +270,10 @@ export default {
           self.$refs.form.resetFields();
         }
       } else {
-        self.model = {
-          activited: true
-        };
+         
+        this.title = "添加"
         self.formAction = 0;
-        self.$nextTick(() => {});
+        
       }
     },
     doNew() {

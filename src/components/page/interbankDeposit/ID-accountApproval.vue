@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import EditForm from "./ID-accountApprovalWin/edit";
+import EditForm from "./ID-businessPlanManagWin/edit";
 import AproveStep from "../comWin/aproveStep";
 export default {
   data() {

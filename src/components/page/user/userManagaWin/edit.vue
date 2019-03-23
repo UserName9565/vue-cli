@@ -5,20 +5,19 @@
       :close-on-click-modal="false"
       :visible.sync="visible"
       
-    >
-      <el-tabs v-model="tabActive" @tab-click="handleTabClick">
-        <el-tab-pane label="基本信息" name="userInfo">
-          <el-form
+    > <el-form
             :model="model"
             ref="form"
             label-width="100px"
-            v-show="tabActive =='userInfo'"
             :disabled="disabled"
           >
-            <el-row :gutter="20">
+      <el-tabs v-model="tabActive" @tab-click="handleTabClick">
+        <el-tab-pane label="基本信息" name="userInfo">
+         
+            <el-row :gutter="20"  v-show="tabActive =='userInfo'">
               <el-col :span="12">
-                <el-form-item label="登录名"  verify :length="50"  prop="loginName" class="is-required">
-                  <el-input v-model="model.loginName"></el-input>
+                <el-form-item label="登录名"   verify :maxLength="50"  prop="loginName" class="is-required">
+                  <el-input  v-model="model.loginName"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12" v-if="formAction==0">
@@ -40,13 +39,13 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="邮箱" prop="email" verify :email='true'>
+                <el-form-item class="is-required" label="邮箱" prop="email" verify :email='true'>
                   <el-input v-model="model.email"></el-input>
                 </el-form-item>
               </el-col>
 
               <el-col :span="12">
-                <el-form-item prop="mobile" label="手机" verify  :phone='true'>
+                <el-form-item class="is-required" prop="mobile" label="手机" verify  :phone='true'>
                   <el-input v-model="model.mobile"></el-input>
                 </el-form-item>
               </el-col>
@@ -56,22 +55,31 @@
                 </el-form-item>
               </el-col>
             </el-row>
-          </el-form>
+          
         </el-tab-pane>
         <el-tab-pane label="所属机构" name="orgin">
-         <el-tree :expand-on-click-node="false" ref="tree" show-checkbox :data="treeData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+          <el-form-item label="选择机构">
+                   
+                  <el-tree :expand-on-click-node="false" ref="tree" show-checkbox :data="treeData" :props="defaultProps" 
+                  :default-checked-keys="permissionKeys"  node-key="id" @node-click="handleNodeClick"></el-tree>
+            </el-form-item>
         </el-tab-pane>
         <el-tab-pane label="角色权限" name="roleInfo">
-          <el-select v-model="value5" multiple placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+          <el-col :span="12">
+            <el-form-item label="角色权限" prop="roleIds" verify >
+                <el-select v-model="model.roleIds" multiple placeholder="请选择">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                  ></el-option>
+                </el-select>
+            </el-form-item>
+          </el-col>
         </el-tab-pane>
       </el-tabs>
+      </el-form>
       <span slot="footer" class="dialog-footer">
         
         <el-button  type="primary" @click="doAprove()">{{btn}}</el-button>
@@ -96,35 +104,21 @@ export default {
       aproveVisible: false,
       tabActive: "userInfo",
       model: {
-         
+         loginName:"",
+         password :"",
+         name:"",
+         email:"",
+         mobile:"",
       },
       defaultProps:{
         label:'name',
         children:"children"
       },
+      permissionKeys:[],
       treeData: [
       ],
       options: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        },
-        {
-          value: "选项3",
-          label: "蚵仔煎"
-        },
-        {
-          value: "选项4",
-          label: "龙须面"
-        },
-        {
-          value: "选项5",
-          label: "北京烤鸭"
-        }
+         
       ],
       value5: []
     };
@@ -143,7 +137,9 @@ export default {
       this.$nextTick(() => {
          this.$refs['form'].resetFields();
       });
+       
       this.doTree();//加载组织机构树
+      this.doselect();//加载下拉
       if (type==1||type==2) {
         
         if(type==2){//如果是审核进来   type就==3
@@ -164,9 +160,25 @@ export default {
         };
         this.common.httpPost(obj, success);
         function success(data) {
-          self.model = data;
+          self.$refs.tree.setCheckedKeys([])
+          self.permissionKeys=data.organizationIds;
+          // data.organizationIds.forEach(element => {
+          //   self.permissionKeys.push('key-' + element)
+          // })
+          console.log(self.permissionKeys)
+          self.model = {
+            id:data.id,
+            loginName:data.loginName,
+            name:data.name,
+            password:"",
+            email:data.email,
+            mobile:data.mobile,
+            roleIds:data.roleIds
+          }
+          //self.model = data;
            
         }
+        
       } else {
         self.formAction = 0;
       }
@@ -181,12 +193,31 @@ export default {
       let self = this;
       self.$refs["form"].validate(valid => {
         if (valid) {
+          this.treeList();
+          if(self.model.organizationIds){
+            if(self.model.organizationIds.length==0){
+              self.$message({
+                message:"请选择组织机构",
+                type:"error"
+              })
+              return false;
+            }
+          }else{
+            self.$message({
+                message:"请选择组织机构",
+                type:"error"
+              })
+              return false;
+          }
           this.aproveVisible = true;
           this.$nextTick(() => {
             this.$refs.aproveForm.init(null);
           });
         } else {
-          
+          self.$message({
+            message:"请完善信息",
+            type:"error"
+          })
           return false;
         }
       });
@@ -199,7 +230,7 @@ export default {
       }else{
         var url = this.$url.userManag.edit
       }
-       this.treeList();
+       
       var obj = {
         url: url,
         data: model
@@ -233,27 +264,26 @@ export default {
           
       }
     },
+    doselect(){
+      let self = this;
+      this.common.selectInit(this.$url.roleManag.findAll,success,{});
+      function success(data){
+        self.options = data.rows;
+      }
+    },
     treeList(){
-       let routerIds = []
-      let resourceIds = []
+      
+      let organizationIds = []
       this.$refs.tree.getCheckedNodes().forEach(element => {
-        if(!element.type) {
-          routerIds.push(element.id)
-        }
-        if(element.type === 'resource') {
-          resourceIds.push(element.id)
-        }
+        
+          organizationIds.push(element.id)
+         
       })
-      this.$refs.tree.getHalfCheckedNodes().forEach(element => {
-        if(!element.type) {
-          routerIds.push(element.id)
-        }
-        if(element.type === 'resource') {
-          resourceIds.push(element.id)
-        }
-      })
-      this.model.routerIds = routerIds;
-      this.model.resourceIds = resourceIds;
+      // this.$refs.tree.getHalfCheckedNodes().forEach(element => {
+      //     organizationIds.push(element.id)
+      // })
+      this.model.organizationIds = organizationIds;
+     
     },
   }
 };

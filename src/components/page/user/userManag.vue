@@ -51,8 +51,8 @@
       <el-table-column align="center"  prop="loginName" label="登录名" width="180"></el-table-column>
       <el-table-column align="center"  prop="name" label="姓名" width="180"></el-table-column>
       <el-table-column align="center"  prop="email" label="邮箱" width="180"></el-table-column>
-      <el-table-column align="center"  prop="address" label="所属机构" width="180"></el-table-column>
-      <el-table-column align="center"  prop="address" label="角色权限" width="180"></el-table-column>
+      <el-table-column align="center"  prop="organizationNames" label="所属机构" width="180"></el-table-column>
+      <el-table-column align="center"  prop="roleNames" label="角色权限" width="180"></el-table-column>
        
 
       <el-table-column align="center"  prop="createdAt" label="创建时间" width="180"></el-table-column>
@@ -110,36 +110,6 @@ export default {
       tableData3: [
         {
           date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-08",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-06",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-07",
           name: "王小虎",
           address: "上海市普陀区金沙"
         }

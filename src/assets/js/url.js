@@ -43,21 +43,23 @@ const urls = {
         del: ctx + "/api/router/delete", //停用
         edit: ctx + "/api/router/update", //编辑
         add: ctx + "/api/router/create", //增加
+        // findTree: ctx + "/api/router/findTree", 
         findAll:ctx+"/api/router/findAll",//查找路由所有
-        dd:ctx+"/api/router/findByParentId",//
-        cc:ctx+"/api/router/findAuthorized",//
+        findByParentId:ctx+"/api/router/findByParentId",//
+        findAuthorized:ctx+"/api/router/findAuthorized",//
       },
-      roleManag: {//橘色管理
+      roleManag: {//角色管理
         getList: ctx + "/api/role/find", //查询列表
         getById: ctx + "/api/role/findById", //id查询
         del: ctx + "/api/role/delete", //停用
         edit: ctx + "/api/role/update", //编辑
         add: ctx + "/api/role/create", //增加
+        findAll:ctx+"/api/role/findAll",
         updatePermission: ctx + "/api/role/updatePermission", //
         findResourcePermission: ctx + "/api/role/findResourcePermission", //
       },
     selectList:{//下拉框的数据
-        menu:ctx+"/api/router/findByParentId",//
+        menu:ctx+"/api/router/findTree",//上级路由
     },
     resourceManag:{
         getList: ctx + "/api/resource/find", //查询列表
@@ -71,6 +73,7 @@ const urls = {
         findPermissionByUserId: ctx + "/api/resource/findPermissionByUserId", 
         findPermission: ctx + "/api/resource/findPermission", 
         findPermissionCodeByUserId: ctx + "/api/resource/findPermissionCodeByUserId", 
+
     },
     userManag:{// 
         getList: ctx + "/api/user/find", //查询列表
@@ -80,7 +83,8 @@ const urls = {
         add: ctx + "/api/user/create", //增加
         updateCurrentUser:ctx+"/api/user/updateCurrentUser", 
         findByLoginName:ctx+"/api/user/findByLoginName",//
-        updatePassword:ctx+"/api/user/updatePassword",//  
+        updatePassword:ctx+"/api/user/updatePassword",//重置密码接口
+        updateCurrentPassword:ctx+"/api/user/updateCurrentPassword",//修改自己密码接口
         me:ctx+"/api/user/me",// 
     },
     organizationManag:{// 

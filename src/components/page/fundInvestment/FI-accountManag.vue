@@ -45,12 +45,7 @@
         <el-table-column align="center" prop="address" label="截至上月持有期内年化收益率"></el-table-column>
         <el-table-column align="center" prop="address" label="可比收益率"></el-table-column>
         <el-table-column align="center" prop="address" label="交易对手"></el-table-column>
-
-
-
-
-
-
+ 
         <el-table-column align="center" type="index" label="代码"></el-table-column>
         <el-table-column align="center" prop="date" label="基金简称"></el-table-column>
         <el-table-column align="center" prop="name" label="初始资金(元)"></el-table-column>
@@ -79,7 +74,7 @@
 </template>
 
 <script>
-import EditForm from "./FI-accountManagWin/edit";
+import EditForm from "./FI-businessPlanManagWin/edit";
 export default {
   data() {
     return {

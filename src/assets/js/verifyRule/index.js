@@ -9,7 +9,7 @@ idcard: 身份证号校验
 num: 数字格式校验
 ltdatenow: 不能大于当前日期校验
 */
-import util from './util';
+import util from '../util';
  
 // 最大文本长度
 export default [{

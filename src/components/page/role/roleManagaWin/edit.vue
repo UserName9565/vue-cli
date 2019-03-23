@@ -223,14 +223,14 @@ export default {
           resourceIds.push(element.id)
         }
       })
-      this.$refs.tree.getHalfCheckedNodes().forEach(element => {
-        if(!element.type) {
-          routerIds.push(element.id)
-        }
-        if(element.type === 'resource') {
-          resourceIds.push(element.id)
-        }
-      })
+      // this.$refs.tree.getHalfCheckedNodes().forEach(element => {
+      //   if(!element.type) {
+      //     routerIds.push(element.id)
+      //   }
+      //   if(element.type === 'resource') {
+      //     resourceIds.push(element.id)
+      //   }
+      // })
       this.model.routerIds = routerIds;
       this.model.resourceIds = resourceIds;
     },
@@ -258,7 +258,7 @@ export default {
       this.common.httpPost(obj,success);
       function success(roleData){
          self.treeData2 = self.common.menuResource(data.rows,roleData.rows);
-       
+
          if(self.formAction!=0){
            self.hook();
          }
@@ -266,24 +266,19 @@ export default {
     },
     hook(){
       var self = this;
-      var obj ={
-          url:this.$url.roleManag.findResourcePermission,
-          data:{
-            roleId:self.model.id
-          }
-      }
-      this.common.httpPost(obj,success);
-      function success(data){
-        self.$refs.tree.setCheckedKeys([])
+      
+  
+      
+      self.$refs.tree.setCheckedKeys([])
        self.permissionKeys=[];
-        data.resourcePermission.forEach(element => {
+        self.model.resourceIds.forEach(element => {
           self.permissionKeys.push('resource-' + element)
         })
-         data.routerPermission.forEach(element => {
+         self.model.routerIds.forEach(element => {
           self.permissionKeys.push('router-' + element)
         })
           
-      }
+      
     }
  
   }
