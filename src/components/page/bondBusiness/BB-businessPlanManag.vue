@@ -74,8 +74,7 @@
 export default {
   data() {
     return {
-      editFormVisible: true,
-      adminChangePasswordFormVisible: false,
+      AddListVisible: false,
      AproveStepVisible: false,
       
        pageTotal: 0,

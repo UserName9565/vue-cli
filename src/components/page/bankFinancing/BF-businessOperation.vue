@@ -70,7 +70,7 @@
 
 <script>
 import AproveStep from "../comWin/aproveStep";
-import EditForm from "./BF-businessOperationWin/edit";
+import EditForm from "./BF-businessPlanManagWin/edit";
 export default {
   data() {
     return {

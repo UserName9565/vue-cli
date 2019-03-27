@@ -63,7 +63,7 @@
     <!-- <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
     </t-grid>-->
     <!-- 弹窗, 新增 / 修改 -->
-    <add-list v-if="AddListVisible" ref="addList" @change="doSearch"></add-list>
+    <add-list v-if="addListVisible" ref="addList" @change="doSearch"></add-list>
 
     <aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
   </div>
@@ -133,13 +133,13 @@ export default {
   methods: {
     doNew() {
       //  this.$router.push('COD-addBusinessPlanManag');
-      this.AddListVisible = true;
+      this.addListVisible = true;
       this.$nextTick(() => {
         this.$refs.addList.init(null, 0);
       });
     },
     doEdit(row) {
-      this.AddListVisible = true;
+      this.addListVisible = true;
       this.$nextTick(() => {
         this.$refs.addList.init("11", 1);
       });

@@ -141,10 +141,10 @@ export default {
       });
     },
     doEdit(row) {
-      this.editFormVisible = true;
+      this.AddListVisible = true;
       this.$nextTick(() => {
          
-        this.$refs.editForm.init("11");
+        this.$refs.addList.init("11",1);
       });
     },
     doAdminChangePassword(row) {

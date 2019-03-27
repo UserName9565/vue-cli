@@ -132,7 +132,7 @@ export default {
   created() {},
   methods: {
     doNew() {
-      this.$router.push("BF-addBusinessPlanManag");
+      //this.$router.push("BF-addBusinessPlanManag");
       // this.editFormVisible = true;
       // this.$nextTick(() => {
       //   this.$refs.editForm.init(null);

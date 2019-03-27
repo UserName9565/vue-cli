@@ -2,8 +2,8 @@
 var qs = require('qs');
 import bus from '../../components/common/bus';
 let common = {
-    ctx: 'http://192.168.1.147:8080/finance-backend',
-    ctxForm: "http://192.168.1.147:8080/finance-backend",
+    ctx: 'http://192.168.1.7:8080/finance-backend',
+    ctxForm: "http://192.168.1.7:8080/finance-backend",
     myFun: function (ev) { //给自定义方法起个名
 
     },

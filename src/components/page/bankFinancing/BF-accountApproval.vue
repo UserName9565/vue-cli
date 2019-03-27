@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import EditForm from "./BF-accountApprovalWin/edit";
+import EditForm from "./BF-businessPlanManagWin/edit";
 import AproveStep from "../comWin/aproveStep";
 export default {
   data() {
@@ -135,7 +135,7 @@ export default {
   },
   methods: {
     doNew() {
-      this.$router.push("BF-addBusinessPlanManag");
+     // this.$router.push("BF-addBusinessPlanManag");
       // this.editFormVisible = true;
       // this.$nextTick(() => {
       //   this.$refs.editForm.init(null);
