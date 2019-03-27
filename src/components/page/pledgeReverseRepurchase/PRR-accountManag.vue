@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import EditForm from "./PRR-accountManagWin/edit";
+import EditForm from "./PRR-businessPlanManagWin/edit";
 export default {
   data() {
     return {

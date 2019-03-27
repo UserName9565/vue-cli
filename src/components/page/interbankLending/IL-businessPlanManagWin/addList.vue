@@ -1,5 +1,6 @@
 <template>
-<div class="container">
+<div>
+   <el-dialog :title="title" width="90%" :close-on-click-modal="false" :visible.sync="visible">
   <el-tabs v-model="tabActive" @tab-click="handleTabClick">
     <el-tab-pane label="业务方案" name="userInfo">
        <el-card>
@@ -133,6 +134,7 @@
     </el-tab-pane>
     
   </el-tabs>
+  </el-dialog>
    <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form><aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
    <el-dialog title="导入报价数据" :visible.sync="priceVisible">
      <el-card class="box-card">
@@ -231,6 +233,39 @@ export default {
   },
   activated() {},
   methods: {
+    init(id, type) {
+      this.visible = true;
+      // this.tabActive = "userInfo";
+      let self = this;
+
+      if (type == 1 || type == 2) {
+        if (type == 2) {
+          //如果是审核进来   type就==3
+          this.disabled = true;
+          this.formAction = 2;
+          this.btn = "审核";
+          this.title = "审核"
+        } else {
+           this.title = "编辑"
+          self.formAction = 1;
+        }
+        let model = self.model;
+        var obj = {
+          url: this.$url.workflowdef.getList,
+          data: model
+        };
+        this.common.httpPost(obj, success);
+        function success(data) {
+          self.model = result;
+          self.$refs.form.resetFields();
+        }
+      } else {
+         
+        this.title = "添加"
+        self.formAction = 0;
+        
+      }
+    },
    doNew() {
         
       this.editFormVisible = true;

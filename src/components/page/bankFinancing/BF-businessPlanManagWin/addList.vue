@@ -168,7 +168,7 @@
   </div>
 </template>
 <script>
-import EditForm from "../BF-businessOperationWin/edit";
+import EditForm from "./edit";
 export default {
   data() {
     return {

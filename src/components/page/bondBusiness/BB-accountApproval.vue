@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import EditForm from "./BB-accountApprovalWin/edit";
+import EditForm from "./BB-businessPlanManagWin/edit";
 import AproveStep from "../comWin/aproveStep";
 
 export default {

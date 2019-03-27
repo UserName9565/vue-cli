@@ -62,28 +62,18 @@
     <!-- <t-grid ref="searchReulstList" :options="gridOptions" @selection-change="handleSelectionChange">
     </t-grid>-->
     <!-- 弹窗, 新增 / 修改 -->
-    <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form><aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
-    <admin-change-password-form v-if="adminChangePasswordFormVisible" ref="adminChangePasswordForm"></admin-change-password-form>
-    <t-excel-import
-      @change="doSearch"
-      v-if="importExcelVisible"
-      ref="importExcel"
-      :service="importExcelService"
-      :rowRule="importExcelRowRule"
-      title="用户Excel导入"
-      template-path="用户导入模板.xlsx"
-    ></t-excel-import>
+    <add-list v-if="AddListVisible" ref="addList" @change="doSearch"></add-list><aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
+    
   </div>
 </template>
 
 <script>
  import AproveStep from "../comWin/aproveStep";
+  import AddList from './IL-businessPlanManagWin/addList';
 export default {
   data() {
     return {
-      editFormVisible: true,
-      adminChangePasswordFormVisible: false,
-     
+     AddListVisible: false,
       AproveStepVisible: false,
        pageTotal: 0,
       form:{
@@ -136,35 +126,26 @@ export default {
     };
   },
    components:{
-    AproveStep
+    AproveStep,
+    AddList
   },
   created() {},
   methods: {
     doNew() {
-       this.$router.push('IL-addBusinessPlanManag');
-      // this.editFormVisible = true;
-      // this.$nextTick(() => {
-      //   this.$refs.editForm.init(null);
-      // });
+       //this.$router.push('IL-addBusinessPlanManag');
+      this.AddListVisible = true;
+      this.$nextTick(() => {
+         this.$refs.addList.init(null,0);
+      });
     },
     doEdit(row) {
-      this.editFormVisible = true;
+      this.AddListVisible = true;
       this.$nextTick(() => {
          
-        this.$refs.editForm.init("11");
+        this.$refs.addList.init("11",1);
       });
     },
-    doAdminChangePassword(row) {
-      this.adminChangePasswordFormVisible = true;
-
-      this.$nextTick(() => {
-         
-        this.$refs.adminChangePasswordForm.init(row.name);
-      });
-    },
-    handleSelectionChange(val) {
-      this.selectedRows = val;
-    },
+     
     doBatchDelete() {
       let self = this;
       if (!self.selectedRows || self.selectedRows.length == 0) {

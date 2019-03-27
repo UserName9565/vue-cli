@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import EditForm from "./PRR-businessPlanApprovalWin/addList";
+import EditForm from "./PRR-businessPlanManagWin/addList";
 import AproveStep from "../comWin/aproveStep";
 export default {
   data() {

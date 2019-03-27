@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import App from './App';
-import elementUIVerify from 'element-ui-verify'
+ import elementUIVerify from './assets/js/dist/index.js'
  import router from './router';
  import store from './store'
 import ElementUI from 'element-ui';
@@ -11,9 +11,9 @@ import '../static/css/theme-first/index.css';
 import './assets/icon/iconfont.css';
 import "babel-polyfill"; 
 Vue.use(ElementUI, { size: 'small' });
-Vue.use(elementUIVerify)
+ Vue.use(elementUIVerify)
 
-import Urls from './assets/js/url.js';//路劲共用
+import Urls from './assets/js/url.js';//路径共用
 import util from './assets/js/util.js'
 import common from './assets/js/common.js'//公共注册
 Vue.prototype.common = common;

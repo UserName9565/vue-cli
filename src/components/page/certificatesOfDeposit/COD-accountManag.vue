@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import EditForm from "./COD-accountManagWin/edit";
+import EditForm from "./COD-businessPlanManagWin/edit";
 export default {
   data() {
     return {

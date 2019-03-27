@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import EditForm from "./COD-accountApprovalWin/edit";
+import EditForm from "./COD-businessPlanManagWin/edit";
 import AproveStep from "../comWin/aproveStep";
 
 export default {

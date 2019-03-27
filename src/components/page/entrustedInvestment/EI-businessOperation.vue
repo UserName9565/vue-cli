@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import EditForm from "./EI-businessOperationWin/edit";
+import EditForm from "./EI-businessPlanManagWin/edit";
 import AproveStep from "../comWin/aproveStep";
 export default {
   data() {

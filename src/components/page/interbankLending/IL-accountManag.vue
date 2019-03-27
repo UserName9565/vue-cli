@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import EditForm from "./IL-accountManagWin/edit";
+import EditForm from "./IL-businessPlanManagWin/edit";
 export default {
   data() {
     return {

@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import EditForm from "./BB-accountManagWin/edit";
+import EditForm from "./BB-businessPlanManagWin/edit";
 export default {
   data() {
     return {

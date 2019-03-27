@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import EditForm from "./BB-businessPlanApprovalWin/addList";
+import EditForm from "./BB-businessPlanManagWin/addList";
 import AproveStep from "../comWin/aproveStep";
 export default {
   data() {

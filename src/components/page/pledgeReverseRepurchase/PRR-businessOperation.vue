@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import EditForm from "./PRR-businessOperationWin/edit";
+import EditForm from "./PRR-businessPlanManagWin/edit";
 import AproveStep from "../comWin/aproveStep";
 export default {
   data() {

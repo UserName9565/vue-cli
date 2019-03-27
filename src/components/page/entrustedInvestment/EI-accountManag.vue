@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import EditForm from "./EI-accountManagWin/edit";
+import EditForm from "./EI-businessPlanManagWin/edit";
 export default {
   data() {
     return {
