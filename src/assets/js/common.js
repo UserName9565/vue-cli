@@ -1,6 +1,7 @@
 //import axios from 'axios';
 var qs = require('qs');
 import bus from '../../components/common/bus';
+let moment = require("moment");
 let common = {
     ctx: 'http://192.168.1.7:8080/finance-backend',
     ctxForm: "http://192.168.1.7:8080/finance-backend",
@@ -219,6 +220,46 @@ let common = {
         }
 
         return arr;
+    },
+    pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近一个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近三个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            picker.$emit('pick', [start, end]);
+          }
+        }],
+        disabledDate(time) {
+            return time.getTime() > Date.now() - 8.64e6
+        }
+    },
+    timeDefaultShow(day){
+        var today = new Date();
+    　　var targetday_milliseconds=today.getTime() + 1000*60*60*24*day;
+    // let a = moment(input).utc(8);
+    // return a.format('YYYY-MM-DD HH:mm:ss');
+        let a = moment(targetday_milliseconds).utc(8);
+        　targetday_milliseconds = a.format('YYYY-MM-DD HH:mm:ss');
+   
+        return  [targetday_milliseconds, moment(new Date()).utc(8).format('YYYY-MM-DD HH:mm:ss') ]
     }
 
 

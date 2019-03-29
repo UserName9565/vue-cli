@@ -6,24 +6,15 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="资金账户">
-            <el-input v-model="form.searchKey" clearable></el-input>
+            <el-input v-model="form.account" clearable></el-input>
             
           </el-form-item>
         </el-col>
-         <el-col :span="8">
-          <el-form-item label="委托方名称">
-            <el-select v-model="form.region" placeholder="请选择">
-              <el-option key="0" label="全部" value="0"></el-option>
-              <el-option key="1" label="未处理" value="1"></el-option>
-              <el-option key="2" label="已处理" value="2"></el-option>
-            </el-select>
-            
-          </el-form-item>
-        </el-col>
+         
         <el-col :span="24" class="btn-box">
         <el-form-item>
           <el-button @click="doSearch(1)" icon="el-icon-search"  type="primary">查询</el-button>
-          
+          <el-button @click="doSync()"  type="primary">手动刷新</el-button>
         </el-form-item>
         </el-col>
       </el-row>
@@ -37,23 +28,24 @@
       stripe
       highlight-current-row="true"
       style="width: 100%"
-    >
-      <el-table-column align="center"  prop="address" label="账户简称" ></el-table-column>
-       <el-table-column align="center"  prop="address" label="账户全称" ></el-table-column>
-      <el-table-column align="center"  prop="address" label="资金账号" ></el-table-column>
-      <el-table-column align="center"  prop="address" label="账户余额(元)" ></el-table-column>
+    > <el-table-column align="center"  type="index" label="序号" ></el-table-column>
+    <el-table-column align="center"  prop="status" label="存款状态" ></el-table-column>
+   
+       <el-table-column align="center"  prop="fullname" label="账户全称" ></el-table-column>
+      <el-table-column align="center"  prop="account" label="资金账号" ></el-table-column>
+      <el-table-column align="center"  prop="balance" label="账户余额(元)" ></el-table-column>
       
-      <el-table-column align="center"  prop="address" label="开户行" ></el-table-column>
-      <el-table-column align="center"  prop="address" label="更新时间" ></el-table-column>
+      <el-table-column align="center"  prop="issuingBank" label="开户行" ></el-table-column>
+      <el-table-column align="center" :formatter='$util.YYMM'  prop="updateAt" label="更新时间" ></el-table-column>
     </el-table>
     <div class="pagination">
         <el-pagination
-          :current-page.sync="form.page"
+          :current-pageNum.sync="form.pageNum"
           background
           @current-change="handleCurrentChange"
           layout="total,prev, pager, next,jumper"
           :total="pageTotal"
-          :page-size="form.rows"
+          :pageNum-size="form.pageSize"
         ></el-pagination>
       </div>
        </el-card>
@@ -72,55 +64,16 @@ export default {
   data() {
     return {
       editFormVisible: true,
-     
-      
        pageTotal: 0,
       form:{
-        searchKey:"",
-        region:"",
-        status:"",
-        page:"",
-        rows:""
+        account:"",
+        pageNum:"1",
+        pageSize:"10"
 
       },
       tableData3: [
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-08",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-06",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        }
       ],
-      selectedRows: []
+      
       
     };
   },
@@ -132,40 +85,31 @@ export default {
     this.doSearch(1);
   },
   methods: {
-    doNew() {
-      this.editFormVisible = true;
-      this.$nextTick(() => {
-        this.$refs.editForm.init(null);
-      });
+    doSync() {
+      let self = this;
+        var obj ={
+          url:this.$url.bankAccount.sync,
+          data:{}
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+            self.doSearch(1)
+        }
     },
-    doEdit(row) {
-      this.editFormVisible = true;
-      this.$nextTick(() => {
-         
-        this.$refs.editForm.init("11");
-      });
-    },
-     
-    handleSelectionChange(val) {
-      this.selectedRows = val;
-    },
-     
-   
     doSearch(value) {
      
        
-       this.form.page = value;
-    
+       this.form.pageNum = value;
         let self = this;
         var obj ={
-          url:this.$url.workflowdef.getList,
+          url:this.$url.bankAccount.getList,
           data:this.form
         }
         this.common.httpPost(obj,success);
         function success(data){
             
-            self.list = data.data.rows
-            self.total = data.data.total
+            self.tableData3 = data.rows;
+            self.pageTotal = data.total
            
         }
      

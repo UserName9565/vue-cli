@@ -1,235 +1,140 @@
 <template>
   <div>
     <el-card class="mb20">
-    <!-- <iframe height="800px" width="100%" src="http://192.168.1.79:8080/create/" frameborder="0"></iframe> -->
-    <el-form :inline="true" @keyup.enter.native="doSearch(1)">
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="开始时间">
-             <el-date-picker
-      v-model="value1"
-      type="date"
-      placeholder="选择日期">
-    </el-date-picker>
-          </el-form-item>
-        </el-col>
-         <el-col :span="8">
-          <el-form-item label="结束时间">
-             <el-date-picker
-      v-model="value1"
-      type="date"
-      placeholder="选择日期">
-    </el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="操作账号">
-            <el-input v-model="form.searchKey" clearable></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="操作对象">
-            <el-input v-model="form.searchKey" clearable></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24" class="btn-box">
-        <el-form-item>
-          <el-button @click="doSearch(1)" icon="el-icon-search"  type="primary">查询</el-button>
+      <el-form :inline="true" @keyup.enter.native="doSearch(1)">
+        <el-row>
           
-          
-        </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
+         
+          <el-col :span="8">
+            <el-form-item label="操作账号">
+              <el-input v-model="form.loginName" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="操作类型">
+              <el-input v-model="form.action" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="操作结果">
+              <el-input v-model="form.result" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="时间范围">
+             <el-date-picker
+                v-model="dateTime"
+                type="datetimerange"
+                :picker-options="common.pickerOptions"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                :default-time="['00:00:00', '23:59:59']"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                :default-value="common.timeDefaultShow"
+                align="right">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24" class="btn-box">
+            <el-form-item>
+              <el-button @click="doSearch(1)" icon="el-icon-search" type="primary">查询</el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
     </el-card>
     <el-card>
-    <el-table
-      :data="tableData3"  :header-cell-style="{background:'#e0f3ff',color:'#5f95b7'}"
-       
-      border
-      stripe
-      highlight-current-row="true"
-      style="width: 100%"
-    >
-      
-    
-      <el-table-column align="center"  prop="date" label="操作人" ></el-table-column>
-      <el-table-column align="center"  prop="name" label="账号" ></el-table-column>
-      <el-table-column align="center"  prop="address" label="所属部门" ></el-table-column>
-      <el-table-column align="center"  prop="address" label="ip地址" ></el-table-column>
+      <el-table
+        :data="tableData3"
+        :header-cell-style="{background:'#e0f3ff',color:'#5f95b7'}"
+        border
+        stripe
+        highlight-current-row="true"
+        style="width: 100%"
+      >
+        <el-table-column align="center" prop="uname" label="操作人"></el-table-column>
+        <el-table-column align="center" prop="uloginname" label="账号"></el-table-column>
+        <el-table-column align="center" prop="uorgnames" label="所属部门"></el-table-column>
+        <el-table-column align="center" prop="ip" label="ip地址"></el-table-column>
 
-      <el-table-column align="center"  prop="address" label="操作时间" ></el-table-column>
-      <el-table-column align="center"  prop="address" label="操作对象" ></el-table-column>
-      <el-table-column align="center"  prop="address" label="操作类型" ></el-table-column>
-      <el-table-column align="center"  prop="address" label="操作结果" ></el-table-column>
-      <el-table-column align="center"  prop="address" label="备注" ></el-table-column>
-      
-    </el-table>
-    <div class="pagination">
+        <el-table-column align="center" prop="ctime" label="操作时间"></el-table-column>
+        <el-table-column align="center" prop="target" label="操作对象"></el-table-column>
+        <el-table-column align="center" prop="action" label="操作类型"></el-table-column>
+        <el-table-column align="center" prop="result" label="操作结果">
+          <template slot-scope="scope"> 
+            <el-tag type="success" v-if="scope.row.result==1">成功</el-tag>
+            <el-tag type="danger" v-else-if="scope.row.result==0">失败</el-tag>
+            <el-tag type="warning" v-else>异常</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" prop="remark" label="备注"></el-table-column>
+      </el-table>
+      <div class="pagination">
         <el-pagination
-          :current-page.sync="form.page"
+          :current-pageNum.sync="form.pageNum"
           background
           @current-change="handleCurrentChange"
           layout="total,prev, pager, next,jumper"
           :total="pageTotal"
-          :page-size="form.rows"
+          :pageNum-size="form.pageSize"
         ></el-pagination>
       </div>
-      </el-card>
-    
-   
+    </el-card>
+
     <!-- 弹窗, 新增 / 修改 -->
-    <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form><aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
+    <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form>
+    <aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
     <admin-change-password-form v-if="adminChangePasswordFormVisible" ref="adminChangePasswordForm"></admin-change-password-form>
-    
   </div>
 </template>
 
 <script>
- 
 // import moment from 'moment';
 // //import util from '@/util'
 export default {
   data() {
     return {
       editFormVisible: true,
-      adminChangePasswordFormVisible: false,
-     
-      
-       pageTotal: 0,
-      form:{
-        searchKey:"",
-        region:"",
-        status:"",
-        page:"",
-        rows:""
-
+      pageTotal: 0,
+      dateTime:this.common.timeDefaultShow(-7),
+      form: {
+        beginDate:"",
+        endDate:"",
+        loginName:"",
+        target:"",
+        action:"",
+        result:"",
+        pageNum: "1",
+        pageSize: "10"
       },
       tableData3: [
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-08",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-06",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        }
-      ],
-      selectedRows: []
+      ]
       
     };
   },
   created() {
-    this.doSearch(1)
+    this.doSearch(1);
   },
   methods: {
-    doNew() {
-      this.editFormVisible = true;
-      this.$nextTick(() => {
-        this.$refs.editForm.init(null);
-      });
-    },
-    doEdit(row) {
-      this.editFormVisible = true;
-      this.$nextTick(() => {
-         
-        this.$refs.editForm.init("11");
-      });
-    },
-    doAdminChangePassword(row) {
-      this.adminChangePasswordFormVisible = true;
-
-      this.$nextTick(() => {
-         
-        this.$refs.adminChangePasswordForm.init(row.name);
-      });
-    },
-    handleSelectionChange(val) {
-      this.selectedRows = val;
-    },
-    doBatchDelete() {
-      let self = this;
-      if (!self.selectedRows || self.selectedRows.length == 0) {
-        self.$notify.info({
-          title: "系统提示",
-          message: "您没选择任何行，无法操作！"
-        });
-        return;
-      }
-      let ids = self.selectedRows.map(function(row) {
-        return row.id;
-      });
-      self
-        .$confirm(
-          "此操作将永久删除" + ids.length + "个用户, 是否继续?",
-          "提示",
-          {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            type: "warning"
-          }
-        )
-        .then(() => {
-          tapp.services.base_User.batchDelete(ids).then(function(result) {
-            self.$notify.success({
-              title: "系统删除成功",
-              message: "用户信息已删除成功！"
-            });
-            self.$refs.searchReulstList.refresh();
-          });
-        });
-    },
-    // doExportExcel() {
-    //   this.$refs.searchReulstList.exportCSV('用户列表');
-    // },
-    // doImportExcel() {
-    //   this.importExcelVisible = true;
-    //   this.$nextTick(() => {
-    //     this.$refs.importExcel.show();
-    //   })
-    // },
-    doSearch(value) {
-      this.form.page = value;
     
-        let self = this;
-        var obj ={
-          url:this.$url.workflowdef.getList,
-          data:this.form
-        }
-        this.common.httpPost(obj,success);
-        function success(data){
-            
-            self.list = data.data.rows
-            self.total = data.data.total
-           
-        }
+
+    doSearch(value) {
+      this.form.pageNum = value;
+      this.form.beginDate = this.dateTime[0];
+      this.form.endDate = this.dateTime[1];
+      let self = this;
+      var obj = {
+        url: this.$url.systemLog.getList,
+        data: this.form
+      };
+      
+      
+      this.common.httpPost(obj, success);
+      function success(data) {
+        self.tableData3 = data.rows;
+        self.pageTotal = data.total;
+      }
     }
   }
 };

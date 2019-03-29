@@ -95,7 +95,42 @@ const urls = {
         add: ctx + "/api/organization/create", //增加
         findAll:ctx+"/api/organization/findTree", 
         findTree:ctx+"/api/organization/findTree"//
-    }
+    },
+    financialData:{// 参考基准利率
+        findLatest1: ctx + "/api/windBankDepositRate/findLatest", //存款存款利率
+        findLatest2:ctx+"/api/windShibor/findLatest"//上海银行间同业拆放利率
+    },
+    bankAccount:{// 活期类账户
+        getList: ctx + "/api/bankAccount/find", //查询列表
+        sync: ctx + "/api/bankAccount/sync", //id查询
+    },
+    entrusterBankAccount:{// 委托方资金账户
+        getList: ctx + "/api/entrusterBankAccount/find", //查询列表
+        sync: ctx + "/api/entrusterBankAccount/sync", //id查询
+    },
+    systemLog:{
+        getList: ctx + "/api/systemLog/find", //查询列表
+    },
+    counterparty:{// 交易对手
+        getList: ctx + "/api/counterparty/find", //查询列表
+        getById: ctx + "/api/counterparty/findById", //id查询
+        del: ctx + "/api/counterparty/delete", //停用
+        edit: ctx + "/api/counterparty/update", //编辑
+        add: ctx + "/api/counterparty/create", //增加
+        findAll:ctx+"/api/counterparty/findAll", 
+       
+    },
+    counterpartyContact:{// 联络人管理
+        getList: ctx + "/api/counterpartyContact/find", //查询列表
+        getById: ctx + "/api/counterpartyContact/findById", //id查询
+        del: ctx + "/api/counterpartyContact/delete", //停用
+        edit: ctx + "/api/counterpartyContact/update", //编辑
+        add: ctx + "/api/counterpartyContact/create", //增加
+        findAll:ctx+"/api/counterpartyContact/findAll",
+    },
+    
+    
+ 
     // urserManagement: {//用户管理
     //     getList: ctx + "/user/toSelect.do", //查询列表
     //     getById: ctx + "/user/selectWithUserId.do", //id查询

@@ -4,45 +4,86 @@
     <el-card class="mb20">
       <div slot="header">
         <span>存款存款利率：</span>
-        <span style="float:right">更新时间：2019-01-30 11:00</span>
+        <div style="float:right">更新时间：<span>{{updateTime1}}</span></div>
+        
       </div>
-      <el-table :data="tableData3"  :header-cell-style="{background:'#e0f3ff',color:'#5f95b7'}" border stripe highlight-current-row="true" style="width: 100%">
-        <el-table-column align="center"  prop="compan" label="活期(%)"></el-table-column>
-        <el-table-column align="center"  prop="pro" label="3月定期(%)"></el-table-column>
-        <el-table-column align="center"  prop="used" label="6月定期(%)"></el-table-column>
-        <el-table-column align="center"  prop="frozen" label="1年定期(%)"></el-table-column>
-        <el-table-column align="center"  prop="total" label="2年定期(%)"></el-table-column>
-        <el-table-column align="center"  prop="surplus" label="3年定期(%)"></el-table-column>
+      <el-table :data="tableData1"  :header-cell-style="{background:'#e0f3ff',color:'#5f95b7'}" border stripe highlight-current-row="true" style="width: 100%">
+         <el-table-column align="center"  prop="organizationName" label="名称"></el-table-column>
+        <el-table-column align="center"  prop="currentrate" label="活期(%)"></el-table-column>
+        <el-table-column align="center"  prop="rateof3m" label="3月定期(%)"></el-table-column>
+        <el-table-column align="center"  prop="rateof6m" label="6月定期(%)"></el-table-column>
+        <el-table-column align="center"  prop="rateof1y" label="1年定期(%)"></el-table-column>
+        <el-table-column align="center"  prop="rateof2y" label="2年定期(%)"></el-table-column>
+        <el-table-column align="center"  prop="rateof3y" label="3年定期(%)"></el-table-column>
       </el-table>
       </el-card>
       <el-card class="mb20">
       <div slot="header">
         <span>上海银行间同业拆放利率:</span>
-        <span style="float:right">更新时间：2019-01-30 11:00</span>
+        <div style="float:right">更新时间：
+          <span>{{updateTime2}}</span>
+          </div>
       </div>
-      <el-table :data="tableData3"  :header-cell-style="{background:'#e0f3ff',color:'#5f95b7'}" border stripe highlight-current-row="true" style="width: 100%">
-        <el-table-column align="center"  prop="compan" label="活期(%)"></el-table-column>
-        <el-table-column align="center"  prop="pro" label="3月定期(%)"></el-table-column>
-        <el-table-column align="center"  prop="used" label="6月定期(%)"></el-table-column>
-        <el-table-column align="center"  prop="frozen" label="1年定期(%)"></el-table-column>
-        <el-table-column align="center"  prop="total" label="2年定期(%)"></el-table-column>
-        <el-table-column align="center"  prop="surplus" label="3年定期(%)"></el-table-column>
+      <el-table :data="tableData2"  :header-cell-style="{background:'#e0f3ff',color:'#5f95b7'}" border stripe highlight-current-row="true" style="width: 100%">
+         <el-table-column align="center"  prop="compan" label="名称">
+           <template slot-scope="scope">
+
+             {{$index}}
+              <span v-if="scope.$index==0">Shibor</span>
+              <span v-if="scope.$index==1">涨跌(BP)</span>
+           </template>
+         </el-table-column>
+        <el-table-column align="center"  prop="bpofon" label="隔夜">
+          <template slot-scope="scope">
+              <span v-if="scope.$index==0">{{scope.row.rateofon}}</span>
+              <span v-if="scope.$index==1">{{scope.row.bpofon}}</span>
+           </template>
+        </el-table-column>
+        <el-table-column align="center"  prop="bpof1w" label="1周(%)">
+          <template slot-scope="scope">
+              <span v-if="scope.$index==0">{{scope.row.rateof1w}}</span>
+              <span v-if="scope.$index==1">{{scope.row.bpof1w}}</span>
+           </template>
+        </el-table-column>
+        <el-table-column align="center"  prop="bpof2w" label="2周(%)">
+          <template slot-scope="scope">
+              <span v-if="scope.$index==0">{{scope.row.rateof2w}}</span>
+              <span v-if="scope.$index==1">{{scope.row.bpof2w}}</span>
+           </template>
+        </el-table-column>
+        <el-table-column align="center"  prop="bpof1m" label="1月(%)">
+          <template slot-scope="scope">
+              <span v-if="scope.$index==0">{{scope.row.rateof1m}}</span>
+              <span v-if="scope.$index==1">{{scope.row.bpof1m}}</span>
+           </template>
+        </el-table-column>
+        <el-table-column align="center"  prop="bpof3m" label="3月(%)">
+          <template slot-scope="scope">
+              <span v-if="scope.$index==0">{{scope.row.rateof3m}}</span>
+              <span v-if="scope.$index==1">{{scope.row.bpof3m}}</span>
+           </template>
+        </el-table-column>
+        <el-table-column align="center"  prop="bpof6m" label="6月(%)">
+          <template slot-scope="scope">
+              <span v-if="scope.$index==0">{{scope.row.rateof6m}}</span>
+              <span v-if="scope.$index==1">{{scope.row.bpof6m}}</span>
+           </template>
+        </el-table-column>
+         <el-table-column align="center"  prop="bpof9m" label="9月(%)">
+           <template slot-scope="scope">
+              <span v-if="scope.$index==0">{{scope.row.rateof9m}}</span>
+              <span v-if="scope.$index==1">{{scope.row.bpof9m}}</span>
+           </template>
+         </el-table-column>
+        <el-table-column align="center"  prop="bpof1y" label="1年(%)">
+          <template slot-scope="scope">
+              <span v-if="scope.$index==0">{{scope.row.rateof1y}}</span>
+              <span v-if="scope.$index==1">{{scope.row.bpof1y}}</span>
+           </template>
+        </el-table-column>
       </el-table>
     </el-card>
-    <el-card>
-      <div slot="header">
-        <span>中债估值：  </span>
-        <span style="float:right">更新时间：2019-01-30 11:00</span>
-      </div>
-      <el-table :data="tableData3"  :header-cell-style="{background:'#e0f3ff',color:'#5f95b7'}" border stripe highlight-current-row="true" style="width: 100%">
-        <el-table-column align="center"  prop="compan" label="活期(%)"></el-table-column>
-        <el-table-column align="center"  prop="pro" label="3月定期(%)"></el-table-column>
-        <el-table-column align="center"  prop="used" label="6月定期(%)"></el-table-column>
-        <el-table-column align="center"  prop="frozen" label="1年定期(%)"></el-table-column>
-        <el-table-column align="center"  prop="total" label="2年定期(%)"></el-table-column>
-        <el-table-column align="center"  prop="surplus" label="3年定期(%)"></el-table-column>
-      </el-table>
-    </el-card>
+   
     
   </div>
 </template>
@@ -58,52 +99,13 @@ export default {
     return {
       editFormVisible: true,
       adminChangePasswordFormVisible: false,
-     
+      updateTime1:"21",
+      updateTime2:"22",
       
       pageTotal: 0,
-      form: {
-        searchKey: "",
-        region: "",
-        status: "",
-        page: "",
-        rows: ""
-      },
-      tableData3: [
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-08",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-06",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙"
-        }
+      tableData1: [
+      ],
+      tableData2: [
       ],
       selectedRows: []
     };
@@ -113,86 +115,38 @@ export default {
     AproveStep,
     AdminChangePasswordForm
   },
-  created() {},
+  created() {
+    this.doSearch1();
+    this.doSearch2();
+  },
   methods: {
-    doNew() {
-      this.editFormVisible = true;
-      this.$nextTick(() => {
-        this.$refs.editForm.init(null);
-      });
-    },
-    doEdit(row) {
-      this.editFormVisible = true;
-      this.$nextTick(() => {
-        this.$refs.editForm.init("11");
-      });
-    },
-    doAdminChangePassword(row) {
-      this.adminChangePasswordFormVisible = true;
-
-      this.$nextTick(() => {
-        this.$refs.adminChangePasswordForm.init(row.name);
-      });
-    },
-    handleSelectionChange(val) {
-      this.selectedRows = val;
-    },
-    doBatchDelete() {
-      let self = this;
-      if (!self.selectedRows || self.selectedRows.length == 0) {
-        self.$notify.info({
-          title: "系统提示",
-          message: "您没选择任何行，无法操作！"
-        });
-        return;
-      }
-      let ids = self.selectedRows.map(function(row) {
-        return row.id;
-      });
-      self
-        .$confirm(
-          "此操作将永久删除" + ids.length + "个用户, 是否继续?",
-          "提示",
-          {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            type: "warning"
-          }
-        )
-        .then(() => {
-          tapp.services.base_User.batchDelete(ids).then(function(result) {
-            self.$notify.success({
-              title: "系统删除成功",
-              message: "用户信息已删除成功！"
-            });
-            self.$refs.searchReulstList.refresh();
-          });
-        });
-    },
-    // doExportExcel() {
-    //   this.$refs.searchReulstList.exportCSV('用户列表');
-    // },
-    // doImportExcel() {
-    //   this.importExcelVisible = true;
-    //   this.$nextTick(() => {
-    //     this.$refs.importExcel.show();
-    //   })
-    // },
-    doSearch(value) {
-      this.form.page = value;
-    
+    doSearch1() {
+      
         let self = this;
         var obj ={
-          url:this.$url.workflowdef.getList,
-          data:this.form
+          url:this.$url.financialData.findLatest1,
+          data:{}
         }
         this.common.httpPost(obj,success);
         function success(data){
-            
-            self.list = data.data.rows
-            self.total = data.data.total
-           
+            self.tableData1 = data.rows;
+           self.updateTime1=self.$util.datetimeFormat(data.rows[0].updateTime)
         }
+    },
+    doSearch2(value) {
+      let self = this;
+      var obj ={
+        url:this.$url.financialData.findLatest2,
+        data:{}
+      }
+      this.common.httpPost(obj,success);
+      function success(data){
+          for(let i = 0;i<=1;i++){
+            self.tableData2.push(data.rows[0])
+          }
+      
+          self.updateTime2=self.$util.datetimeFormat(data.rows[0].updateTime)
+      }
     }
   }
 };
