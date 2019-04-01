@@ -11,7 +11,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="所属部门">
-            <el-select v-model="form.region" placeholder="请选择">
+            <el-select filterable  v-model="form.region" placeholder="请选择">
               <el-option key="bbk" label="测试1" value="bbk"></el-option>
               <el-option key="xtc" label="测试2" value="xtc"></el-option>
               <el-option key="imoo" label="测试3" value="imoo"></el-option>
@@ -20,7 +20,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="用户状态">
-            <el-select v-model="form.status" placeholder="请选择">
+            <el-select filterable  v-model="form.status" placeholder="请选择">
               <el-option key="bbk" label="测试1" value="bbk"></el-option>
               <el-option key="xtc" label="测试2" value="xtc"></el-option>
               <el-option key="imoo" label="测试3" value="imoo"></el-option>

@@ -2,7 +2,7 @@
 <template>
   <div>
       <el-input v-if="type==='input'" :value="elementV" placeholder="请输入内容"></el-input>
-      <el-select v-if="type==='select'" v-model="value" placeholder="请选择">
+      <el-select filterable  v-if="type==='select'" v-model="value" placeholder="请选择">
         <el-option
         v-for="item in elementV"
         :key="item.value"

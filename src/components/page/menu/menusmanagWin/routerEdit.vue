@@ -27,7 +27,7 @@
          
               <el-cascader v-model="parentId" :options="parentRouterList"  :props="propsList" change-on-select :show-all-levels="false">
                 </el-cascader>
-                {{parentId}}
+            
           </el-form-item>
         </el-col>
       </el-row>
@@ -80,7 +80,7 @@ export default {
       btn:"提交",
       parentRouterList:[],
       aproveVisible: false,
-      parentId:[1, 12, 36],
+      parentId:[],
       model: {
         id: null,
         code: '',
@@ -118,6 +118,7 @@ export default {
       if(this.$refs['form']){
         this.$refs['form'].resetFields();
       }
+      this.findParentList();
       if (type==1||type==2) {
         this.model.id = id;
         if(type==2){//如果是审核进来   type就==2
@@ -138,7 +139,7 @@ export default {
         };
         this.common.httpPost(obj, success);
         function success(data) {
-          console.log(data)
+          
           self.model = data;
           // self.$refs.form.resetFields();
         }
@@ -158,6 +159,29 @@ export default {
         this.$refs['routerForm'].clearValidate()
         this.$refs['routerCode'].focus()
       })
+    },
+    findParentList(){
+      var self = this;
+      this.common.selectInit(this.$url.selectList.menu,success,{})
+      function success(data){
+      
+          self.parentRouterList =data.rows;
+          if(self.formAction!=0){
+
+        
+              self.parentRouterList.forEach((itme)=>{
+                self.getPathById(self.model.id, itme, 'id').then(function(res) {
+                    self.parentId = [];
+                    let len = res.length;
+                    res.forEach((o,i)=>{
+                      if(i<len-1){
+                        self.parentId.push(o.id);
+                      }
+                    })
+                })
+              })
+          }
+      }
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
@@ -179,6 +203,8 @@ export default {
     doUpdateRouter() {//编辑
        let self = this;
         let model = self.model;
+        model.parentId = this.parentId[this.parentId.length-1]
+         
         var obj = {
           url: this.$url.menuManag.edit,
           data: model
@@ -197,6 +223,7 @@ export default {
       // this.loading = true
       let self = this;
       let model = self.model;
+      model.parentId = this.parentId[this.parentId.length-1]
       var obj = {
         url: this.$url.menuManag.add,
         data: model
@@ -211,23 +238,43 @@ export default {
         self.$emit('save-finished')
       }  
     },
-    outputError(error) {
-      console.log(error.response ? error.response : error.message)
-      // this.loading = false
-      this.$message({
-        showClose: true,
-        message: '出错了，请按F12查看浏览器日志。',
-        type: 'error'
-      })      
-    }    
+    getPathById (id, catalog, compareAttr = 'id', childAttrs = ['children']) {
+         
+        return new Promise(function (resolve, reject) {
+            if (!catalog || Object.prototype.toString.call(catalog) !== "[object Object]") {
+                console.error('目标对象不存在或格式错误，catalog为非数组对象，如:{}')
+                return reject()
+            }
+            var path = [];
+            try {
+                function getNodePath(node) {
+                    path.push(node);
+                    if (node[compareAttr] == id) {
+                        throw('GOT it')
+                    }
+                    var children;
+                    childAttrs.forEach(V => {
+                        if (children) return
+                        children = node[V]
+                    })
+                    if (children && children.length > 0) {
+                        for (var i = 0; i < children.length; i++) {
+                            getNodePath(children[i]);
+                        }
+                        path.pop()
+                    } else {
+                        path.pop()
+                    }
+                }
+          getNodePath(catalog);
+        } catch (e){
+          resolve(path);
+        }
+        })
+    }  
   },
   created: function() {
-    var self = this;
-    this.common.selectInit(this.$url.selectList.menu,success,{})
-    function success(data){
-       console.log(data.rows)
-      self.parentRouterList =data.rows;
-    }
+    
      
   }    
 }

@@ -13,14 +13,14 @@
         active-text-color="#409eff"
         class="el-menu-demo"
         mode="horizontal"
-       
         @select="handleSelect"
-       
       >
-        <el-menu-item v-for="item in firstL"  :index="item.id" :key="item.id" @click="menuGo(item.id)">
-            {{item.title}}
-        </el-menu-item>
-     
+        <el-menu-item
+          v-for="item in firstL"
+          :index="item.id"
+          :key="item.id"
+          @click="menuGo(item.id)"
+        >{{item.name}}</el-menu-item>
       </el-menu>
     </div>
     <div class="header-right">
@@ -51,7 +51,6 @@
             <i class="el-icon-caret-bottom"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-             
             <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -68,66 +67,60 @@ export default {
       fullscreen: false,
       name: null,
       message: 2,
-      activeIndex:'A0000',
-      firstL:[
-        {
-          title:'系统管理',    
-          id:'A0000'
-        },{
-          title:'额度管理',
-          id:'B0000'
-        },{
-          title:'询价管理',
-          id:'F0000'
-        },{
-          title:'财务公司',
-          id:'C0000'
-        },{
-          title:'委托投资',
-          id:'D0000'
-        },{
-          title:'集团总部',
-          id:'E0000'
-        }
-      ]
+      activeIndex: "A0000",
+      
     };
   },
   computed: {
     username() {
-      let username = this.$store.getters.getLogin("username") //localStorage.getItem("ms_username");
+      let username = this.$store.getters.getLogin("username"); //localStorage.getItem("ms_username");
       return username ? username : this.name;
     }
   },
-  created(){
-     
-      this.menu();
+  created() {
+   
   },
   methods: {
-    menu(){//获取菜单
-      var obj ={
-          url:this.$url.getMenu,
-          data:{},
-          type:"get"
-      }
-      this.common.httpPost(obj,success);
-      function success(data){
-        console.log(data)
+    menu() {
+      //获取菜单
+      let menu = this.$store.getters.getMenu;
+      let self = this;
+      
+      if (!menu) {
+        let obj = {
+          url: this.$url.getMenu,
+          data: {},
+          type: "get"
+        };
+        this.common.httpPost(obj, success);
+        function success(data) {
+          self.$store.commit("setMenu", data.routers);
+          self.firstL = data.routers.filter(o => {
+            return o.parentId == 0;
+          });
+           self.menuGo("1");
+        }
+      } else {
+        
+        this.firstL = menu.filter(o => {
+          return o.parentId == 0;
+        });
+        this.menuGo("1");
       }
     },
     // 用户名下拉菜单选择事件
     handleCommand(command) {
       let self = this;
       if (command == "loginout") {
-        var obj ={
-            url:this.$url.cleantoken,
-            data:{},
-            type:"get"
-        }
-        this.common.httpPost(obj,success);
-        function success(data){
+        var obj = {
+          url: this.$url.cleantoken,
+          data: {},
+          type: "get"
+        };
+        this.common.httpPost(obj, success);
+        function success(data) {
           self.$store.commit("signOut");
           self.$router.push("/login");
-         
         }
         //localStorage.removeItem("ms_username");
       }
@@ -164,16 +157,16 @@ export default {
       }
       this.fullscreen = !this.fullscreen;
     },
-    menuGo(id){//跳转二级菜单
-
-        bus.$emit("firstL",id);
+    menuGo(id) {
+      //跳转二级菜单
+      bus.$emit("firstL", id);
     }
-  }, 
+  },
   mounted() {
     if (document.body.clientWidth < 1500) {
       this.collapseChage();
     }
-    this.menuGo("A0000")
+     this.menu();
   }
 };
 </script>
@@ -255,8 +248,8 @@ export default {
 .header-left {
   float: left;
 }
-.el-menu--horizontal>.el-menu-item{
-    height: 70px;
-    line-height: 70px;
+.el-menu--horizontal > .el-menu-item {
+  height: 70px;
+  line-height: 70px;
 }
 </style>

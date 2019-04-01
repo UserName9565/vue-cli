@@ -67,7 +67,7 @@
         <el-tab-pane label="角色权限" name="roleInfo">
           <el-col :span="12">
             <el-form-item label="角色权限" prop="roleIds" verify >
-                <el-select v-model="model.roleIds" multiple placeholder="请选择">
+                <el-select filterable  v-model="model.roleIds" multiple placeholder="请选择">
                   <el-option
                     v-for="item in options"
                     :key="item.id"
@@ -165,7 +165,7 @@ export default {
           // data.organizationIds.forEach(element => {
           //   self.permissionKeys.push('key-' + element)
           // })
-          console.log(self.permissionKeys)
+          
           self.model = {
             id:data.id,
             loginName:data.loginName,

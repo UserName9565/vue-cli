@@ -11,7 +11,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="处理状态">
-              <el-select v-model="form.region" placeholder="请选择">
+              <el-select filterable  v-model="form.region" placeholder="请选择">
                 <el-option key="0" label="全部" value="0"></el-option>
                 <el-option key="1" label="未处理" value="1"></el-option>
                 <el-option key="2" label="已处理" value="2"></el-option>

@@ -5,8 +5,8 @@ let moment = require("moment");
 let common = {
     ctx: 'http://192.168.1.7:8080/finance-backend',
     ctxForm: "http://192.168.1.7:8080/finance-backend",
-    myFun: function (ev) { //给自定义方法起个名
-
+    dataList:{
+        counterpartyType:'C3',//金融机构
     },
     httpPost: function (obj, success, error) {
         //obj.url  请求地址
@@ -107,7 +107,7 @@ let common = {
                 });
         }
     },
-    selectInit(url, back, params) {
+    selectInit(url, back, params,str) {
         let obj = {
             url: url,
             data: params
@@ -115,7 +115,7 @@ let common = {
       
         this.httpPost(obj, success);
         function success(data) {
-            back(data);
+            back(data,str);
         }
     },
     treeList(data,obj) { //路由树结构
@@ -150,7 +150,7 @@ let common = {
 
 
             var newSon = data.filter((o) => {
-                o.label = o[obj.label]+'key-' + o[obj.id];
+                o.label = o[obj.label]
                 o.key = 'key-' + o[obj.id];
                 return o[obj.pid]== item[obj.id];
             })
@@ -251,14 +251,11 @@ let common = {
             return time.getTime() > Date.now() - 8.64e6
         }
     },
-    timeDefaultShow(day){
+    timeDefaultShow(day){//用于返回日期数据
         var today = new Date();
     　　var targetday_milliseconds=today.getTime() + 1000*60*60*24*day;
-    // let a = moment(input).utc(8);
-    // return a.format('YYYY-MM-DD HH:mm:ss');
         let a = moment(targetday_milliseconds).utc(8);
-        　targetday_milliseconds = a.format('YYYY-MM-DD HH:mm:ss');
-   
+        targetday_milliseconds = a.format('YYYY-MM-DD HH:mm:ss');
         return  [targetday_milliseconds, moment(new Date()).utc(8).format('YYYY-MM-DD HH:mm:ss') ]
     }
 

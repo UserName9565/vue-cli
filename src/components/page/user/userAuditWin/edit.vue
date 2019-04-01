@@ -45,7 +45,7 @@
       <el-tree :data="treeData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
     </el-tab-pane>
     <el-tab-pane label="角色权限" name="roleInfo">
-             <el-select v-model="value5"  multiple placeholder="请选择">
+             <el-select filterable  v-model="value5"  multiple placeholder="请选择">
             <el-option
               v-for="item in options"
               :key="item.value"

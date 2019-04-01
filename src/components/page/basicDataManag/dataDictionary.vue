@@ -7,15 +7,15 @@
 
           
       <el-form :inline="true" @keyup.enter.native="doSearch(1)">
-
+     
           <el-col :span="8">
-            <el-form-item label="类别">
-               <el-input v-model="form.searchKey" clearable></el-input>
+            <el-form-item label="检索">
+               <el-input v-model="form.name" clearable></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="24" class="btn-box">
+          <el-col :span="8" class="btn-box">
             <el-form-item>
-              <el-button @click="doSearch(1)" icon="el-icon-search" type="primary">查询</el-button>
+              <el-button @click="findTree()" icon="el-icon-search" type="primary">查询</el-button>
              
             </el-form-item>
           </el-col>
@@ -31,20 +31,21 @@
             </div>
           </div>
           <div class="text item">
+            
             <el-tree
               :expand-on-click-node="false"
               :data="treeData"
               :props="defaultProps"
               @node-click="handleNodeClick"
-              node-key="id"
-              default-expand-all
-     
+              node-key="dictionaryId"
+              :default-expanded-keys='[1]'
+               ref="tree"
             >
               <span  class="custom-tree-node" slot-scope="{ node, data }">
                 <span>{{ node.label }}</span>
                 <span v-if="editTree">
                   <el-button type="text" size="mini" @click="() => append(data)">添加</el-button>
-                  <el-button type="text" size="mini" @click="() => remove(node, data)">删除</el-button>
+                  <!-- <el-button type="text" size="mini" @click="() => remove(node, data)">删除</el-button> -->
                 </span>
               </span>
             </el-tree>
@@ -65,15 +66,25 @@
       highlight-current-row="true"
       style="width: 100%"
     >
-      <el-table-column align="center"  prop="compan" label="字典编码" ></el-table-column>
-      <el-table-column align="center"  prop="pro" label="字典名称" ></el-table-column>
-      <el-table-column align="center"  prop="used" label="字典类别" ></el-table-column>
-      <el-table-column align="center"  prop="frozen" label="关联父级类别" ></el-table-column>
-      <el-table-column align="center"  prop="total" label="关联父级字典" ></el-table-column>
- <el-table-column align="center"  prop="surplus" label="启用状态" ></el-table-column>
+      <el-table-column align="center"  prop="code" label="字典编码" ></el-table-column>
+      <el-table-column align="center"  prop="name" label="字典名称" ></el-table-column>
+      <el-table-column align="center"  prop="" label="字典类别" >
+          <template slot-scope="scope">
+            <input type="hidden" :value="scope.$index">
+            {{selectedOrgItemName}}
+          </template>
+      </el-table-column>
+      
+      <el-table-column align="center"  prop="parentCode" label="关联父级字典" ></el-table-column>
+ <el-table-column align="center"  prop="surplus" label="启用状态" >
+   <template  slot-scope="scope">
+     <el-tag v-if="scope.row.status==1" type="success">启用</el-tag>
+     <el-tag v-if="scope.row.status==0" type="danger">禁用</el-tag>
+   </template>
+ </el-table-column>
       <el-table-column align="center"  fixed="left" label="操作" width="80">
         <template slot-scope="scope">
-          <el-button @click="doEdit(scope.row)" type="text" size="mini">查看</el-button>
+          <el-button @click="doEdit(scope.row)" type="text" size="mini">编辑</el-button>
           
         </template>
       </el-table-column>
@@ -87,7 +98,7 @@
       </el-col>
     </el-row>
   <edit-form v-if="editFormVisible" ref="editForm" @change="doSearch"></edit-form><aprove-step v-if="AproveStepVisible" ref="aproveStep"></aprove-step>
-  <add-form v-if="addFormVisible" ref="addForm" @change="doSearch"></add-form>
+  <add-form v-if="addFormVisible" ref="addForm" @pushItem="doOrgAppend" @change="doSearch"></add-form>
   </div>
 </template>
 <style>
@@ -108,165 +119,19 @@ export default {
       editFormVisible: false,
       addFormVisible: false,
       selectedOrgItem: null,
+      defaultProps:{
+        label:'name',
+        children:"children"
+      },
       form: {
-        searchKey: ""
+        name: ""
       },
       treeData: [
-        { 
-          label: "一级 1",
-          children: [
-            {
-              label: "二级 1-1",
-              children: [
-                {
-                  label: "三级 1-1-1"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          label: "一级 2",
-          children: [
-            {
-              label: "二级 2-1",
-              children: [
-                {
-                  label: "三级 2-1-1"
-                }
-              ]
-            },
-            {
-              label: "二级 2-2",
-              children: [
-                {
-                  label: "三级 2-2-1"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          label: "一级 3",
-          children: [
-            {
-              label: "二级 3-1",
-              children: [
-                {
-                  label: "三级 3-1-1"
-                }
-              ]
-            },
-            {
-              label: "二级 3-2",
-              children: [
-                {
-                  label: "三级 3-2-1"
-                }
-              ]
-            }
-          ]
-        }
+         
       ],
       tableData3: [
         {
           compan: "财务公司",
-          pro: "银行理财",
-          used: "110",
-          frozen:"111.02",
-          total:"119",
-          surplus:"11"
-        },
-        {
-          compan: "财务公司",
-          pro: "债券投资",
-          used: "110",
-          frozen:"111.02",
-          total:"119",
-          surplus:"11"
-        },
-        {
-          compan: "财务公司",
-          pro: "银行理财",
-          used: "110",
-          frozen:"111.02",
-          total:"119",
-          surplus:"11"
-        },
-        {
-          compan: "财务公司",
-          pro: "银行理财",
-          used: "110",
-          frozen:"111.02",
-          total:"119",
-          surplus:"11"
-        },
-        {
-          compan: "财务公司",
-          pro: "银行理财",
-          used: "110",
-          frozen:"111.02",
-          total:"119",
-          surplus:"11"
-        },
-        {
-          compan: "财务公司",
-          pro: "银行理财",
-          used: "110",
-          frozen:"111.02",
-          total:"119",
-          surplus:"11"
-        },
-        {
-          compan: "财务公司",
-          pro: "银行理财",
-          used: "110",
-          frozen:"111.02",
-          total:"119",
-          surplus:"11"
-        },
-        {
-          compan: "财务公司",
-          pro: "银行理财",
-          used: "110",
-          frozen:"111.02",
-          total:"119",
-          surplus:"11"
-        },
-        {
-          compan: "财务公司",
-          pro: "银行理财",
-          used: "110",
-          frozen:"111.02",
-          total:"119",
-          surplus:"11"
-        },
-        {
-          compan: "财务公司",
-          pro: "银行理财",
-          used: "110",
-          frozen:"111.02",
-          total:"119",
-          surplus:"11"
-        },
-        {
-          compan: "集团公司",
-          pro: "银行理财",
-          used: "110",
-          frozen:"111.02",
-          total:"119",
-          surplus:"11"
-        },
-        {
-          compan: "集团公司",
-          pro: "银行理财",
-          used: "110",
-          frozen:"111.02",
-          total:"119",
-          surplus:"11"
-        },
-        {
-          compan: "有限公司",
           pro: "银行理财",
           used: "110",
           frozen:"111.02",
@@ -293,12 +158,16 @@ export default {
     AproveStep,
     AddForm
   },
+  created(){
+    this.findTree();
+  },
   computed: {
     selectedOrgId() {
       if (this.selectedOrgItem == null) {
         return null;
       }
-      return this.selectedOrgItem.id;
+    
+      return this.selectedOrgItem.dictionaryId;
     },
     selectedOrgItemName() {
       if (this.selectedOrgItem == null || this.selectedOrgItem.name == null) {
@@ -308,22 +177,64 @@ export default {
     }
   },
   methods: {
+    findTree(){
+      let self = this;
+      var obj ={
+        url:this.$url.dictionary.findTree,
+        data:this.form
+      }
+      this.common.httpPost(obj,success);
+      function success(data){
+     
+          self.treeData = data.rows
+     
+           self.selectedOrgItem = data.rows[0];
+          self.doSearch();
+         
+          
+      }
+    },
+    doSearch() {
+        let self = this;
+        var obj ={
+          url:this.$url.dictionary.getList,
+          data:{
+            parentId:this.selectedOrgId
+          }
+        }
+        this.common.httpPost(obj,success);
+        function success(data){
+            
+            self.tableData3 = data.rows
+           
+           
+        }
+    },
+    doOrgAppend(data) {
+      console.log(data);
+      if (!this.selectedOrgItem.children) {
+        this.$set(this.selectedOrgItem, 'children', []);
+      }
+      this.selectedOrgItem.children.push(data);
+    },
     append(data) {
-        this.editFormVisible = true;
-        this.$nextTick(()=>{
-
-          this.$refs.editForm.init();
-        })
-        // const newChild = {  label: 'testtest', children: [] };
-        // if (!data.children) {
-        //   this.$set(data, 'children', []);
-        // }
-        // data.children.push(newChild);
+      this.selectedOrgItem = data;
+        this.addFormVisible = true;
+        this.$nextTick(() => {
+          this.$refs.addForm.init(this.selectedOrgItem,0);
+        });
+         
       },
       doNew() {
         this.addFormVisible = true;
         this.$nextTick(() => {
-          this.$refs.addForm.init(null);
+          this.$refs.addForm.init(this.selectedOrgItem,0);
+        });
+      },
+      doEdit(rows){
+        this.addFormVisible = true;
+        this.$nextTick(() => {
+          this.$refs.addForm.init(this.selectedOrgItem,1,rows.dictionaryId);
         });
       },
       remove(node, data) {
@@ -355,56 +266,10 @@ export default {
         </span>
       );
     },
-    handleTabClick(tab, event) {
-      if (!tab) {
-        return;
-      }
-      this.tabActive = tab.name;
-    },
-    doOrgEdit(node, data) {
-      this.orgEditFormVisible = true;
-      this.$nextTick(() => {
-        debugger;
-        this.$refs.orgEditForm.edit(data.id, data.name);
-      });
-    },
-    doOrgAppend(data) {
-      this.orgEditFormVisible = true;
-      this.$nextTick(() => {
-        this.$refs.orgEditForm.new(data.id, data.name);
-      });
-    },
-    doOrgBatchDelete() {
-      let self = this;
-      let ids = self.$refs.orgTree.getCheckedKeys();
-      if (!ids || ids.length == 0) {
-        self.$notify.info({
-          title: "系统提示",
-          message: "您没选择任何行，无法操作！"
-        });
-        return;
-      }
-      self
-        .$confirm("确认要删除共" + ids.length + "项组织机构吗?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        })
-        .then(() => {
-          // tapp.services.base_Organization.batchDelete(ids).then(function(result) {
-          //   self.doOrgRefresh();
-          //   self.$notify.success({
-          //     title: '操作成功',
-          //     message: '系统删除成功！'
-          //   });
-          // })
-        });
-    },
-    doOrgRefresh() {
-      this.$refs.orgTree.refresh();
-    },
-    handleOrgNodeClick(dataItem, node, el) {
+    
+    handleNodeClick(dataItem, node, el) {
       this.selectedOrgItem = dataItem;
+      this.doSearch()
     }
   }
 };

@@ -4,29 +4,30 @@
             text-color="#bfcbd9" active-text-color="#20a0ff" unique-opened router>
             <template v-for="item in items">
                 <template v-if="item.subs">
-                    <el-submenu :index="item.index" :key="item.index">
+                    <el-submenu :index="item.url" :key="item.url">
                         <template slot="title">
 
                             <!-- <i :class="item.icon"></i> -->
-                            <i class="iconfont" v-html="item.icon"></i>
-                            <span slot="title">{{ item.title }}</span>
+                            <i class="iconfont" v-html="item.properties.cssClass"></i>
+                            <!-- properties.cssClass -->
+                            <span slot="title">{{ item.name }}</span>
                         </template>
                         <template v-for="subItem in item.subs">
-                            <el-submenu v-if="subItem.subs" :index="subItem.index" :key="subItem.index">
-                                <template slot="title">{{ subItem.title }}</template>
-                                <el-menu-item v-for="(threeItem,i) in subItem.subs" :key="i" :index="threeItem.index">
-                                    {{ threeItem.title }}
+                            <el-submenu v-if="subItem.subs" :index="subItem.url" :key="subItem.url">
+                                <template slot="title">{{ subItem.name }}</template>
+                                <el-menu-item v-for="(threeItem,i) in subItem.subs" :key="i" :index="threeItem.url">
+                                    {{ threeItem.name }}
                                 </el-menu-item>
                             </el-submenu>
-                            <el-menu-item v-else :index="subItem.index" :key="subItem.index">
-                                {{ subItem.title }}
+                            <el-menu-item v-else :index="subItem.url" :key="subItem.url">
+                                {{ subItem.name }}
                             </el-menu-item>
                         </template>
                     </el-submenu>
                 </template>
                 <template v-else>
-                    <el-menu-item :index="item.index" :key="item.index">
-                        <i :class="item.icon"></i><span slot="title">{{ item.title }}</span>
+                    <el-menu-item :index="item.url" :key="item.url">
+                        <i :class="item.icon"></i><span slot="title">{{ item.name }}</span>
                     </el-menu-item>
                 </template>
             </template>
@@ -36,7 +37,7 @@
 
 <script>
     import bus from '../common/bus';
-    import menu from '../common/menu'
+    // import menu from '../common/menu'
     export default {
         data() {
             return {
@@ -45,74 +46,74 @@
                     {
                         icon: 'el-icon-lx-home',
                         index: 'dashboard',
-                        title: '系统首页'
+                        name: '系统首页'
                     },
                     {
                         icon: 'el-icon-lx-cascades',
                         index: 'table',
-                        title: '基础表格'
+                        name: '基础表格'
                     },
                     {
                         icon: 'el-icon-lx-copy',
                         index: 'tabs',
-                        title: 'tab选项卡'
+                        name: 'tab选项卡'
                     },
                     {
                         icon: 'el-icon-lx-calendar',
                         index: '3',
-                        title: '表单相关',
+                        name: '表单相关',
                         subs: [
                             {
                                 index: 'form',
-                                title: '基本表单'
+                                name: '基本表单'
                             },
                             {
                                 index: '3-2',
-                                title: '三级菜单',
+                                name: '三级菜单',
                                 subs: [
                                     {
                                         index: 'editor',
-                                        title: '富文本编辑器'
+                                        name: '富文本编辑器'
                                     },
                                     {
                                         index: 'markdown',
-                                        title: 'markdown编辑器'
+                                        name: 'markdown编辑器'
                                     },
                                 ]
                             },
                             {
                                 index: 'upload',
-                                title: '文件上传'
+                                name: '文件上传'
                             }
                         ]
                     },
                     {
                         icon: 'el-icon-lx-emoji',
                         index: 'icon',
-                        title: '自定义图标'
+                        name: '自定义图标'
                     },
                     {
                         icon: 'el-icon-lx-favor',
                         index: 'charts',
-                        title: 'schart图表'
+                        name: 'schart图表'
                     },
                     {
                         icon: 'el-icon-rank',
                         index: 'drag',
-                        title: '拖拽列表'
+                        name: '拖拽列表'
                     },
                     {
                         icon: 'el-icon-lx-warn',
                         index: '6',
-                        title: '错误处理',
+                        name: '错误处理',
                         subs: [
                             {
                                 index: 'permission',
-                                title: '权限测试'
+                                name: '权限测试'
                             },
                             {
                                 index: '404',
-                                title: '404页面'
+                                name: '404页面'
                             }
                         ]
                     }
@@ -127,7 +128,18 @@
             menuCard(menu,id){
                 var arr = [];
                 var menuNew = menu.filter((item)=>{
-                    return item.pid ==id;
+                    if(!item.url){
+                        item.url = item.id;
+                    }
+                    try {
+                        
+                        if(item.properties){
+                            item.properties = JSON.parse(item.properties)
+                        }
+                    } catch (error) {
+                        
+                    }
+                    return item.parentId ==id;
                 })
                 menuNew.forEach((item) => {
                     
@@ -135,19 +147,23 @@
                     if(pA.length>0){
                        
                         item.subs=pA;
+                       
                         arr.push(item)
                     }
                 })
                 
                 function haveSon(item){
                     var newSon = menu.filter((o)=>{
-                        return o.pid ==item.id;
+                     
+                         
+                        return o.parentId ==item.id;
                     })
                     if(newSon.length>0){
                           newSon.forEach((b)=>{
                             var pA = haveGSon(b);
                             if(pA.length>0){
                                 b.subs=pA;
+
                             }
                           })
                     }
@@ -156,12 +172,12 @@
                 }
                 function haveGSon(item){
                      var newSon = menu.filter((o)=>{
-                        return o.pid ==item.id;
+                        return o.parentId ==item.id;
                     })
                     return newSon;
                 }
                 this.items =  arr//.concat(this.items1);
-                 
+                
             }
         },
         computed:{
@@ -172,11 +188,12 @@
 
         created(){
             // 通过 Event Bus 进行组件间通信，来折叠侧边栏
-            //this.menuCard(menu)
+            //this.menuCard(menu);
             bus.$on('collapse', msg => {
                 this.collapse = msg;
             })
             bus.$on('firstL',msg=>{
+                let menu = this.$store.getters.getMenu;
                 this.menuCard(menu,msg)
             })
         }

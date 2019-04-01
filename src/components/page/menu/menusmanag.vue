@@ -2,7 +2,7 @@
 <div>
 <el-card class="mb20">
  
- <el-form :inline="true" >
+ <el-form :inline="true" @keyup.enter.native="getRouterList(1)" >
 
   <el-row >
     <el-col :span="24">
@@ -89,9 +89,7 @@ export default {
   },
   methods: {
     getRouterList(value) {
-      // alert(222)
       this.form.pageNum = value;
-       
       let self = this;
       var obj ={
           url:this.$url.menuManag.getList,
@@ -106,49 +104,9 @@ export default {
           self.loading = false
       
       }
-    //   listRouter(this.search)
-    //   .then(response => {
-    //     this.routerTotal = response.data.total
-    //     this.routerList = response.data.rows
-    //     this.loading = false
-    //   })
-    //   .catch(error => {
-    //     this.outputError(error)
-    //   })
+   
     },
-    // handleSizeChange(val) {
-    //   this.search.limit = val;
-    //   this.search.pageNum = (this.search.currentPage - 1) * val
-    //   this.getRouterList()
-    // },
-    // handleCurrentChange(val) {
-    //   this.search.pageNum = (val - 1) * this.search.limit
-    //   this.search.currentPage = val
-    //   this.getRouterList()
-    // },    
-    // async pageInit() {
-    //   this.loading = true
-    //   try {
-    //     let [listRouterResp, listPermissionResp] = await Promise.all([
-    //       listRouter(this.search),
-    //       listResourcePermission(this.$route.meta.routerId)
-    //     ])
-    //     this.routerTotal = listRouterResp.data.total
-    //     this.routerList = listRouterResp.data.rows
-    //     this.permission.add = listPermissionResp.data.find(item => {
-    //       return item.resourcePermission === "routers:create"
-    //     })
-    //     this.permission.edit = listPermissionResp.data.find(item => {
-    //       return item.resourcePermission === "routers:update"
-    //     })
-    //     this.permission.remove = listPermissionResp.data.find(item => {
-    //       return item.resourcePermission === "routers:delete"
-    //     })
-    //     this.loading = false      
-    //   } catch(error) {
-    //     this.outputError(error)        
-    //   }
-    // },
+ 
     handleCreateRouter(type) {
       this.editVisible =true;
        this.$nextTick(() => {

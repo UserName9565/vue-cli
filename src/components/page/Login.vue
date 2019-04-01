@@ -64,7 +64,7 @@
                             // localStorage.setItem('ms_username',this.form.username);
                         }
                     } else {
-                        console.log('error submit!!');
+                      
                         return false;
                     }
                 });
